@@ -2,6 +2,7 @@ import {csrfFetch} from './csrf'
 
 const GET_TRANSACTIONS = 'transactions/getAll';
 const GET_TRANSACTION = 'transactions/getById';
+const GET_EXPENSE_TYPES = '/expenseTypes/getAll';
 const CREATE_TRANSACTION = 'transactions/create';
 const EDIT_TRANSACTION = 'transactions/edit';
 const DELETE_TRANSACTION = 'transactions/delete';
@@ -15,6 +16,10 @@ const getTransactions = (transactions) => ({
 const getTransaction = (transaction) => ({
     type: GET_TRANSACTION,
     payload: transaction
+});
+const getExpenseTypes = (expenseTypes) => ({
+    type: GET_EXPENSE_TYPES,
+    payload: expenseTypes
 });
 
 const createTransaction = (transaction) => ({
@@ -38,6 +43,18 @@ export const fetchTransactions = () => async(dispatch) => {
     const data = await res.json();
     dispatch(getTransactions(data));
     return res;
+}
+
+export const fetchExpenseTypes = () => async (dispatch) => {
+    const res = await csrfFetch('/api/expenseTypes');
+    if(res.ok){
+        const data = await res.json();
+        dispatch(getExpenseTypes(data));
+        return data;
+    } else {
+        console.error('Failed expense type fetch :[ ', res)
+        return null;
+    }
 }
 
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
@@ -83,15 +100,26 @@ export const fetchDeleteTransaction = (transactionId) => async(dispatch) => {
 
 const initialState = {
     allTransactions : {},
-    currentTransaction: null
+    currentTransaction: null,
+    expenseTypes: []
 }
 
-const TransactionsReducer = (state, initialState, action) => {
+const TransactionsReducer = (state = initialState, action) => {
     switch(action.type){
         case GET_TRANSACTIONS:
             return {...state, allTransactions: action.payload};
+            /*
+            case GET_TRANSACTIONS: {
+            const normalizedData = {};
+            action.payload.forEach((transaction) => {
+                normalizedData[transaction.id] = transaction;
+            });
+            return { ...state, allTransactions: normalizedData };
+        }*/
         case GET_TRANSACTION:
             return {...state, currentTransaction: action.payload};
+        case GET_EXPENSE_TYPES:
+            return {...state, expenseTypes: action.payload};
         case CREATE_TRANSACTION: {
             let newState = {...state};
             newState.allTransactions[action.payload.id] = action.payload;
