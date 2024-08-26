@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Transactions from '../components/TransactionsPage';
+import NewTransactionFormModal from '../components/NewTransFormModal';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
         path: "transactions",
         element: <Transactions />,
       },
+      {
+        path: "new-transaction",
+        element: <NewTransactionFormModal />
+      }
     ],
   },
 ]);
