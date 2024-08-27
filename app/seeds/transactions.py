@@ -3,20 +3,16 @@ from sqlalchemy.sql import text
 from datetime import date
 
 def seed_transactions():
-    transportation = ExpenseType.query.filter_by(name="Transportation").first()
-    education = ExpenseType.query.filter_by(name="Education").first()
-    entertainment = ExpenseType.query.filter_by(name="Entertainment").first()
-
     trans_1 = Transaction(
         user_id=1,name="Dog Walking",amount=80,date=date(2024,9,7),frequency="two weeks",expense=False)
     trans_2 = Transaction(
-        user_id=1,name="Car Payment",amount=240,date=date(2024,9,6),frequency="once a month",expense=True,expense_type_id=transportation.id)
+        user_id=1,name="Car Payment",amount=240,date=date(2024,9,6),frequency="once a month",expense=True,expense_type_id=2)
     trans_3 = Transaction(
-        user_id=1,name="Paycheck",amount=520,date=date(2024,8,25),frequency="two weeks",expense=False)
+        user_id=2,name="Paycheck",amount=520,date=date(2024,8,25),frequency="two weeks",expense=False)
     trans_4 = Transaction(
-        user_id=1,name="Textbooks",amount=950,date=date(2024,10,1),frequency="once",expense=True,expense_type_id=education.id)
+        user_id=2,name="Textbooks",amount=950,date=date(2024,10,1),frequency="once",expense=True,expense_type_id=8)
     trans_5 = Transaction(
-        user_id=1,name="Netflix",amount=14.99,date=date(2024,8,27),frequency="once a month",expense=True,expense_type_id=entertainment.id)
+        user_id=1,name="Netflix",amount=14.99,date=date(2024,8,27),frequency="once a month",expense=True,expense_type_id=6)
     
 
     db.session.add(trans_1)
@@ -27,7 +23,7 @@ def seed_transactions():
     db.session.commit()
 
 
-    def undo_transactions():
+def undo_transactions():
         if environment == "production":
             db.session.execute(f"TRUNCATE table {SCHEMA}.transactions RESTART IDENTITY CASCADE;")
         else:
