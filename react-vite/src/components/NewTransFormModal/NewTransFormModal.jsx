@@ -1,5 +1,6 @@
 import {useEffect, useState, useRef} from 'react';
-import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction} from '../../redux/transactions';
+import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transactions';
+import { useModal } from "../../context/Modal";
 import { useParams } from 'react-router-dom';
 import './NewTransFormModal.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +13,7 @@ function NewTransactionFormModal(){
     //FREQUENCY OPTIONS?
 
 
-    const expenseTypeObj = useSelector(state => state.transactions.expense_types);
+    const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
     const transaction = useSelector(state.transactions.currTrans);
     const user = useSelector(state => state.session.user);
@@ -20,10 +21,11 @@ function NewTransactionFormModal(){
     const [name, setName] = useState("");
     const [amount, setAmount] = useState();
     const [date, setDate] = useState();
-    const [frequency, setFrequency] = useState("");
-    const [expense, setExpense] = boolean(False);
+    const [frequency, setFrequency] = useState("once");
+    const [expense, setExpense] = useState(false);
     const [expenseType, setExpenseType] = useState("");
     const [errors, setErrors] = useState({});
+    const [isLoaded, setIsLoaded] = useState(false);
 }
 
 const validationErrors = () => {
@@ -32,29 +34,29 @@ const validationErrors = () => {
     if(!amount) newErrors.amount = "Amount is required.";
     if (!date) newErrors.date = "Date is required.";
     if (!frequency) newErrors.frequency = "Frequency is required.";
-    //Length error
     if(amount <= 0) newErrors.amount = "Amount must be greater than 0.";
-    // date before today's date or later than 3 years from now
-    //FOR EXPENSES ONLY 
-    if (!expense_type) newErrors.expense_type = "Category is required.";
+    if (expense && !expenseType) newErrors.expenseType = "Category is required." 
+    return newErrors;
 }
 
 useEffect(() => {
+    dispatch (fetchExpenseTypes());
+
     if(transactionId){
         dispatch(fetchTransaction(transactionId)).then(() => setIsLoaded(true))
     }else{
         setIsLoaded(true);
     }
-}, [productId, dispatch]);
+}, [transactionId, dispatch]);
 
 useEffect(() => {
     if(transaction && transactionId){
         setName = (transaction.name || "");
-        setAmount = (transaction.amount || 1); //What if i want this to appear blank on the form?
-        setDate = (transaction.date || /*HELP WITH THIS LINE PLEASE*/"Date : prefereably blank before client clicks");
+        setAmount = (transaction.amount || ""); //What if i want this to appear blank on the form?
+        setDate = (transaction.date ? new Date(transaction.date).toISOString().split('T')[0]:"");
         setFrequency = (transaction.frequency || "once");
-        //EXPENSES ONLY
-        setExpenseType = (transaction.expense_type || /*HELP WITH THIS LINE*/ "Rent");
+        setExpense(transaction.expense || false);
+        setExpenseType = (transaction.expense_type || "");
 
 
     }
@@ -82,10 +84,136 @@ const handleSubmit = async (e) => {
     } else {
         const transactionData = {
             name,
-            amount,
-            date,//convert to corrent format
+            amount: expense ? -Math.abs(amount): amount,
+            date,
             frequency,
-            //expense and expense_type?
+            expense,
+            expense_type: expenseType || null
         };
+        if(transactionId){
+            await dispatch(fetchEditTransaction({...transactionData, id: transactionId}));
+        } else {
+            await dispatch(fetchCreateTransaction(transactionData));
+        }
+        history.pushState('/transactions');
+        closeModal();
     }
-}
+};
+
+const handleEditSequence = async (editType) => {
+    const transactionData = {
+        name,
+        amount: expense ? -Math.abs(amount) : amount,
+        date,
+        frequency,
+        expense,
+        expense_type: expenseType || null,
+        edit_type: editType,
+    };
+
+    await dispatch(fetchEditTransaction({ ...transactionData, id: transactionId, editType }));
+    history.push('/transactions');
+};
+
+if (!isLoaded) return <div>Loading...</div>;
+
+return (
+    <div className='form-container'>
+        <form onSubmit={handleSubmit} className="new-transaction-form-modal">
+            <div>
+                <label>Name
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={handleInputs(setName, "name")}
+                        ref={(el) => (inputRefs.current.name = el)}
+                    />
+                    {errors.name && <p>{errors.name}</p>}
+                </label>
+            </div>
+            <div>
+                <label>
+                    Amount
+                    <input
+                        type="number"
+                        value={amount}
+                        onChange={handleInputs(setAmount, "amount")}
+                        ref={(el) => (inputRefs.current.amount = el)}
+                    />
+                    {errors.amount && <p>{errors.amount}</p>}
+                </label>
+            </div>
+            <div>
+                <label>
+                    Date
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={handleInputs(setDate, "date")}
+                        ref={(el) => (inputRefs.current.date = el)}
+                    />
+                    {errors.date && <p>{errors.date}</p>}
+                </label>
+            </div>
+            <div>
+                <label>
+                    Frequency
+                    <select
+                        value={frequency}
+                        onChange={handleInputs(setFrequency, "frequency")}
+                        ref={(el) => (inputRefs.current.frequency = el)}
+                    >
+                        <option value="once">Once</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="two-weeks">Every 2 Weeks</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                    {errors.frequency && <p>{errors.frequency}</p>}
+                </label>
+            </div>
+            <div>
+                <label>
+                    Expense
+                    <input
+                        type="checkbox"
+                        checked={expense}
+                        onChange={(e) => setExpense(e.target.checked)}
+                    />
+                </label>
+            </div>
+            {expense && (
+                <div>
+                    <label>
+                        Category
+                        <select
+                            value={expenseType}
+                            onChange={handleInputs(setExpenseType, "expenseType")}
+                            ref={(el) => (inputRefs.current.expenseType = el)}
+                        >
+                            <option value="">Select Category</option>
+                            {expenseTypes.map((type) => (
+                                <option key={type.id} value={type.name}>
+                                    {type.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.expenseType && <p>{errors.expenseType}</p>}
+                    </label>
+                </div>
+            )}
+
+            <button type="submit">Save Transaction</button>
+            {transactionId && (
+                <div>
+                    <button type="button" onClick={() => handleEditSequence('single')}>
+                        Edit This Transaction Only
+                    </button>
+                    <button type="button" onClick={() => handleEditSequence('all')}>
+                        Edit All Transactions in Sequence
+                    </button>
+                </div>
+            )}
+        </form>
+    </div>
+)
