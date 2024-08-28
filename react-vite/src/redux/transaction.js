@@ -37,10 +37,19 @@ const deleteTransaction = (transactionId) => ({
     payload: transactionId
 });
 
+/*const toDict = async (transactions) => {
+    let orderedData = {};
+    transactions.forEach(transaction => {
+        orderedData[transaction.id] = transaction
+    });
+    return orderedData;
+}*/
 
 export const fetchTransactions = () => async(dispatch) => {
     const res = await csrfFetch('/api/transactions');
     const data = await res.json();
+    //const orderedData = await toDict(data);
+    //dispatch(getTransactions(orderedData));
     dispatch(getTransactions(data));
     return res;
 }
