@@ -26,7 +26,6 @@ def seed_expense_types():
 
 def undo_expense_types():
     if environment == "production":
-        db.session.excecute(f"TRUNCATE table {SCHEMA}.expense_types RESTART IDENTITY CASCADE;")
-    else: db.session.excecute(text("DELETE FROM expense_types"))
-
+        db.session.execute(f"TRUNCATE table {SCHEMA}.expense_types RESTART IDENTITY CASCADE;")
+    else: db.session.execute(text("DELETE FROM expense_types"))
     db.session.commit()
