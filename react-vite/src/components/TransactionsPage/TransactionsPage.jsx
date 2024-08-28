@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import TransGraphModal from './TransGraphModal';
-import TransListModal from './TransListModal';
+import {useState} from 'react';
+import { TransGraphModal, TransListModal } from '../TransactionsModal';
 
 const Transactions = () => {
     const [activeTab, setActiveTab] = useState('both');
-    const [showGraphMdal, setShowGraphModal] = useState(false);
+    const [showGraphModal, setShowGraphModal] = useState(false);
     const [showListModal, setShowListModal] = useState(false);
 
     const handleTabChange = (tab) => {
