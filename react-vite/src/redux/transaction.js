@@ -37,12 +37,27 @@ const deleteTransaction = (transactionId) => ({
     payload: transactionId
 });
 
+const toDict = async (transactions) => {
+    let orderedData = {};
+    transactions.forEach(transaction => {
+        orderedData[transaction.id] = transaction
+    });
+    return orderedData;
+}
 
 export const fetchTransactions = () => async(dispatch) => {
     const res = await csrfFetch('/api/transactions');
-    const data = await res.json();
-    dispatch(getTransactions(data));
-    return res;
+    if(res.ok){
+        const data = await res.json();
+        const orderedData = await toDict(data);
+        dispatch(getTransactions(orderedData));
+        //dispatch(getTransactions(data));
+        return res;
+    } else {
+        console.error('Failed to fetch transactions:', res);
+        return null;
+    }
+    
 }
 export const fetchTransaction = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/transactions/${id}`);

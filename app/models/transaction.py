@@ -30,7 +30,7 @@ class Transaction(db.Model):
             'user_id': self.user_id,
             'name': self.name,
             'amount': self.amount,
-            'date': self.date.isoFormat(),
+            'date': self.date.isoformat(),
             'frequency': self.frequency,
             'recurring_parent_id': self.recurring_parent_id,
             'recurring_sequence_id': self.recurring_sequence_id,
