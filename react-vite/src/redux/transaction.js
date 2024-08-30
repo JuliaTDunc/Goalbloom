@@ -72,7 +72,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
 }
 
 export const fetchExpenseTypes = () => async (dispatch) => {
-    const res = await csrfFetch('/api/expenseTypes');
+    const res = await csrfFetch('http://localhost:8000/api/transactions/expenseTypes');
     if(res.ok){
         const data = await res.json();
         dispatch(getExpenseTypes(data));
@@ -84,18 +84,23 @@ export const fetchExpenseTypes = () => async (dispatch) => {
 }
 
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    const { name, amount, date, frequency, expense, expense_type } = transaction;
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
-        body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transaction),
     });
-    const data = await res.json();
-    if(res.ok){
-        dispatch(createTransaction(data));
-        return data;
+    if (res.ok) {
+        const newTransaction = await res.json();
+        dispatch(createTransaction(newTransaction));
+        return newTransaction;
+    } else {
+        console.error('Failed to create transaction:', res);
+        return null;
     }
-    return null;
-}
+};
+
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;

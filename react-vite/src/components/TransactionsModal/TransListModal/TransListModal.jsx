@@ -5,7 +5,7 @@ import { fetchTransactions, fetchExpenseTypes } from '../../../redux/transaction
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    //const expenseTypes = useSelector(state => state.transactions.expenseTypes);
+    const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
 
     useEffect(() => {

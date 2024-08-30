@@ -45,7 +45,7 @@ const TransGraphModal = ({activeTab}) => {
     
     const options = {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
             text: `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Overview`

@@ -23,7 +23,7 @@ def get_all_transactions():
 @login_required
 def create_transaction():
     form = TransactionForm()
-    form.expense_type.options = [(expense_type.id) for expense_type in ExpenseType.query.all()]
+    form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_transaction = Transaction(
@@ -48,7 +48,7 @@ def edit_transaction(id):
         transaction = Transaction.query.filter_by(id=id, user_id=current_user.id).first_or_404()
 
         form = TransactionForm()
-        form.expense_type.options = [(expense_type.id) for expense_type in ExpenseType.query.all()]
+        form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
                 transaction.name = form.data["name"]
@@ -74,3 +74,14 @@ def delete_transaction(id):
     db.session.commit()
 
     return {'message': 'Transaction Deleted!'}
+
+'''GET all Expense Types'''
+@transaction_routes.route('/expenseTypes', methods=['GET'])
+@login_required
+def get_expense_types():
+    try:
+        expense_types = ExpenseType.query.all()
+        return jsonify([et.to_dict() for et in expense_types]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+     

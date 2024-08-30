@@ -47,24 +47,21 @@ function NewTransactionFormModal(){
 
     useEffect(() => {
         dispatch(fetchExpenseTypes());
-
         if (transactionId) {
             dispatch(fetchTransaction(transactionId)).then(() => setIsLoaded(true))
         } else {
             setIsLoaded(true);
         }
-    }, [transactionId, dispatch]);
+    }, [dispatch, transactionId]);
 
     useEffect(() => {
         if (transaction && transactionId) {
-            setName = (transaction.name || "");
-            setAmount = (transaction.amount || ""); 
-            setDate = (transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
-            setFrequency = (transaction.frequency || "once");
+            setName(transaction.name || "");
+            setAmount(transaction.amount || ""); 
+            setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
+            setFrequency(transaction.frequency || "once");
             setExpense(transaction.expense || false);
-            setExpenseType = (transaction.expense_type || "");
-
-
+            setExpenseType(transaction.expense_type || "");
         }
     }, [transaction, transactionId]);
 
@@ -101,7 +98,7 @@ function NewTransactionFormModal(){
             } else {
                 await dispatch(fetchCreateTransaction(transactionData));
             }
-            history.pushState('/transactions');
+            navigate('/transactions')
             closeModal();
         }
     };
