@@ -3,14 +3,10 @@ import { TransGraphModal, TransListModal } from '../TransactionsModal';
 
 const Transactions = () => {
     const [activeTab, setActiveTab] = useState('both');
-    const [showGraphModal, setShowGraphModal] = useState(false);
-    const [showListModal, setShowListModal] = useState(false);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     }
-
-
     return (
         <div className='transactions-container'>
             <div className='tabs'>
@@ -18,14 +14,11 @@ const Transactions = () => {
                 <button onClick={() => handleTabChange('expense')} className={activeTab === 'expense' ? 'active' : ''}>Expense</button>
                 <button onClick={() => handleTabChange('both')} className={activeTab === 'both' ? 'active' : ''}>Both</button>
             </div>
-            <div className='actions'>
-                <button onClick={() => setShowGraphModal(true)}>View Graph</button>
-                <button onClick={() => setShowListModal(true)}>View List</button>
+            <div>
+            <TransGraphModal activeTab={activeTab}/>
+            <TransListModal activeTab={activeTab}/>
             </div>
-            {showGraphModal && <TransGraphModal activeTab={activeTab} closeModal={() => setShowGraphModal(false)} />}
-            {showListModal && <TransListModal activeTab={activeTab} closeModal={() => setShowListModal(false)} />}
         </div>
     )
 };
-
 export default Transactions;

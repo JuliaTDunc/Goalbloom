@@ -1,16 +1,51 @@
-//import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTransactions, fetchExpenseTypes } from '../../../redux/transaction';
 
-const TransListModal = ({activeTab, closeModal}) => {
+const TransListModal = ({activeTab}) => {
+    const dispatch = useDispatch();
+    const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
+    const expenseTypes = useSelector(state => state.transactions.expenseTypes);
+    const [filteredTransactions, setFilteredTransactions] = useState([]);
+
+    useEffect(() => {
+        console.log('Transactions:', transactions);
+        console.log('Expense Types:', expenseTypes);
+    }, [transactions, expenseTypes]);
+
+    useEffect(() => {
+        dispatch(fetchTransactions());
+        dispatch(fetchExpenseTypes());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (transactions) {
+            const filtered = transactions.filter(transaction => {
+                if (activeTab === 'income' && !transaction.expense) return true;
+                if (activeTab === 'expense' && transaction.expense) return true;
+                if (activeTab === 'both') return true;
+                return false;
+            });
+            setFilteredTransactions(filtered);
+        }
+    }, [transactions, expenseTypes, activeTab]);
+
+    if (!filteredTransactions.length) {
+        return <p>No data for {activeTab}</p>;
+    }
     return (
         <div className='modal-container'>
             <div className='modal-content'>
-                <button onClick={closeModal} className='close-button'>Close</button>
-                <h2>{activeTab.char(0).toUpperCase()+ activeTab.slice(1)}List</h2>
-                {/*Google React Form Probably */}
+                <h2>{activeTab.charAt(0).toUpperCase()+ activeTab.slice(1)}List</h2>
                 <div className='list-container'>
-                    {activeTab === 'income' && <p className='list-title'>Income</p>}
-                    {activeTab === 'expense' && <p className='list-title'>Expense</p>}
-                    {activeTab === 'both' && <p className='list-title'>Compare</p>}
+                    {filteredTransactions.map(transaction => (
+                        <div key={transaction.id} className='transaction-item'>
+                            <p>{transaction.name} - ${transaction.amount}</p>
+                            {transaction.expense && (
+                                <p>Expense Type: {transaction.expenseType ? transaction.expenseType.name : 'Unknown'}</p>
+                            )}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

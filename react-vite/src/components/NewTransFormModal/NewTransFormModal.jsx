@@ -58,7 +58,7 @@ function NewTransactionFormModal(){
     useEffect(() => {
         if (transaction && transactionId) {
             setName = (transaction.name || "");
-            setAmount = (transaction.amount || ""); //What if i want this to appear blank on the form?
+            setAmount = (transaction.amount || ""); 
             setDate = (transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
             setFrequency = (transaction.frequency || "once");
             setExpense(transaction.expense || false);
