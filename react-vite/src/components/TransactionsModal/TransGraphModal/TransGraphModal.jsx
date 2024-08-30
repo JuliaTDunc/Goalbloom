@@ -25,21 +25,23 @@ const TransGraphModal = ({activeTab}) => {
     }, [dispatch]);
     
     useEffect(() => {
-        if(transactions.length){
+        if (transactions.length) {
             const filteredTrans = transactions.filter(transaction => {
-                if(activeTab === 'income' && !transaction.expense) return true;
-                if(activeTab === 'expense' && transaction.expense) return true;
+                if (activeTab === 'income' && !transaction.expense) return true;
+                if (activeTab === 'expense' && transaction.expense) return true;
                 if (activeTab === 'both') return true;
                 return false;
             });
+
             const dataNameAmount = filteredTrans.map(transaction => ({
                 name: transaction.name,
                 amount: transaction.amount
             }));
-            setGraphData(dataNameAmount);
-            console.log(graphData);
+            if (JSON.stringify(dataNameAmount) !== JSON.stringify(graphData)) {
+                setGraphData(dataNameAmount);
+            }
         }
-    }, [transactions, activeTab]);
+    }, [transactions, activeTab, graphData]);
     
     const options = {
         chart: {

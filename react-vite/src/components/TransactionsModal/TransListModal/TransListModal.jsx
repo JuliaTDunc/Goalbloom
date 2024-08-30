@@ -5,13 +5,8 @@ import { fetchTransactions, fetchExpenseTypes } from '../../../redux/transaction
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    const expenseTypes = useSelector(state => state.transactions.expenseTypes);
+    //const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-
-    useEffect(() => {
-        console.log('Transactions:', transactions);
-        console.log('Expense Types:', expenseTypes);
-    }, [transactions, expenseTypes]);
 
     useEffect(() => {
         dispatch(fetchTransactions());
@@ -26,9 +21,11 @@ const TransListModal = ({activeTab}) => {
                 if (activeTab === 'both') return true;
                 return false;
             });
-            setFilteredTransactions(filtered);
+            if (JSON.stringify(filtered) !== JSON.stringify(filteredTransactions)) {
+                setFilteredTransactions(filtered);
+            }
         }
-    }, [transactions, expenseTypes, activeTab]);
+    }, [transactions, activeTab]);
 
     if (!filteredTransactions.length) {
         return <p>No data for {activeTab}</p>;
