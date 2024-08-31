@@ -5,7 +5,7 @@ import NewTransactionFormModal from '../NewTransFormModal';
 
 const Transactions = () => {
     const [activeTab, setActiveTab] = useState('both');
-    const {setModalContent, openModal} = useModal();
+    const {setModalContent} = useModal();
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);

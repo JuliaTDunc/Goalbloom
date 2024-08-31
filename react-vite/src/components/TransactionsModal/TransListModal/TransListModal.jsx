@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, fetchExpenseTypes } from '../../../redux/transaction';
+import { fetchTransactions, fetchExpenseTypes, fetchEditTransaction, fetchDeleteTransaction } from '../../../redux/transaction';
+import NewTransactionFormModal from '../../NewTransFormModal';
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
     const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editTransactionId, setEditTransactionId] = useState(null);
 
     useEffect(() => {
         dispatch(fetchTransactions());
@@ -27,6 +30,27 @@ const TransListModal = ({activeTab}) => {
         }
     }, [transactions, activeTab]);
 
+    const handleEditClick = (transactionId) => {
+        setEditTransactionId(transactionId);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEditTransaction(null);
+    };
+
+    const handleDelete = (transactionId) => {
+        dispatch(fetchDeleteTransaction(transactionId))
+            .then(() => {
+                // Optionally, you can show a success message or reload the transactions
+            })
+            .catch((error) => {
+                console.error('Failed to delete transaction:', error);
+            });
+    };
+    
+
     if (!filteredTransactions.length) {
         return <p>No data for {activeTab}</p>;
     }
@@ -41,10 +65,18 @@ const TransListModal = ({activeTab}) => {
                             {transaction.expense && (
                                 <p>Expense Type: {transaction.expenseType ? transaction.expenseType.name : 'Unknown'}</p>
                             )}
+                            <button onClick={() => handleEditClick(transaction.id)}>Edit</button>
+                            <button onClick={() => handleDelete(transaction.id)}>Delete</button>
                         </div>
                     ))}
                 </div>
             </div>
+            {isModalOpen && (
+                <NewTransactionFormModal
+                transactionId={editTransactionId}
+                onClose={handleCloseModal}
+                />
+            )}
         </div>
     )
 };

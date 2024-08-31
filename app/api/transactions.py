@@ -22,14 +22,16 @@ def get_all_transactions():
 @transaction_routes.route("", methods=["POST"])
 @login_required
 def create_transaction():
+    data = request.get_json()
+    print('API DATA!!!!!!!',data)
     form = TransactionForm()
     form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token')
     if form.validate_on_submit():
         new_transaction = Transaction(
             user_id = current_user.id,
             name = form.data["name"],
-            amount = form.data["amount"],
+            amount = float(form.data["amount"]),
             date = form.data["date"],
             frequency = form.data["frequency"],
             expense = form.data["expense"],
@@ -77,7 +79,7 @@ def delete_transaction(id):
 
 '''GET all Expense Types'''
 @transaction_routes.route('/expenseTypes', methods=['GET'])
-@login_required
+#@login_required
 def get_expense_types():
     try:
         expense_types = ExpenseType.query.all()
