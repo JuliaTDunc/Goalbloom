@@ -1,4 +1,5 @@
-import {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
+import { csrfFetch } from '../../redux/csrf';
 import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -17,7 +18,7 @@ function NewTransactionFormModal(){
 
     const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
-    const transaction = useSelector(state => state.transactions.currTrans);
+    const transaction = useSelector(state => state.transactions.currentTransaction);
     const user = useSelector(state => state.session.user);
 
     let [name, setName] = useState("");
@@ -44,7 +45,7 @@ function NewTransactionFormModal(){
             navigate('/login');
         }
     }, [user, navigate]);
-
+    
     useEffect(() => {
         dispatch(fetchExpenseTypes());
 
@@ -53,18 +54,17 @@ function NewTransactionFormModal(){
         } else {
             setIsLoaded(true);
         }
+
     }, [transactionId, dispatch]);
 
     useEffect(() => {
         if (transaction && transactionId) {
-            setName = (transaction.name || "");
-            setAmount = (transaction.amount || ""); 
-            setDate = (transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
-            setFrequency = (transaction.frequency || "once");
+            setName(transaction.name || "");
+            setAmount(transaction.amount || ""); 
+            setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
+            setFrequency(transaction.frequency || "once");
             setExpense(transaction.expense || false);
-            setExpenseType = (transaction.expense_type || "");
-
-
+            setExpenseType(transaction.expense_type || "");
         }
     }, [transaction, transactionId]);
 
@@ -82,30 +82,35 @@ function NewTransactionFormModal(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formErrors = validationErrors();
+        //I believe frequency options would be best HERE. (or helper)
 
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
-            const firstErrField = Object.keys(formErrors)[0];
-            inputRefs.current[firstErrField].scrollIntoView({ behavior: 'smooth' })
-        } else {
+            const firstErrorField = Object.keys(formErrors)[0];
+            inputRefs.current[firstErrorField].scrollIntoView({ behavior: 'smooth' })
+        }else{
             const transactionData = {
                 name,
                 amount: expense ? -Math.abs(amount) : amount,
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType || null
+                expense_type: expenseType || null,
             };
-            if (transactionId) {
-                await dispatch(fetchEditTransaction({ ...transactionData, id: transactionId }));
-            } else {
-                await dispatch(fetchCreateTransaction(transactionData));
+            try {
+                if(transactionId){
+                    await dispatch(fetchEditTransaction({id: transactionId, ...transactionData}))
+                    closeModal();
+                }else{
+                    const newTransaction = await dispatch(fetchCreateTransaction(transactionData))
+                    
+                }
+            } catch (error) {
+                
             }
-            history.pushState('/transactions');
-            closeModal();
         }
-    };
-
+    }
+       
     const handleEditSequence = async (editType) => {
         const transactionData = {
             name,
@@ -210,19 +215,54 @@ function NewTransactionFormModal(){
                 )}
 
                 <button type="submit">Save Transaction</button>
-                {transactionId && (
-                    <div>
-                        <button type="button" onClick={() => handleEditSequence('single')}>
-                            Edit This Transaction Only
-                        </button>
-                        <button type="button" onClick={() => handleEditSequence('all')}>
-                            Edit All Transactions in Sequence
-                        </button>
-                    </div>
-                )}
             </form>
         </div>
     ) : <div>Loading...</div>;    
 }
 
 export default NewTransactionFormModal;
+
+
+//HANDLE SUBMIT DRAFTS
+
+/* e.preventDefault();
+        const formErrors = validationErrors();
+
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            inputRefs.current[Object.keys(formErrors)[0]].scrollIntoView({ behavior: 'smooth' });
+        } else {
+            const transactionData = {
+                name,
+                amount: expense ? -Math.abs(amount) : amount,
+                date,
+                frequency,
+                expense,
+                expense_type: expenseType || null,
+            };
+
+            if (transactionId) {
+                await handleEditTransaction(transactionData);
+            } else {
+                await handleCreateTransaction(transactionData);
+            }
+            
+            navigate('/transactions');
+            closeModal();
+        }*/
+/*
+ 
+try {
+    const response = await csrfFetch('/api/transactions', {
+        method: 'POST',
+        body: JSON.stringify(transaction),
+    })
+    if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error:", errorData);
+    }
+} catch (error) {
+    console.error("Submit Error:", error);
+}
+};
+*/
