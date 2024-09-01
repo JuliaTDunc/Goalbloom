@@ -52,7 +52,7 @@ function LoginFormModal() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button className='menu-button' type="submit">Log In</button>
       </form>
     </>
   );
