@@ -88,7 +88,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
+            'X-CSRF-TOKEN': 'XSRF-TOKEN',
         },
         body: JSON.stringify(transaction),
     });

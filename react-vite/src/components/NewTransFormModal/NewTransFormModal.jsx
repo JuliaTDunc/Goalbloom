@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import { csrfFetch } from '../../redux/csrf';
+//import { csrfFetch } from '../../redux/csrf';
 import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -22,8 +22,8 @@ function NewTransactionFormModal(){
     const user = useSelector(state => state.session.user);
 
     let [name, setName] = useState("");
-    let [amount, setAmount] = useState();
-    let [date, setDate] = useState();
+    let [amount, setAmount] = useState("");
+    let [date, setDate] = useState("");
     let [frequency, setFrequency] = useState("once");
     let [expense, setExpense] = useState(false);
     let [expenseType, setExpenseType] = useState("");
@@ -82,7 +82,7 @@ function NewTransactionFormModal(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formErrors = validationErrors();
-        //I believe frequency options would be best HERE. (or helper)
+        //frequency options prob best HERE. (or helper)
 
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
@@ -102,15 +102,15 @@ function NewTransactionFormModal(){
                     await dispatch(fetchEditTransaction({id: transactionId, ...transactionData}))
                     closeModal();
                 }else{
-                    const newTransaction = await dispatch(fetchCreateTransaction(transactionData))
-                    
+                    await dispatch(fetchCreateTransaction(transactionData))
+                    closeModal();
                 }
             } catch (error) {
-                
+                console.log(error)
             }
         }
     }
-       
+    /*   
     const handleEditSequence = async (editType) => {
         const transactionData = {
             name,
@@ -124,9 +124,7 @@ function NewTransactionFormModal(){
 
         await dispatch(fetchEditTransaction({ ...transactionData, id: transactionId, editType }));
         history.push('/transactions');
-    };
-
-    if (!isLoaded) return <div>Loading...</div>;
+    };*/
 
     return isLoaded ? (
         <div className='form-container'>
