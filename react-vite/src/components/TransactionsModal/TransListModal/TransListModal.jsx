@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, fetchExpenseTypes, fetchEditTransaction, fetchDeleteTransaction } from '../../../redux/transaction';
+import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction } from '../../../redux/transaction';
 import NewTransactionFormModal from '../../NewTransFormModal';
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    const expenseTypes = useSelector(state => state.transactions.expenseTypes);
+    //const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editTransactionId, setEditTransactionId] = useState(null);
@@ -28,7 +28,7 @@ const TransListModal = ({activeTab}) => {
                 setFilteredTransactions(filtered);
             }
         }
-    }, [transactions, activeTab]);
+    }, [transactions, filteredTransactions, activeTab]);
 
     const handleEditClick = (transactionId) => {
         setEditTransactionId(transactionId);
@@ -37,13 +37,13 @@ const TransListModal = ({activeTab}) => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setEditTransaction(null);
+        setEditTransactionId(null);
     };
 
     const handleDelete = (transactionId) => {
         dispatch(fetchDeleteTransaction(transactionId))
             .then(() => {
-                // Optionally, you can show a success message or reload the transactions
+            //    window.location.reload();
             })
             .catch((error) => {
                 console.error('Failed to delete transaction:', error);

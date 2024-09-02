@@ -26,7 +26,7 @@ def create_transaction():
     print('API DATA!!!!!!!',data)
     form = TransactionForm()
     form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
-    form['csrf_token'].data = request.cookies.get('csrf_token')
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_transaction = Transaction(
             user_id = current_user.id,
@@ -38,10 +38,10 @@ def create_transaction():
             expense_type = form.data["expense_type"]
             )
         db.session.add(new_transaction)
-        db.session.commit()
-            
+        db.session.commit()    
         return jsonify(new_transaction.to_dict()),201
-    return jsonify(form.errors),400
+    else:
+     return jsonify(form.errors),400
 
 '''PUT update a Transaction'''
 @transaction_routes.route("/<int:id>", methods=["PUT"])
