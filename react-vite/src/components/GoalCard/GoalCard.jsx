@@ -21,7 +21,7 @@ const GoalCard = ({ goal }) => {
             text: null,
         },
         xAxis: {
-            categories: [''], // Add a blank category to ensure the bar appears
+            categories: [' '], // Add a blank category to ensure the bar appears
             visible: false,
         },
         yAxis: {
@@ -55,6 +55,8 @@ const GoalCard = ({ goal }) => {
                 highcharts={Highcharts}
                 options={graphOptions}
             />
+            <button>Edit</button>
+            <button>Delete</button>
         </div>
     );
 };

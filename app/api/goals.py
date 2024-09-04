@@ -39,6 +39,7 @@ def create_goal():
         data = request.get_json()
         name = data['name']
         amount = data['amount']
+        saved_amount = data['saved_amount']
         end_date=data['end_date']
 
         if not name or not amount or not end_date:
@@ -50,6 +51,7 @@ def create_goal():
             user_id = current_user.id,
             name=name,
             amount=amount,
+            saved_amount=saved_amount,
             end_date=end_date,
             created_at=datetime.now(),
             updated_at=datetime.now()
@@ -65,7 +67,7 @@ def create_goal():
 
 # PUT a goal
 
-@goal_routes.route('/api/goals/<int:goal_id>', mathods=['PUT'])
+@goal_routes.route('/api/goals/<int:goal_id>', methods=['PUT'])
 @login_required
 def update_goal(goal_id):
     goal = Goal.query.filter_by(id=goal_id,user_id=current_user.id)
@@ -75,6 +77,7 @@ def update_goal(goal_id):
     data = request.get_json()
     name =data.get('name', goal.name)
     amount = data.get('amount', goal.amount)
+    saved_amount = data.get('saved_amount', goal.saved_amount)
     end_date = data.get('end_date', goal.end_date)
 
     # edit to individual errors
@@ -83,6 +86,7 @@ def update_goal(goal_id):
     
     goal.name = name
     goal.amount = amount
+    goal.saved_amount = saved_amount
     goal.end_date = end_date
     goal.updated_at = datetime.now()
 

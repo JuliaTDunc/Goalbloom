@@ -5,4 +5,5 @@ from wtforms.validators import DataRequired, Length, NumberRange
 class GoalForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     amount = FloatField("Amount", validators=[DataRequired(), NumberRange(min=0)])
-    end_date = DateField("Date", validators=[DataRequired()], format='%m/%d/%Y')
+    saved_amount = FloatField("SavedAmount", validators=[DataRequired(), NumberRange(min=0)] )
+    end_date = DateField("EndDate", validators=[DataRequired()], format='%m/%d/%Y')
