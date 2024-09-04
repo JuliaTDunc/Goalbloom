@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-//import { csrfFetch } from '../../redux/csrf';
+import { csrfFetch } from '../../redux/csrf';
 import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
 import { useParams, useNavigate } from 'react-router-dom';
