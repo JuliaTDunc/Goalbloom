@@ -128,7 +128,7 @@ function NewTransactionFormModal(){
 
     return isLoaded ? (
         <div className='form-container'>
-            <form onSubmit={handleSubmit} className="new-transaction-form-modal">
+            <form onSubmit={handleSubmit} className="new-transaction-modal">
                 <div>
                     <label>Name
                         <input
@@ -181,7 +181,7 @@ function NewTransactionFormModal(){
                         {errors.frequency && <p>{errors.frequency}</p>}
                     </label>
                 </div>
-                <div>
+                <div className='expense-container'>
                     <label>
                         Expense
                         <input
