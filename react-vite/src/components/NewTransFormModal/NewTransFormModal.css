@@ -1,3 +1,8 @@
+.form-container {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
 /* Modal container */
 .new-transaction-modal {
     width: 100%;
@@ -32,7 +37,21 @@
     border-color: #6c55ef;
     outline: none;
 }
-
+.new-transaction-modal button {
+        padding: 10px;
+        background-color: #0c03c3;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        color: #f0f0f0;
+        border-radius: 10px;
+        margin-right: 10px;
+}
+.new-transaction-modal button:hover {
+    background-color: #6c55ef;
+    color: #f0f0f0;
+}
 /* Other elements and adjustments */
 .new-transaction-modal-header,
 .new-transaction-modal-body,
