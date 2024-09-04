@@ -1,0 +1,40 @@
+.goals-page {
+    padding: 20px;
+}
+
+.goals-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.goals-description {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.add-goal {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.add-goal-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-goal-button:hover {
+    background-color: #45a049;
+}
+
+.goal-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}

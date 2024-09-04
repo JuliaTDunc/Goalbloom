@@ -4,6 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Transactions from '../components/TransactionsPage';
 import NewTransactionFormModal from '../components/NewTransFormModal';
 import Layout from './Layout';
+import GoalsPage from '../components/GoalsPage';
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ export const router = createBrowserRouter([
       {
         path: "new-transaction",
         element: <NewTransactionFormModal />
-      }
+      },
+      {
+        path: "goals",
+        element: <GoalsPage/>
+      },
     ],
   },
 ]);

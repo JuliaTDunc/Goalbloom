@@ -1,4 +1,3 @@
-import {csrfFetch} from './csrf'
 
 const GET_TRANSACTIONS = 'transactions/getAll';
 const GET_TRANSACTION = 'transactions/getById';
@@ -37,21 +36,11 @@ const deleteTransaction = (transactionId) => ({
     payload: transactionId
 });
 
-const toDict = async (transactions) => {
-    let orderedData = {};
-    transactions.forEach(transaction => {
-        orderedData[transaction.id] = transaction
-    });
-    return orderedData;
-}
-
 export const fetchTransactions = () => async(dispatch) => {
-    const res = await csrfFetch('/api/transactions');
+    const res = await fetch('/api/transactions');
     if(res.ok){
         const data = await res.json();
-        const orderedData = await toDict(data);
-        dispatch(getTransactions(orderedData));
-        //dispatch(getTransactions(data));
+        dispatch(getTransactions(data));
         return res;
     } else {
         console.error('Failed to fetch transactions:', res);
@@ -60,7 +49,7 @@ export const fetchTransactions = () => async(dispatch) => {
     
 }
 export const fetchTransaction = (id) => async (dispatch) => {
-    const res = await csrfFetch(`/api/transactions/${id}`);
+    const res = await fetch(`/api/transactions/${id}`);
     if(res.ok){
         const data = await res.json();
         dispatch(getTransaction(data));
@@ -72,7 +61,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
 }
 
 export const fetchExpenseTypes = () => async (dispatch) => {
-    const res = await csrfFetch('http://localhost:8000/api/transactions/expenseTypes');
+    const res = await fetch('http://localhost:8000/api/transactions/expenseTypes');
     if(res.ok){
         const data = await res.json();
         dispatch(getExpenseTypes(data));
@@ -82,16 +71,14 @@ export const fetchExpenseTypes = () => async (dispatch) => {
         return null;
     }
 }
-
+//ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    const res = await csrfFetch('/api/transactions', {
+    console.log("TRANSACTIONNNNNNNNN::: ", transaction)
+    const res = await fetch('/api/transactions', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': 'XSRF-TOKEN',
-        },
         body: JSON.stringify(transaction),
     });
+    console.log("RES FROM TRANSACTION.JS:", res)
     if (res.ok) {
         const newTransaction = await res.json();
         dispatch(createTransaction(newTransaction));
@@ -105,7 +92,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;
-    const res = await csrfFetch(`/api/transactions/${id}`, {
+    const res = await fetch(`/api/transactions/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
     });
@@ -120,7 +107,7 @@ export const fetchEditTransaction = (transaction) => async (dispatch) => {
 };
 
 export const fetchDeleteTransaction = (transactionId) => async(dispatch) => {
-    const res = await csrfFetch(`/api/transactions/${transactionId}`, {
+    const res = await fetch(`/api/transactions/${transactionId}`, {
         method: 'DELETE'
     });
     if(res.ok){
