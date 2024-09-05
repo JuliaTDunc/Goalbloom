@@ -1,3 +1,4 @@
+import { csrfFetch } from "./csrf";
 
 const GET_TRANSACTIONS = 'transactions/getAll';
 const GET_TRANSACTION = 'transactions/getById';
@@ -37,7 +38,7 @@ const deleteTransaction = (transactionId) => ({
 });
 
 export const fetchTransactions = () => async(dispatch) => {
-    const res = await fetch('/api/transactions');
+    const res = await csrfFetch('/api/transactions');
     if(res.ok){
         const data = await res.json();
         dispatch(getTransactions(data));
@@ -49,7 +50,7 @@ export const fetchTransactions = () => async(dispatch) => {
     
 }
 export const fetchTransaction = (id) => async (dispatch) => {
-    const res = await fetch(`/api/transactions/${id}`);
+    const res = await csrfFetch(`/api/transactions/${id}`);
     if(res.ok){
         const data = await res.json();
         dispatch(getTransaction(data));
@@ -61,7 +62,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
 }
 
 export const fetchExpenseTypes = () => async (dispatch) => {
-    const res = await fetch('http://localhost:8000/api/transactions/expenseTypes');
+    const res = await csrfFetch('http://localhost:8000/api/transactions/expenseTypes');
     if(res.ok){
         const data = await res.json();
         dispatch(getExpenseTypes(data));
@@ -74,7 +75,7 @@ export const fetchExpenseTypes = () => async (dispatch) => {
 //ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
     console.log("TRANSACTIONNNNNNNNN::: ", transaction)
-    const res = await fetch('/api/transactions', {
+    const res = await csrfFetch('/api/transactions', {
         method: 'POST',
         body: JSON.stringify(transaction),
     });
@@ -92,7 +93,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;
-    const res = await fetch(`/api/transactions/${id}`, {
+    const res = await csrfFetch(`/api/transactions/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
     });
@@ -107,7 +108,7 @@ export const fetchEditTransaction = (transaction) => async (dispatch) => {
 };
 
 export const fetchDeleteTransaction = (transactionId) => async(dispatch) => {
-    const res = await fetch(`/api/transactions/${transactionId}`, {
+    const res = await csrfFetch(`/api/transactions/${transactionId}`, {
         method: 'DELETE'
     });
     if(res.ok){
@@ -127,14 +128,6 @@ const TransactionsReducer = (state = initialState, action) => {
     switch(action.type){
         case GET_TRANSACTIONS:
             return {...state, allTransactions: action.payload};
-            /*
-            case GET_TRANSACTIONS: {
-            const normalizedData = {};
-            action.payload.forEach((transaction) => {
-                normalizedData[transaction.id] = transaction;
-            });
-            return { ...state, allTransactions: normalizedData };
-        }*/
         case GET_TRANSACTION:
             return {...state, currentTransaction: action.payload};
         case GET_EXPENSE_TYPES:

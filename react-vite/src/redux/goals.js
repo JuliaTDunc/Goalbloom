@@ -1,4 +1,4 @@
-
+import { csrfFetch } from "./csrf";
 
 const GET_GOALS = 'goals/getAll';
 const GET_GOAL = 'goals/getById';
@@ -45,7 +45,7 @@ export const fetchGoals = () => async (dispatch) => {
 }
 
 export const fetchGoal = (id) => async (dispatch) => {
-    const res = await fetch(`/api/goals/${id}`);
+    const res = await csrfFetch(`/api/goals/${id}`);
     if(res.ok){
         const data = await res.json();
         dispatch(getGoal(data));
@@ -57,7 +57,7 @@ export const fetchGoal = (id) => async (dispatch) => {
 
 export const fetchCreateGoal = (goal) => async (dispatch) => {
     console.log("GOOOOOOALLLLL::: ", goal)
-    const res = await fetch('/api/goals', {
+    const res = await csrfFetch('/api/goals', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(goal)
@@ -75,7 +75,7 @@ export const fetchCreateGoal = (goal) => async (dispatch) => {
 }
 
 export const fetchEditGoal = (goal) => async (dispatch) => {
-    const res = await fetch(`/api/goals/${goal.id}`, {
+    const res = await csrfFetch(`/api/goals/${goal.id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(goal)
@@ -92,7 +92,7 @@ export const fetchEditGoal = (goal) => async (dispatch) => {
 }
 
 export const fetchDeleteGoal = (goalId) => async (dispatch) => {
-    const res = await fetch(`/api/goals/${goalId}`, {
+    const res = await csrfFetch(`/api/goals/${goalId}`, {
         method: 'DELETE'
     })
     if(res.ok){
