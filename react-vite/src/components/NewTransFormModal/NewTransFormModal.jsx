@@ -215,7 +215,7 @@ function NewTransactionFormModal(){
                 <button type="submit">Save Transaction</button>
             </form>
         </div>
-    ) : <div>Loading...</div>;    
+    ) : <div><h2>Loading...</h2></div>;    
 }
 
 export default NewTransactionFormModal;

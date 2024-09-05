@@ -45,7 +45,7 @@ def create_goal():
         if not name or not amount or not end_date:
             # change to individual inputs
             return jsonify({"error": "All fields are required"}), 400
-        end_date = datetime.strptime(end_date, '%m-%d-%Y')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
 
         new_goal = Goal(
             user_id = current_user.id,
@@ -79,6 +79,9 @@ def update_goal(goal_id):
     amount = data.get('amount', goal.amount)
     saved_amount = data.get('saved_amount', goal.saved_amount)
     end_date = data.get('end_date', goal.end_date)
+
+    if end_date and isinstance(end_date, str):
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
 
     # edit to individual errors
     if not name or amount or end_date:

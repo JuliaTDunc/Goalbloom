@@ -56,11 +56,13 @@ export const fetchGoal = (id) => async (dispatch) => {
 }
 
 export const fetchCreateGoal = (goal) => async (dispatch) => {
+    console.log("GOOOOOOALLLLL::: ", goal)
     const res = await fetch('/api/goals', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(goal)
     });
+    console.log("RES FROM GOAL.JS:", res)
 
     if (res.ok) {
         const data = await res.json();

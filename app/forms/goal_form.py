@@ -6,4 +6,4 @@ class GoalForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     amount = FloatField("Amount", validators=[DataRequired(), NumberRange(min=0)])
     saved_amount = FloatField("SavedAmount", validators=[DataRequired(), NumberRange(min=0)] )
-    end_date = DateField("EndDate", validators=[DataRequired()], format='%m/%d/%Y')
+    end_date = DateField("EndDate", validators=[DataRequired()], format='%Y/%m/%d')
