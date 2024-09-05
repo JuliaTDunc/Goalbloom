@@ -9,9 +9,3 @@ class TransactionForm(FlaskForm):
     frequency = StringField("Frequency", validators=[DataRequired()], default='once')
     expense = BooleanField("Expense", default=False)
     expense_type = SelectField("Expense Type", validators=[DataRequired()])
-
-    def __init__(self, expense_types=None, *args, **kwargs):
-      super(TransactionForm, self).__init__(*args, **kwargs)
-      if expense_types is None:
-            expense_types = []
-      self.expense_type.choices = [(type.id, type.name) for type in expense_types]

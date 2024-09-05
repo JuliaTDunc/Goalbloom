@@ -129,6 +129,16 @@ function NewTransactionFormModal(){
     return isLoaded ? (
         <div className='form-container'>
             <form onSubmit={handleSubmit} className="new-transaction-modal">
+                <div className='expense-container'>
+                    <label>
+                        Expense
+                        <input
+                            type="checkbox"
+                            checked={expense}
+                            onChange={(e) => setExpense(e.target.checked)}
+                        />
+                    </label>
+                </div>
                 <div>
                     <label>Name
                         <input
@@ -179,16 +189,6 @@ function NewTransactionFormModal(){
                             <option value="yearly">Yearly</option>
                         </select>
                         {errors.frequency && <p>{errors.frequency}</p>}
-                    </label>
-                </div>
-                <div className='expense-container'>
-                    <label>
-                        Expense
-                        <input
-                            type="checkbox"
-                            checked={expense}
-                            onChange={(e) => setExpense(e.target.checked)}
-                        />
                     </label>
                 </div>
                 {expense && (
