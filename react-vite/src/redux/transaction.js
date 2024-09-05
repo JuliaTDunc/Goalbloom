@@ -74,20 +74,14 @@ export const fetchExpenseTypes = () => async (dispatch) => {
 }
 //ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    console.log("TRANSACTIONNNNNNNNN::: ", transaction)
+    console.log("TRANSACTION: ", transaction)
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
         body: JSON.stringify(transaction),
     });
-    console.log("RES FROM TRANSACTION.JS:", res)
-    if (res.ok) {
         const newTransaction = await res.json();
         dispatch(createTransaction(newTransaction));
         return newTransaction;
-    } else {
-        console.error('Failed to create transaction:', res);
-        return null;
-    }
 };
 
 
