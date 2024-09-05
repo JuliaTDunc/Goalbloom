@@ -1,5 +1,6 @@
 .goals-page {
     padding: 20px;
+    font-family: 'poppins';
 }
 
 .goals-header {
@@ -20,17 +21,17 @@
 }
 
 .add-goal-button {
-    background-color: #4CAF50;
+background-color: #0c03c3;
     color: white;
     padding: 10px 20px;
-    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .add-goal-button:hover {
-    background-color: #45a049;
+    background-color: #372dff;
 }
 
 .goal-cards-grid {

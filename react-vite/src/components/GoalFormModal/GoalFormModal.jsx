@@ -3,7 +3,7 @@ import { useModal } from "../../context/Modal";
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import './GoalFormModal.css'
 function NewGoalFormModal(){
     const {goalId} = useParams();
     const inputRefs = useRef({});
@@ -97,6 +97,10 @@ function NewGoalFormModal(){
 
     return isLoaded ? (
         <div className='form-container'>
+            <div className='goal-form-header'>
+                <h3>Create a new saving goal</h3>
+                <p> Savings Goal Form Description....</p>
+            </div>
             <form onSubmit={handleSubmit} className='goal-form'>
                 <div>
                     <label>Name

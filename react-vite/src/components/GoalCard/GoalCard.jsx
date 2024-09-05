@@ -15,37 +15,30 @@ const GoalCard = ({ goal }) => {
         chart: {
             type: 'bar',
             height: '100%',
-            backgroundColor: 'transparent',
         },
         title: {
-            text: null,
+            text: 'saved',
         },
         xAxis: {
-            categories: [' '], // Add a blank category to ensure the bar appears
-            visible: false,
+            categories: ['amount saved', 'total amount'], // Add a blank category to ensure the bar appears
         },
         yAxis: {
             max: 100,
-            visible: false,
         },
         series: [{
             data: [calculateProgress(goal)],
             color: '#55BF3B',
-            showInLegend: false,
         }],
         plotOptions: {
             bar: {
-                dataLabels: {
-                    enabled: false,
+                dataLabels:{
+                    enabled: true
                 },
                 borderWidth: 0,
                 groupPadding: 0.1,
                 pointPadding: 0.1,
             },
-        },
-        credits: {
-            enabled: false,
-        },
+        }
     };
 
     return (

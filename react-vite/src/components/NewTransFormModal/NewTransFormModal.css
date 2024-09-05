@@ -3,7 +3,7 @@
     max-height: 90vh;
     overflow-y: auto;
 }
-/* Modal container */
+
 .new-transaction-modal {
     width: 100%;
     max-width: 600px;
@@ -18,7 +18,6 @@
     box-sizing: border-box;
 }
 
-/* Form Elements */
 .new-transaction-modal input,
 .new-transaction-modal select {
     width: 100%;
@@ -29,7 +28,6 @@
     font-size: 16px;
     color: #0c03c3;
     box-sizing: border-box;
-    /* Include padding and border in width */
 }
 
 .new-transaction-modal input:focus,
@@ -52,7 +50,7 @@
     background-color: #6c55ef;
     color: #f0f0f0;
 }
-/* Other elements and adjustments */
+
 .new-transaction-modal-header,
 .new-transaction-modal-body,
 .new-transaction-modal-footer {
@@ -62,21 +60,16 @@
 .expense-container {
     display: flex;
     align-items: center;
-    /* Aligns the checkbox and label vertically */
     margin: 10px 0;
 }
 
 /* Checkbox Styling */
 .expense-container input[type="checkbox"] {
     transform: scale(1.5);
-    /* Increase the size of the checkbox */
     margin-right: 10px;
-    /* Space between checkbox and label */
 }
 
-/* Label Styling */
 .expense-container label {
     font-size: 16px;
-    /* Adjust font size as needed */
     color: #0c03c3;
 }

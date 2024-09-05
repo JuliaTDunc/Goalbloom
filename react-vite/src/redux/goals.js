@@ -33,6 +33,7 @@ const deleteGoal = (goalId) => ({
 
 export const fetchGoals = () => async (dispatch) => {
     const res = await fetch('/api/goals');
+    console.log('RES IN GOALS REDUX ', res)
     if (res.ok) {
         const data = await res.json();
         dispatch(getGoals(data));

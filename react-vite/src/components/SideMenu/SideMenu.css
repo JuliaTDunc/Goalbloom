@@ -1,5 +1,6 @@
 .side-menu {
     position: fixed;
+    font-family:'poppins';
     top: 0;
     left: -250px;
     width: 250px;
@@ -32,6 +33,7 @@
 }
 
 .menu-content ul {
+    font-family: 'poppins';
     list-style: none;
     padding: 0;
 }

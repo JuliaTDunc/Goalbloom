@@ -9,6 +9,7 @@ import './GoalsPage.css'
 
 const GoalsPage = () => {
     const allGoals = useSelector(state => state.goals.allGoals);
+    console.log(allGoals)
     const goalsArr = Object.values(allGoals)
     const {setModalContent} = useModal();
    
