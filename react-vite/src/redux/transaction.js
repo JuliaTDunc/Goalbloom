@@ -79,6 +79,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
         method: 'POST',
         body: JSON.stringify(transaction),
     });
+
         const newTransaction = await res.json();
         dispatch(createTransaction(newTransaction));
         return newTransaction;

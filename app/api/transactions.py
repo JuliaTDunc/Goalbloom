@@ -24,8 +24,8 @@ def get_all_transactions():
 def create_transaction():
     data = request.get_json()
     print('API DATA!!!!!!!',data)
-    form = TransactionForm()
-    form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
+    expense_types = ExpenseType.query.all()
+    form = TransactionForm(expense_types=[(type.id, type.name) for type in expense_types])
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_transaction = Transaction(

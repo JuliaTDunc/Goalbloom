@@ -202,7 +202,7 @@ function NewTransactionFormModal(){
                             >
                                 <option value="">Select Category</option>
                                 {expenseTypes.map((type) => (
-                                    <option key={type.id} value={type.name}>
+                                    <option key={type.id} value={type.id}>
                                         {type.name}
                                     </option>
                                 ))}
