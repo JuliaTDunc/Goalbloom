@@ -1,21 +1,41 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import GoalCard from '../GoalCard';
+import { fetchGoals } from '../../redux/goals';
+import { useModal } from '../../context/Modal';
+import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 import './GoalsPage.css'
 
 
 
 const GoalsPage = () => {
+    const dispatch = useDispatch();
     const allGoals = useSelector(state => state.goals.allGoals);
-    const goalsArr = Object.values(allGoals)
-   
+    const { setModalContent } = useModal();
 
-    if (!allGoals || allGoals.length === 0) {
-        return <p>No goals available</p>;
+    useEffect(() => {
+        dispatch(fetchGoals());
+    }, [dispatch]);
+    const goalsArr = Object.values(allGoals)
+    
+   
+    const openNewGoalModal = () => {
+        setModalContent(<NewGoalFormModal />);
+    }
+
+    if (!allGoals || goalsArr.length === 0) {
+        return (
+            <>
+            <p>Add a new Goal to get started!</p>
+                <div className='add-goal'>
+                    <button onClick={openNewGoalModal} className='add-goal-button'>Add New Goal</button>
+                </div>
+            
+            </>
+        ) 
     }
   
-
-
     return (
         <div className="goals-page">
             <header className='goals-header'>
@@ -25,7 +45,7 @@ const GoalsPage = () => {
                 <p>Track your savings goals!</p>
             </section>
             <div className='add-goal'>
-                <button className='add-goal-button'>Add New Goal</button>
+                <button onClick={openNewGoalModal} className='add-goal-button'>Add New Goal</button>
             </div>
             <div className='goal-cards-grid'>
                   {goalsArr.map(goal => (

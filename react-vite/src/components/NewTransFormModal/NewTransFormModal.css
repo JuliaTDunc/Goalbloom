@@ -1,0 +1,75 @@
+.form-container {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.new-transaction-modal {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.new-transaction-modal input,
+.new-transaction-modal select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #d1c2ff;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #0c03c3;
+    box-sizing: border-box;
+}
+
+.new-transaction-modal input:focus,
+.new-transaction-modal select:focus {
+    border-color: #6c55ef;
+    outline: none;
+}
+.new-transaction-modal button {
+        padding: 10px;
+        background-color: #0c03c3;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        color: #f0f0f0;
+        border-radius: 10px;
+        margin-right: 10px;
+}
+.new-transaction-modal button:hover {
+    background-color: #6c55ef;
+    color: #f0f0f0;
+}
+
+.new-transaction-modal-header,
+.new-transaction-modal-body,
+.new-transaction-modal-footer {
+    width: 100%;
+    box-sizing: border-box;
+}
+.expense-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+/* Checkbox Styling */
+.expense-container input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 10px;
+}
+
+.expense-container label {
+    font-size: 16px;
+    color: #0c03c3;
+}

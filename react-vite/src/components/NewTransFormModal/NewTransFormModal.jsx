@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useRef} from 'react';
-import { csrfFetch } from '../../redux/csrf';
 import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -95,7 +94,7 @@ function NewTransactionFormModal(){
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType || null,
+                expense_type: expenseType || 9,
             };
             try {
                 if(transactionId){
@@ -128,7 +127,17 @@ function NewTransactionFormModal(){
 
     return isLoaded ? (
         <div className='form-container'>
-            <form onSubmit={handleSubmit} className="new-transaction-form-modal">
+            <form onSubmit={handleSubmit} className="new-transaction-modal">
+                <div className='expense-container'>
+                    <label>
+                        Expense
+                        <input
+                            type="checkbox"
+                            checked={expense}
+                            onChange={(e) => setExpense(e.target.checked)}
+                        />
+                    </label>
+                </div>
                 <div>
                     <label>Name
                         <input
@@ -181,16 +190,6 @@ function NewTransactionFormModal(){
                         {errors.frequency && <p>{errors.frequency}</p>}
                     </label>
                 </div>
-                <div>
-                    <label>
-                        Expense
-                        <input
-                            type="checkbox"
-                            checked={expense}
-                            onChange={(e) => setExpense(e.target.checked)}
-                        />
-                    </label>
-                </div>
                 {expense && (
                     <div>
                         <label>
@@ -202,7 +201,7 @@ function NewTransactionFormModal(){
                             >
                                 <option value="">Select Category</option>
                                 {expenseTypes.map((type) => (
-                                    <option key={type.id} value={type.name}>
+                                    <option key={type.id} value={type.id}>
                                         {type.name}
                                     </option>
                                 ))}
@@ -215,7 +214,7 @@ function NewTransactionFormModal(){
                 <button type="submit">Save Transaction</button>
             </form>
         </div>
-    ) : <div>Loading...</div>;    
+    ) : <div><h2>Loading...</h2></div>;    
 }
 
 export default NewTransactionFormModal;

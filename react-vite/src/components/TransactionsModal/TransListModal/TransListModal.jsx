@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction } from '../../../redux/transaction';
+import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa'
 import NewTransactionFormModal from '../../NewTransFormModal';
+import './TransListModal.css'
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
@@ -65,9 +67,9 @@ const TransListModal = ({activeTab}) => {
                             {transaction.expense && (
                                 <p>Expense Type: {transaction.expenseType ? transaction.expenseType.name : 'Unknown'}</p>
                             )}
-                            <button onClick={() => handleEditClick(transaction.id)}>Edit</button>
-                            <button onClick={() => handleDelete(transaction.id)}>Delete</button>
-                        </div>
+                            <button className='trans-list-edit-button' onClick={() => handleEditClick(transaction.id)}><FaPencilAlt/></button>
+                            <button className='trans-list-delete-button' onClick={() => handleDelete(transaction.id)}><FaRegTrashAlt /></button>
+                        </div> 
                     ))}
                 </div>
             </div>

@@ -4,11 +4,11 @@ from datetime import date
 
 def seed_transactions():
     trans_1 = Transaction(
-        user_id=1,name="Dog Walking",amount=80,date=date(2024,9,7),frequency="two weeks",expense=False)
+        user_id=1,name="Dog Walking",amount=80,date=date(2024,9,7),frequency="two weeks",expense=False,expense_type_id=9)
     trans_2 = Transaction(
         user_id=1,name="Car Payment",amount=240,date=date(2024,9,6),frequency="once a month",expense=True,expense_type_id=2)
     trans_3 = Transaction(
-        user_id=2,name="Paycheck",amount=520,date=date(2024,8,25),frequency="two weeks",expense=False)
+        user_id=2,name="Paycheck",amount=520,date=date(2024,8,25),frequency="two weeks",expense=False,expense_type_id=9)
     trans_4 = Transaction(
         user_id=2,name="Textbooks",amount=950,date=date(2024,10,1),frequency="once",expense=True,expense_type_id=8)
     trans_5 = Transaction(
