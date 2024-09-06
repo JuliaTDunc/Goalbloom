@@ -1,55 +1,84 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Highcharts from 'highcharts';
+import { useDispatch } from 'react-redux';
+import { fetchDeleteGoal, fetchGoals } from '../../redux/goals';
+import {FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa'
 import HighchartsReact from 'highcharts-react-official';
+import { useModal } from '../../context/Modal';
 import './GoalCard.css';
+import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 
 
 const GoalCard = ({ goal }) => {
+    const dispatch = useDispatch();
+    const { setModalContent } = useModal();
 
-    const calculateProgress = (goal) => {
-        if (goal.amount === 0) return 0;
-        return Math.min((goal.saved_amount / goal.amount) * 100, 100);
+    const openGoalModal = () => {
+        setModalContent(<NewGoalFormModal />);
+    }
+
+    const handleEditClick = (goalId) => {
+        setEditGoalId(goalId);
+        useModal(<NewGoalFormModal goalId={goalId}/>);
+    };
+
+    const handleDelete = (goalId) => {
+        dispatch(fetchDeleteGoal(goalId))
+            .then(() => {
+                dispatch(fetchGoals());
+            })
+            .catch((error) => {
+                console.error('Failed to delete goal:', error);
+            });
     };
 
     const graphOptions = {
         chart: {
-            type: 'bar',
-            height: '100%',
+            type: 'column',
+            height: '300px',
         },
         title: {
-            text: 'saved',
+            text: `${goal.name} Progress`,
         },
         xAxis: {
-            categories: ['amount saved', 'total amount'], // Add a blank category to ensure the bar appears
+            categories: ['Amount Saved vs. Goal'],
         },
         yAxis: {
-            max: 100,
+            title: {
+                text: 'Amount'
+            },
+            max: goal.amount,
+            tickInterval: goal.amount/5,
         },
         series: [{
-            data: [calculateProgress(goal)],
-            color: '#55BF3B',
+            name: 'Saved Amount',
+            data: [goal.saved_amount],
+            color: '#4CAf50', 
+        },{
+            name: 'Remaining',
+            data: [goal.amount - goal.saved_amount],
+            color: '#DDDF0D',
         }],
         plotOptions: {
-            bar: {
-                dataLabels:{
-                    enabled: true
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
                 },
-                borderWidth: 0,
-                groupPadding: 0.1,
-                pointPadding: 0.1,
-            },
+            }
         }
     };
 
     return (
         <div className="goal-card">
-            <h3>{goal.name}</h3>
             <HighchartsReact
                 highcharts={Highcharts}
                 options={graphOptions}
             />
-            <button>Edit</button>
-            <button>Delete</button>
+            <div className='edit-delete-goal-buttons'>
+                <button onClick={openGoalModal}><FaPencilAlt/></button>
+                <button onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
+            </div>
         </div>
     );
 };

@@ -2,7 +2,7 @@ from app.models import db, Goal
 from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
-# from app.forms.goal_form import GoalForm
+from app.forms.goal_form import GoalForm
 from datetime import datetime
 
 
@@ -22,7 +22,7 @@ def get_all_goals():
 
 # GET a Goal by goal_id
 
-@goal_routes.route('/api/goals/<int:goal_id>', methods=['GET'])
+@goal_routes.route('/<int:goal_id>', methods=['GET'])
 @login_required
 def get_goal_by_id(goal_id):
     goal = Goal.query.filter_by(id=goal_id, user_id=current_user.id).first()
@@ -32,82 +32,58 @@ def get_goal_by_id(goal_id):
 
 # POST a new Goal
 
-@goal_routes.route('/api/goals', methods=['POST'])
+@goal_routes.route("", methods=['POST'])
 @login_required
 def create_goal():
-    try: 
         data = request.get_json()
-        name = data['name']
-        amount = data['amount']
-        saved_amount = data['saved_amount']
-        end_date=data['end_date']
+        form=GoalForm()
+        form['csrf_token'].data=request.cookies['csrf_token']
+        if form.validate_on_submit():
+            new_goal = Goal(
+                user_id = current_user.id,
+                name=form.data['name'],
+                amount=form.data['amount'],
+                saved_amount=form.data['saved_amount'],
+                end_date=form.data['end_date']
+            )
 
-        if not name or not amount or not end_date:
-            # change to individual inputs
-            return jsonify({"error": "All fields are required"}), 400
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
-
-        new_goal = Goal(
-            user_id = current_user.id,
-            name=name,
-            amount=amount,
-            saved_amount=saved_amount,
-            end_date=end_date,
-            created_at=datetime.now(),
-            updated_at=datetime.now()
-        )
-
-        db.session.add(new_goal)
-        db.session.commit()
-
-        return jsonify(new_goal.to_dict()), 201
-    
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+            db.session.add(new_goal)
+            db.session.commit()
+            return jsonify(new_goal.to_dict()), 201
+        else:
+            return jsonify(form.errors), 400
 
 # PUT a goal
 
-@goal_routes.route('/api/goals/<int:goal_id>', methods=['PUT'])
+@goal_routes.route('/<int:goal_id>', methods=['PUT'])
 @login_required
 def update_goal(goal_id):
-    goal = Goal.query.filter_by(id=goal_id,user_id=current_user.id)
-    if not goal:
-        return jsonify({"error": "Goal not found"}), 404
-
-    data = request.get_json()
-    name =data.get('name', goal.name)
-    amount = data.get('amount', goal.amount)
-    saved_amount = data.get('saved_amount', goal.saved_amount)
-    end_date = data.get('end_date', goal.end_date)
-
-    if end_date and isinstance(end_date, str):
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
-
-    # edit to individual errors
-    if not name or amount or end_date:
-        return jsonify({"error": "fields required"}), 400
+    goal = Goal.query.filter_by(id=goal_id,user_id=current_user.id).first()
     
-    goal.name = name
-    goal.amount = amount
-    goal.saved_amount = saved_amount
-    goal.end_date = end_date
-    goal.updated_at = datetime.now()
+    form=GoalForm()
+    form['csrf_token'].data=request.cookies['csrf_token']
+    if form.validate_on_submit():
+        goal.name = form.data['name']
+        goal.amount = form.data['amount']
+        goal.saved_amount=form.data['saved_amount']
+        goal.end_date=form.data['end_date']
 
-    db.session.commit()
-    return jsonify(goal.to_dict()), 200
+        db.session.commit()
+        return jsonify(goal.to_dict()),200
+    return jsonify(form.errors),400
+
+   
 
 # DELETE a goal
 
-@goal_routes.route('/api/goals/<int:goal_id>', methods=['DELETE'])
+@goal_routes.route('/<int:goal_id>', methods=['DELETE'])
 @login_required
 def delete_goal(goal_id):
-    goal = Goal.query.filter_by(id=goal_id,user_id=current_user.id).first()
+    goal = Goal.query.get(goal_id)
 
-    if not goal:
-        return jsonify({"error": "Goal not found"})
-    
-    db.session.delete(goal)
-    db.session.commit()
-
-    return jsonify({"message": "Goal deleted!"}), 200
-
+    if goal and goal.user_id == current_user.id:
+        db.session.delete(goal)
+        db.session.commit()
+        return jsonify({'message': 'Goal successfully deleted', 'goalId': goal_id}), 200
+    else:
+        return jsonify({'error': 'Goal not found or unauthorized'}), 404

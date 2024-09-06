@@ -57,22 +57,15 @@ export const fetchGoal = (id) => async (dispatch) => {
 }
 
 export const fetchCreateGoal = (goal) => async (dispatch) => {
-    console.log("GOOOOOOALLLLL::: ", goal)
+    console.log("GOAL: ", goal)
     const res = await csrfFetch('/api/goals', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(goal)
     });
-    console.log("RES FROM GOAL.JS:", res)
 
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(createGoal(data));
-        return data;
-    } else {
-        console.error('Failed to create goal:', res);
-        return null;
-    }
+        const newGoal = await res.json();
+        dispatch(createGoal(newGoal));
+        return newGoal;
 }
 
 export const fetchEditGoal = (goal) => async (dispatch) => {
@@ -96,9 +89,7 @@ export const fetchDeleteGoal = (goalId) => async (dispatch) => {
     const res = await csrfFetch(`/api/goals/${goalId}`, {
         method: 'DELETE'
     })
-    if(res.ok){
         dispatch(deleteGoal(goalId));
-    }
 }
 const initialState = {
     allGoals: {},
@@ -119,11 +110,14 @@ const GoalsReducer = (state = initialState, action) => {
         case EDIT_GOAL:{
             let newState = {...state};
             newState.allGoals[action.payload.id] = action.payload;
+            if (state.currentGoal && state.currentGoal.id === action.payload.id) {
+                newState.currentGoal = action.payload;
+            }
             return newState;
         }
         case DELETE_GOAL: {
             let newState = {...state};
-            delete newState.allTransactions[action.payload];
+            delete newState.allGoals[action.payload];
             return newState;
         }
         default:

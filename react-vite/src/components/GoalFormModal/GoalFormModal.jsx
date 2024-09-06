@@ -1,36 +1,28 @@
-import { fetchGoal, fetchCreateGoal, fetchEditGoal } from '../../redux/goals';
+import { fetchGoal, fetchCreateGoal, fetchEditGoal, fetchGoals } from '../../redux/goals';
 import { useModal } from "../../context/Modal";
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import './GoalFormModal.css'
-function NewGoalFormModal(){
-    const {goalId} = useParams();
+import { useNavigate} from 'react-router-dom';
+import './GoalFormModal.css';
+
+
+function NewGoalFormModal({goalId}){
     const inputRefs = useRef({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {closeModal} = useModal();
 
-
     const goal = useSelector(state => state.goals.currentGoal)
     const user = useSelector(state=>state.session.user)
 
-    let [name,setName] = useState("");
-    let [amount,setAmount] = useState("");
-    let [saved_amount,setSavedAmount] = useState("");
-    let [end_date, setEndDate] = useState("");
-    let [errors, setErrors] = useState({});
-    let [isLoaded, setIsLoaded] = useState(false);
+    const [goalData, setGoalData] = useState({
+        name: '',
+        amount: '',
+        saved_amount: '',
+        end_date: ''
+    });
+    const [errors, setErrors] = useState({});
 
-    const validationErrors = () => {
-        const newErrors = {};
-        if (!name) newErrors.name="Name this Goal."
-        if (!amount) newErrors.amount="Amount is required."
-        if (!end_date) newErrors.end_date="End Date id required."
-        if (amount < 0) newErrors.amount="Amount must be equal to or greater than 0."
-        if (saved_amount && saved_amount >= amount) newErrors.saved_amount="Amount saved must be less than Goal Amount."
-        return newErrors;
-    }
     useEffect(()=> {
         if(!user){
             navigate('/login')
@@ -39,34 +31,51 @@ function NewGoalFormModal(){
 
     useEffect(() => {
         if(goalId){
-            dispatch(fetchGoal())
-        }else{
-            setIsLoaded(true);
+            dispatch(fetchGoal(goalId))
         }
     }, [goalId, dispatch]);
 
     useEffect(() => {
         if(goal && goalId){
-            setName(goal.name || "");
-            setAmount(goal.amount || "");
-            setSavedAmount(goal.saved_amount || "");
-            setEndDate(goal.end_date ? new Date(goal.end_date).toISOString().split('T')[0] : "");
+            setGoalData({
+                name:goal.name || "",
+                amount:goal.amount || "",
+                saved_amount:goal.saved_amount || "",
+                endDate:goal.end_date ? new Date(goal.end_date).toISOString().split('T')[0] : "",
+            })
         }
     }, [goal, goalId]);
 
-    const handleInputs = (set, field) => (e) => {
-        set(e.target.value);
-        if(errors[field]){
-            setErrors((prevErrors) => {
-                const newErrors ={ ...prevErrors};
-                delete newErrors[field];
+    const validationErrors = () => {
+        const newErrors = {};
+        const { name, amount, saved_amount, end_date } = goalData;
+        if (!name) newErrors.name = "Name this Goal."
+        if (!amount) newErrors.amount = "Amount is required."
+        if (!end_date) newErrors.end_date = "End Date id required."
+        if (amount < 0) newErrors.amount = "Amount must be equal to or greater than 0."
+        if (saved_amount > amount) newErrors.saved_amount = "Amount saved must be less than Goal Amount."
+        return newErrors;
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setGoalData((prevData => ({
+            ...prevData,
+            [name]: value
+        })));
+        if (errors[name]) {
+            setErrors(prevErrors => {
+                const newErrors = { ...prevErrors };
+                delete newErrors[name];
                 return newErrors;
-            })
+            });
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();  
+        goalData.amount = Number(goalData.amount);
+        goalData.saved_amount = Number(goalData.saved_amount);
         const formErrors = validationErrors();
 
         if(Object.keys(formErrors).length > 0){
@@ -74,20 +83,14 @@ function NewGoalFormModal(){
             const firstErrorField = Object.keys(formErrors)[0];
             inputRefs.current[firstErrorField].scrollIntoView({behavior: 'smooth'})
         }else{
-            const goalData = {
-                name,
-                amount,
-                saved_amount,
-                end_date
-            };
             try{
                 if (goalId) {
-                    await dispatch(fetchEditGoal({ id: goalId, ...goalData }))
-                    closeModal();
+                    await dispatch(fetchEditGoal({...goalData, id: goalId}))
                 } else {
                     await dispatch(fetchCreateGoal(goalData))
-                    closeModal();
                 }
+                closeModal();
+                dispatch(fetchGoals());
             }catch(error){
                 console.log(error)
             }
@@ -95,10 +98,10 @@ function NewGoalFormModal(){
         }
     }
 
-    return isLoaded ? (
+    return (
         <div className='form-container'>
             <div className='goal-form-header'>
-                <h3>Create a new saving goal</h3>
+                <h3>{goalId ? "Edit Goal" : "Create a New Goal"}</h3>
                 <p> Savings Goal Form Description....</p>
             </div>
             <form onSubmit={handleSubmit} className='goal-form'>
@@ -106,8 +109,9 @@ function NewGoalFormModal(){
                     <label>Name
                         <input
                         type='text'
-                        value={name}
-                        onChange={handleInputs(setName, "name")}
+                        name='name'
+                        value={goalData.name}
+                        onChange={handleChange}
                         ref={(el) => (inputRefs.current.name = el)}
                         />
                         {errors.name && <p>{errors.name}</p>}
@@ -117,8 +121,9 @@ function NewGoalFormModal(){
                     <label>Amount
                         <input
                             type='number'
-                            value={amount}
-                            onChange={handleInputs(setAmount, "amount")}
+                            name='amount'
+                            value={goalData.amount}
+                            onChange={handleChange}
                             ref={(el) => (inputRefs.current.amount = el)}
                         />
                         {errors.amount && <p>{errors.amount}</p>}
@@ -126,11 +131,12 @@ function NewGoalFormModal(){
                     <label>Amount Saved
                         <input
                             type='number'
-                            value={saved_amount}
-                            onChange={handleInputs(setSavedAmount, "saved_amount")}
+                            name='saved_amount'
+                            value={goalData.saved_amount}
+                            onChange={handleChange}
                             ref={(el) => (inputRefs.current.saved_amount = el)}
                         />
-                        {errors.saved_amount && <p>{errors.savd_amount}</p>}
+                        {errors.saved_amount && <p>{errors.saved_amount}</p>}
                     </label>
                 </div>
                 <div>
@@ -138,8 +144,9 @@ function NewGoalFormModal(){
                         End Date
                         <input
                             type="date"
-                            value={end_date}
-                            onChange={handleInputs(setEndDate, "end_date")}
+                            name='end_date'
+                            value={goalData.end_date}
+                            onChange={handleChange}
                             ref={(el) => (inputRefs.current.end_date = el)}
                         />
                         {errors.end_date && <p>{errors.end_date}</p>}
@@ -151,7 +158,7 @@ function NewGoalFormModal(){
             </form>
 
         </div>
-    ) : <div><h2>Loading....</h2></div>;
+    )
 }
 
 export default NewGoalFormModal;

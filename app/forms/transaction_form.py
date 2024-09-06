@@ -7,5 +7,5 @@ class TransactionForm(FlaskForm):
     amount = FloatField("Amount", validators=[DataRequired()])
     date = DateField("Date", validators=[DataRequired()], format='%Y-%m-%d')
     frequency = StringField("Frequency", validators=[DataRequired()], default='once')
-    expense = BooleanField("Expense", default=False)
-    expense_type = SelectField("Expense Type", validators=[DataRequired()])
+    expense = BooleanField("Expense", default=True)
+    expense_type = SelectField("Expense Type", default=9)
