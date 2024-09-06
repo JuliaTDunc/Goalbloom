@@ -94,7 +94,7 @@ function NewTransactionFormModal(){
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType || null,
+                expense_type: expenseType || 9,
             };
             try {
                 if(transactionId){

@@ -11,6 +11,21 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(thunkLogin({ email: "demo@aa.io", password: "password" }));
+      closeModal();
+    } catch (res) {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors)
+      } else {
+        setErrors({ email: 'Unsuccessful Demo Login' })
+      }
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,6 +68,8 @@ function LoginFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button className='menu-button' type="submit">Log In</button>
+        <button className='demo-login' onClick={handleDemo}>Demo Login</button>
+        <button>Sign Up</button>
       </form>
     </>
   );
