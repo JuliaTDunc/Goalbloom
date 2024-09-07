@@ -46,7 +46,11 @@ export const fetchGoals = () => async (dispatch) => {
 }
 
 export const fetchGoal = (id) => async (dispatch) => {
+    console.log("Goal ID before fetching:", id);
+
     const res = await csrfFetch(`/api/goals/${id}`);
+    console.log("Fetched goal data:", res);
+
     if(res.ok){
         const data = await res.json();
         dispatch(getGoal(data));

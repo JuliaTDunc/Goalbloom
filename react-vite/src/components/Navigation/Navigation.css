@@ -57,6 +57,9 @@ a:hover {
       background: linear-gradient(45deg, #b06bf1, #872af9);
       transform: scale(1.05);
 }
+.user-smile{
+  color:white;
+}
 
 @media (max-width: 768px) {
   .nav-bar ul {

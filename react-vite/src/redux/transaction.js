@@ -74,7 +74,6 @@ export const fetchExpenseTypes = () => async (dispatch) => {
 }
 //ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    console.log("TRANSACTION: ", transaction)
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
         body: JSON.stringify(transaction),

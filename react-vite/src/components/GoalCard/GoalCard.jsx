@@ -14,13 +14,8 @@ const GoalCard = ({ goal }) => {
     const { setModalContent } = useModal();
 
     const openGoalModal = () => {
-        setModalContent(<NewGoalFormModal />);
+        setModalContent(<NewGoalFormModal goal={goal}/>);
     }
-
-    const handleEditClick = (goalId) => {
-        setEditGoalId(goalId);
-        useModal(<NewGoalFormModal goalId={goalId}/>);
-    };
 
     const handleDelete = (goalId) => {
         dispatch(fetchDeleteGoal(goalId))
@@ -53,11 +48,11 @@ const GoalCard = ({ goal }) => {
         series: [{
             name: 'Saved Amount',
             data: [goal.saved_amount],
-            color: '#4CAf50', 
+            color: '#9BBD9C', 
         },{
             name: 'Remaining',
             data: [goal.amount - goal.saved_amount],
-            color: '#DDDF0D',
+            color: '#D66B6B',
         }],
         plotOptions: {
             column: {

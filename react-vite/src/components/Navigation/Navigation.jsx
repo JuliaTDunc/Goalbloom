@@ -7,7 +7,7 @@ function Navigation() {
     <div className='nav-bar'>
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">GoalBloom</NavLink>
         </li>
         <li>
           <Link to={`/transactions`} className="transactions-page">My Transactions</Link>
