@@ -1,12 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
 import { useDispatch, useSelector } from 'react-redux';
 
-function NewTransactionFormModal(){
-    const {transactionId} = useParams();
+function NewTransactionFormModal({ transaction }){
     const inputRefs = useRef({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -17,7 +16,7 @@ function NewTransactionFormModal(){
 
     const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
-    const transaction = useSelector(state => state.transactions.currentTransaction);
+    //const transaction = useSelector(state => state.transactions.currentTransaction);
     const user = useSelector(state => state.session.user);
 
     let [name, setName] = useState("");
@@ -48,16 +47,16 @@ function NewTransactionFormModal(){
     useEffect(() => {
         dispatch(fetchExpenseTypes());
 
-        if (transactionId) {
-            dispatch(fetchTransaction(transactionId)).then(() => setIsLoaded(true))
+        if (transaction && transaction.id) {
+            dispatch(fetchTransaction(transaction.id)).then(() => setIsLoaded(true))
         } else {
             setIsLoaded(true);
         }
 
-    }, [transactionId, dispatch]);
+    }, [transaction, dispatch]);
 
     useEffect(() => {
-        if (transaction && transactionId) {
+        if (transaction) {
             setName(transaction.name || "");
             setAmount(transaction.amount || ""); 
             setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
@@ -65,7 +64,7 @@ function NewTransactionFormModal(){
             setExpense(transaction.expense || false);
             setExpenseType(transaction.expense_type || "");
         }
-    }, [transaction, transactionId]);
+    }, [transaction]);
 
     const handleInputs = (set, field) => (e) => {
         set(e.target.value);
@@ -97,8 +96,8 @@ function NewTransactionFormModal(){
                 expense_type: expenseType || 9,
             };
             try {
-                if(transactionId){
-                    await dispatch(fetchEditTransaction({id: transactionId, ...transactionData}))
+                if(transaction && transaction.id){
+                    await dispatch(fetchEditTransaction({id: transaction.id, ...transactionData}))
                     closeModal();
                 }else{
                     await dispatch(fetchCreateTransaction(transactionData))

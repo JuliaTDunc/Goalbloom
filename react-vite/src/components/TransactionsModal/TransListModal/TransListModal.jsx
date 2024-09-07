@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction } from '../../../redux/transaction';
+import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction, fetchTransaction } from '../../../redux/transaction';
 import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa'
 import NewTransactionFormModal from '../../NewTransFormModal';
 import { useModal } from '../../../context/Modal';
@@ -9,13 +9,17 @@ import './TransListModal.css'
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    //const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const [editTransactionId, setEditTransactionId] = useState(null);
     const { setModalContent } = useModal();
 
-    const openTransModal = () => {
-        setModalContent(<NewTransactionFormModal />);
+    const openTransModal = (transactionId) => {
+        const existingTrans = transactions.find(transaction => transaction.id === transactionId);
+        if(existingTrans){
+            dispatch(fetchTransaction(transactionId))
+                .then(() => {
+                     setModalContent(<NewTransactionFormModal />);
+                })
+        }
     }
 
     useEffect(() => {
@@ -35,8 +39,7 @@ const TransListModal = ({activeTab}) => {
                 setFilteredTransactions(filtered);
             }
         }
-    }, [transactions, filteredTransactions, activeTab]);
-
+    }, [transactions, activeTab]);
 
     const handleDelete = (transactionId) => {
         dispatch(fetchDeleteTransaction(transactionId))
@@ -65,7 +68,7 @@ const TransListModal = ({activeTab}) => {
                             {transaction.expense && (
                                 <p>Expense Type: {transaction.expenseType ? transaction.expenseType.name : 'Unknown'}</p>
                             )}
-                            <button className='trans-list-edit-button' onClick={openTransModal}><FaPencilAlt/></button>
+                            <button className='trans-list-edit-button' onClick={() => openTransModal(transaction.id)}><FaPencilAlt /></button>
                             <button className='trans-list-delete-button' onClick={() => handleDelete(transaction.id)}><FaRegTrashAlt /></button>
                         </div> 
                     ))}

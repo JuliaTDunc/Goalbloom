@@ -16,7 +16,20 @@ def get_all_transactions():
         return jsonify([transaction.to_dict() for transaction in transactions]), 200
     except Exception as e:
         return jsonify({"error": str(e)}),500
-    
+
+# GET a Transaction by id
+# GET a Goal by goal_id
+
+@transaction_routes.route('/<int:id>', methods=['GET'])
+@login_required
+def get_transaction_by_id(id):
+    print(f"Fetching goal with ID: {id} for user ID: {current_user.id}")
+    transaction = Transaction.query.filter_by(id=id, user_id=current_user.id).first()
+    if not transaction:
+        return jsonify({"error": "Goal not found"}), 404
+    print(f"Transaction fetched: {transaction.to_dict()}")
+    return jsonify(transaction.to_dict()), 200
+
 # POST a new Transaction# 
 
 @transaction_routes.route("", methods=["POST"])
