@@ -39,7 +39,7 @@
 
 .transactions-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: 2fr 1fr;
     gap: 20px;
 }
@@ -97,4 +97,30 @@
 
 .tabs button:hover {
     background-color: #d1c2ff;
+}
+.helpful-resources, .related-articles{
+    opacity: 35%;
+    border-radius: 20px;
+    transition: opacity 1s linear, font-size 1s ease, box-shadow 1s ease;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.helpful-resources{
+    background-color: rgb(244, 198, 16);
+    border: 2px solid rgb(222, 159, 0);
+}
+.related-articles{
+    background-color: #0c03c3;
+    border: 3px solid #0b01ca;
+}
+.helpful-resources:hover, .related-articles:hover{
+    opacity: 70%;
+    box-shadow: 0px 2px 8px rgb(0, 0, 0);
+    font-size: large;
+}
+.box-placeholder{
+    color: rgb(255, 255, 255);
+    font-weight: bolder;
 }

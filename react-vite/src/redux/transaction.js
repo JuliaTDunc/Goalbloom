@@ -53,7 +53,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/transactions/${id}`);
     if(res.ok){
         const data = await res.json();
-        dispatch(getTransaction(data));
+        await dispatch(getTransaction(data))
         return data;
     }else{
         console.error('Failed to fetch transaction :[' ,res);

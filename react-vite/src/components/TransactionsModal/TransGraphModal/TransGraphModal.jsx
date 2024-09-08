@@ -17,7 +17,7 @@ const TransGraphModal = ({activeTab}) => {
                 await dispatch(fetchTransactions());
                 setLoading(false);
             } catch (err) {
-                setError('Failed to load data');
+                setError(` `);
                 setLoading(false);
             }
         };

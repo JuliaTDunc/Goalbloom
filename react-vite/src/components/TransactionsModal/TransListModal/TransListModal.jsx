@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction, fetchTransaction } from '../../../redux/transaction';
 import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa'
 import NewTransactionFormModal from '../../NewTransFormModal';
 import { useModal } from '../../../context/Modal';
 import './TransListModal.css'
+import LoginFormModal from '../../LoginFormModal';
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
@@ -53,7 +55,11 @@ const TransListModal = ({activeTab}) => {
     
 
     if (!filteredTransactions.length) {
-        return <p>No data for {activeTab}</p>;
+        if(activeTab === 'income' || activeTab === 'expense'){
+            return <p>No data for {activeTab}</p>;
+        }else{
+            return <p>Add income and expense data to track your cash! </p>
+        }
     }
     return (
         <div className='modal-container'>

@@ -21,7 +21,7 @@ const Transactions = () => {
                     <p>This is the transactions page! Track all income and expenses here!</p>
                 </div>
                 <div className='new-transaction'>
-                    <button className='new-trans-button' onClick={openNewTransactionModal}>New Transaction</button>
+                    <button className='new-trans-button' onClick={() => openNewTransactionModal()}>New Transaction</button>
                 </div>
             </div>
             <div className='transactions-container'>
@@ -39,8 +39,8 @@ const Transactions = () => {
                     </div>
                 </div>
                 
-                <div className='helpful-resources'></div>  
-                <div className='related-articles'></div> 
+                <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>  
+                <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
                 
             </div>
         </div>

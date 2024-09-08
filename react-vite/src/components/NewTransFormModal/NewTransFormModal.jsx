@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
 import { useDispatch, useSelector } from 'react-redux';
 
-function NewTransactionFormModal({ transaction }){
+function NewTransactionFormModal(){
     const inputRefs = useRef({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function NewTransactionFormModal({ transaction }){
 
     const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
-    //const transaction = useSelector(state => state.transactions.currentTransaction);
+    const transaction = useSelector(state => state.transactions.currentTransaction);
     const user = useSelector(state => state.session.user);
 
     let [name, setName] = useState("");
@@ -47,13 +47,13 @@ function NewTransactionFormModal({ transaction }){
     useEffect(() => {
         dispatch(fetchExpenseTypes());
 
-        if (transaction && transaction.id) {
+        if (transaction?.id) {
             dispatch(fetchTransaction(transaction.id)).then(() => setIsLoaded(true))
         } else {
             setIsLoaded(true);
         }
 
-    }, [transaction, dispatch]);
+    }, [transaction?.id, dispatch]);
 
     useEffect(() => {
         if (transaction) {
@@ -99,6 +99,7 @@ function NewTransactionFormModal({ transaction }){
                 if(transaction && transaction.id){
                     await dispatch(fetchEditTransaction({id: transaction.id, ...transactionData}))
                     closeModal();
+                    
                 }else{
                     await dispatch(fetchCreateTransaction(transactionData))
                     closeModal();

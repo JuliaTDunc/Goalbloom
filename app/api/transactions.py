@@ -23,7 +23,6 @@ def get_all_transactions():
 @transaction_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def get_transaction_by_id(id):
-    print(f"Fetching goal with ID: {id} for user ID: {current_user.id}")
     transaction = Transaction.query.filter_by(id=id, user_id=current_user.id).first()
     if not transaction:
         return jsonify({"error": "Goal not found"}), 404

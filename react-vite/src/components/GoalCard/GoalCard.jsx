@@ -70,9 +70,9 @@ const GoalCard = ({ goal }) => {
                 highcharts={Highcharts}
                 options={graphOptions}
             />
-            <div className='edit-delete-goal-buttons'>
-                <button onClick={openGoalModal}><FaPencilAlt/></button>
-                <button onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
+            <div className='button-container'>
+                <button className='goal-edit-button' onClick={openGoalModal}><FaPencilAlt/></button>
+                <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
             </div>
         </div>
     );
