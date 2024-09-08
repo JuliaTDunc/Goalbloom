@@ -87,7 +87,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;
-    const res = await csrfFetch(`/api/transactions/${id}`, {
+    const res = await csrfFetch(`/api/transactions/${transaction.id}`, {
         method: 'PUT',
         body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
     });

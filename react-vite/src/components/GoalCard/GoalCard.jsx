@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Highcharts from 'highcharts';
-import { useDispatch } from 'react-redux';
-import { fetchDeleteGoal, fetchGoals } from '../../redux/goals';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDeleteGoal, fetchGoals, fetchGoal } from '../../redux/goals';
 import {FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa'
 import HighchartsReact from 'highcharts-react-official';
 import { useModal } from '../../context/Modal';
@@ -11,10 +11,17 @@ import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 
 const GoalCard = ({ goal }) => {
     const dispatch = useDispatch();
+    const goals = useSelector(state => Object.values(state.goals.allGoals));
     const { setModalContent } = useModal();
 
-    const openGoalModal = () => {
-        setModalContent(<NewGoalFormModal goal={goal}/>);
+    const openGoalModal = (goalId) => {
+        const existingGoal = goals.find(goal => goal.id === goalId);
+        if(existingGoal){
+            dispatch(fetchGoal(goalId))
+            .then(() => {
+                setModalContent(<NewGoalFormModal />);
+            })
+        }
     }
 
     const handleDelete = (goalId) => {
@@ -71,7 +78,7 @@ const GoalCard = ({ goal }) => {
                 options={graphOptions}
             />
             <div className='button-container'>
-                <button className='goal-edit-button' onClick={openGoalModal}><FaPencilAlt/></button>
+                <button className='goal-edit-button' onClick={() => openGoalModal(goal.id)}><FaPencilAlt/></button>
                 <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
             </div>
         </div>

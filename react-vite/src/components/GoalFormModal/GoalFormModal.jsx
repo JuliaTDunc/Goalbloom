@@ -30,13 +30,13 @@ function NewGoalFormModal({goalId}){
     }, [user,navigate]);
 
     useEffect(() => {
-        if(goalId){
-            dispatch(fetchGoal(goalId))
+        if(goal?.id){
+            dispatch(fetchGoal(goal.id))
         }
     }, [goalId, dispatch]);
 
     useEffect(() => {
-        if(goal && goalId){
+        if(goal){
             setGoalData({
                 name:goal.name || "",
                 amount:goal.amount || "",
@@ -44,7 +44,7 @@ function NewGoalFormModal({goalId}){
                 endDate:goal.end_date ? new Date(goal.end_date).toISOString().split('T')[0] : "",
             })
         }
-    }, [goal, goalId]);
+    }, [goal]);
 
     const validationErrors = () => {
         const newErrors = {};
@@ -84,10 +84,12 @@ function NewGoalFormModal({goalId}){
             inputRefs.current[firstErrorField].scrollIntoView({behavior: 'smooth'})
         }else{
             try{
-                if (goalId) {
-                    await dispatch(fetchEditGoal({...goalData, id: goalId}))
+                if (goal && goal.id) {
+                    await dispatch(fetchEditGoal({...goalData, id: goal.id}))
+                    closeModal();
                 } else {
                     await dispatch(fetchCreateGoal(goalData))
+                    closeModal();
                 }
                 closeModal();
                 dispatch(fetchGoals());

@@ -25,11 +25,9 @@ def get_all_goals():
 @goal_routes.route('/<int:goal_id>', methods=['GET'])
 @login_required
 def get_goal_by_id(goal_id):
-    print(f"Fetching goal with ID: {goal_id} for user ID: {current_user.id}")
     goal = Goal.query.filter_by(id=goal_id, user_id=current_user.id).first()
     if not goal:
         return jsonify({"error": "Goal not found"}), 404
-    print(f"Goal fetched: {goal.to_dict()}")
     return jsonify(goal.to_dict()), 200
 
 # POST a new Goal
