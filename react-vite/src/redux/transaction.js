@@ -1,4 +1,4 @@
-import {csrfFetch} from './csrf'
+import { csrfFetch } from "./csrf";
 
 const GET_TRANSACTIONS = 'transactions/getAll';
 const GET_TRANSACTION = 'transactions/getById';
@@ -37,18 +37,23 @@ const deleteTransaction = (transactionId) => ({
     payload: transactionId
 });
 
-
 export const fetchTransactions = () => async(dispatch) => {
     const res = await csrfFetch('/api/transactions');
-    const data = await res.json();
-    dispatch(getTransactions(data));
-    return res;
+    if(res.ok){
+        const data = await res.json();
+        dispatch(getTransactions(data));
+        return res;
+    } else {
+        console.error('Failed to fetch transactions:', res);
+        return null;
+    }
+    
 }
 export const fetchTransaction = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/transactions/${id}`);
     if(res.ok){
         const data = await res.json();
-        dispatch(getTransaction(data));
+        await dispatch(getTransaction(data))
         return data;
     }else{
         console.error('Failed to fetch transaction :[' ,res);
@@ -57,7 +62,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
 }
 
 export const fetchExpenseTypes = () => async (dispatch) => {
-    const res = await csrfFetch('/api/expenseTypes');
+    const res = await csrfFetch('http://localhost:8000/api/transactions/expenseTypes');
     if(res.ok){
         const data = await res.json();
         dispatch(getExpenseTypes(data));
@@ -67,24 +72,22 @@ export const fetchExpenseTypes = () => async (dispatch) => {
         return null;
     }
 }
-
+//ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    const { name, amount, date, frequency, expense, expense_type } = transaction;
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
-        body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
+        body: JSON.stringify(transaction),
     });
-    const data = await res.json();
-    if(res.ok){
-        dispatch(createTransaction(data));
-        return data;
-    }
-    return null;
-}
+
+        const newTransaction = await res.json();
+        dispatch(createTransaction(newTransaction));
+        return newTransaction;
+};
+
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;
-    const res = await csrfFetch(`/api/transactions/${id}`, {
+    const res = await csrfFetch(`/api/transactions/${transaction.id}`, {
         method: 'PUT',
         body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
     });
@@ -119,14 +122,6 @@ const TransactionsReducer = (state = initialState, action) => {
     switch(action.type){
         case GET_TRANSACTIONS:
             return {...state, allTransactions: action.payload};
-            /*
-            case GET_TRANSACTIONS: {
-            const normalizedData = {};
-            action.payload.forEach((transaction) => {
-                normalizedData[transaction.id] = transaction;
-            });
-            return { ...state, allTransactions: normalizedData };
-        }*/
         case GET_TRANSACTION:
             return {...state, currentTransaction: action.payload};
         case GET_EXPENSE_TYPES:

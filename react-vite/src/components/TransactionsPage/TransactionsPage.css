@@ -1,0 +1,126 @@
+.transactions-home {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.new-trans-button {
+    background-color: #0c03c3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.new-transaction-btn:hover {
+    background-color: #372dff;
+}
+
+.transactions-description {
+    max-width: 70%;
+}
+
+.transactions-description p {
+    margin: 5px 0 0;
+    color: #6c55ef;
+    font-size: 16px;
+}
+
+.transactions-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 2fr 1fr;
+    gap: 20px;
+}
+
+.graph-list-section {
+    display: flex;
+    grid-column: 1 / 3;
+    grid-row: 1;
+    gap: 20px;
+}
+
+.trans-graph {
+    flex: 2;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trans-list {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    color: #0c03c3;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.tabs button:last-child {
+    margin-right: 0;
+}
+
+.tabs button.active {
+    background-color: #6c55ef;
+    color: white;
+}
+
+.tabs button:hover {
+    background-color: #d1c2ff;
+}
+.helpful-resources, .related-articles{
+    opacity: 35%;
+    border-radius: 20px;
+    transition: opacity 1s linear, font-size 1s ease, box-shadow 1s ease;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.helpful-resources{
+    background-color: rgb(244, 198, 16);
+    border: 2px solid rgb(222, 159, 0);
+}
+.related-articles{
+    background-color: #0c03c3;
+    border: 3px solid #0b01ca;
+}
+.helpful-resources:hover, .related-articles:hover{
+    opacity: 70%;
+    box-shadow: 0px 2px 8px rgb(0, 0, 0);
+    font-size: large;
+}
+.box-placeholder{
+    color: rgb(255, 255, 255);
+    font-weight: bolder;
+}

@@ -1,3 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.HomeLinkLogo{
+  transform: scale(0.75);
+}
+
+.nav-bar{
+  background: linear-gradient(90deg, #0c03c3, #6c55ef ,#6c55ef, #0c03c3);
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.nav-bar ul{
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+  margin:0;
+  list-style-type: none;
+}
+.nav-bar ul li {
+  padding: 0 15px;
+  transition: transform 0.3s ease-in-out;
+}
+.nav-bar ul li:hover {
+  transform: translateY(-3px);
+}
+a{
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bolder;
+  transition: color 0.3s ease-in-out;
+}
+a:hover {
+  color: #64bb61;
+  transform: scale(1.1);
+}
 .profile-dropdown {
   position: absolute;
+  background-color: #9e8bffc0;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-button {
+      background: linear-gradient(45deg, #be84f3, #9d55f6);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+}
+  
+.menu-button:hover {
+      background: linear-gradient(45deg, #b06bf1, #872af9);
+      transform: scale(1.05);
+}
+.user-smile{
+  color:white;
+}
+.ghosty-label{
+  color:white;
+  margin-top: -5px;
+}
+
+@media (max-width: 768px) {
+  .nav-bar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-bar {
+    height: auto;
+  }
+
+  .nav-bar ul li {
+    padding: 10px 0;
+  }
 }

@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Length, NumberRange
 
 class TransactionForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired(), Length(max=50)])
-    amount = FloatField("Amount", validators=[DataRequired(), NumberRange(min=0)])
-    date = DateField("Date", validators=[DataRequired()], format='%m/%d/%Y')
+    amount = FloatField("Amount", validators=[DataRequired()])
+    date = DateField("Date", validators=[DataRequired()], format='%Y-%m-%d')
     frequency = StringField("Frequency", validators=[DataRequired()], default='once')
-    expense = BooleanField("Expense", validators=[DataRequired()], default=False)
-    expense_type = SelectField("Expense Type", validators=[DataRequired()])
+    expense = BooleanField("Expense", default=True)
+    expense_type = SelectField("Expense Type", default=9)

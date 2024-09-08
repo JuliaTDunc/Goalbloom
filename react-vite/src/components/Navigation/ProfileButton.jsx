@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
+import { FaRegUser, FaGhost } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import './Navigation.css'
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -37,13 +40,12 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate('/')
   };
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
-      </button>
+      {user ? (<FaRegUser onClick={toggleMenu} className='user-smile' />) : <div><FaGhost className='user-smile' onClick={toggleMenu} /><h6 className='ghosty-label'>Log In</h6></div>} 
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
@@ -51,7 +53,7 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button className='menu-button' onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (

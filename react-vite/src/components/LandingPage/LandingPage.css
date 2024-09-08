@@ -1,0 +1,14 @@
+.background-container{
+    background: linear-gradient(90deg, #0c03c3, #6c55ef, #6c55ef, #0c03c3);
+    display: flex;
+    width:auto;
+}
+.site-description{
+    font-size: 20px;
+    font-family: 'Poppins';
+    background-color: white;
+    border-radius: 20px;
+    opacity: 60%;
+    padding: 10px;
+    width: 80%;
+}

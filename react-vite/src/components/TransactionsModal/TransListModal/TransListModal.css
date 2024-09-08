@@ -1,0 +1,17 @@
+.trans-list-edit-button,
+.trans-list-delete-button{
+    border: none;
+    border-radius: 20%;
+    height: 40px;
+    width: 40px;
+    margin:3px;
+    color: #6c55ef;
+}
+.trans-list-edit-button:hover{
+    background-color: #6c55ef;
+        color: white;
+}
+.trans-list-delete-button:hover{
+    background-color:rgb(253, 31, 108);
+    color:white;
+}

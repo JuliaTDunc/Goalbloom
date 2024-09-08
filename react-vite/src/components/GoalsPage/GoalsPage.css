@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.goals-page {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgba(255, 12, 101, 0.391);
+}
+
+.goals-header {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.goals-description {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.add-goal {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.add-goal-button {
+background-color: #0c03c3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-goal-button:hover {
+    background-color: #372dff;
+}
+
+.goal-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: space-evenly;
+}
