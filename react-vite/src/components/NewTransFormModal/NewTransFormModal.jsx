@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
+import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes, fetchTransactions} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
 import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
@@ -48,7 +48,8 @@ function NewTransactionFormModal(){
         dispatch(fetchExpenseTypes());
 
         if (transaction?.id) {
-            dispatch(fetchTransaction(transaction.id)).then(() => setIsLoaded(true))
+            dispatch(fetchTransaction(transaction.id))
+            .then(() => setIsLoaded(true))
         } else {
             setIsLoaded(true);
         }
@@ -79,6 +80,10 @@ function NewTransactionFormModal(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let transactionData = {};
+        if (transaction) {
+            expenseType = transaction.expenseType.id
+        }
         const formErrors = validationErrors();
         //frequency options prob best HERE. (or helper)
 
@@ -87,21 +92,30 @@ function NewTransactionFormModal(){
             const firstErrorField = Object.keys(formErrors)[0];
             inputRefs.current[firstErrorField].scrollIntoView({ behavior: 'smooth' })
         }else{
-            const transactionData = {
+            transactionData = {
                 name,
-                amount: expense ? -Math.abs(amount) : amount,
+                amount,
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType || 9,
+                expense_type: expenseType,
             };
+            if(transactionData.expense === false){
+                transactionData.expense_type = 9;
+            }
             try {
                 if(transaction && transaction.id){
                     await dispatch(fetchEditTransaction({id: transaction.id, ...transactionData}))
+                    .then(() => {
+                        dispatch(fetchTransactions())
+                    })
                     closeModal();
                     
                 }else{
                     await dispatch(fetchCreateTransaction(transactionData))
+                        .then(() => {
+                            dispatch(fetchTransactions())
+                        })
                     closeModal();
                 }
             } catch (error) {
@@ -128,7 +142,7 @@ function NewTransactionFormModal(){
     return isLoaded ? (
         <div className='form-container'>
             <form onSubmit={handleSubmit} className="new-transaction-modal">
-                <div className='expense-container'>
+                {!transaction && (<div className='expense-container'>
                     <label>
                         Expense
                         <input
@@ -137,7 +151,7 @@ function NewTransactionFormModal(){
                             onChange={(e) => setExpense(e.target.checked)}
                         />
                     </label>
-                </div>
+                </div>)}
                 <div>
                     <label>Name
                         <input
@@ -190,7 +204,7 @@ function NewTransactionFormModal(){
                         {errors.frequency && <p>{errors.frequency}</p>}
                     </label>
                 </div>
-                {expense && (
+                {(expense && !transaction) && (
                     <div>
                         <label>
                             Category

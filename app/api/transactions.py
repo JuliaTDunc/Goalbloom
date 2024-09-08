@@ -69,7 +69,7 @@ def edit_transaction(id):
                 transaction.date = form.data["date"]
                 transaction.frequency = form.data["frequency"]
                 transaction.expense = form.data["expense"]
-                transaction.expense_type = form.data["expense_type"]
+                transaction.expense_type = ExpenseType.query.get(transaction.expense_type)
 
                 db.session.commit()
                 return jsonify(transaction.to_dict()), 200
