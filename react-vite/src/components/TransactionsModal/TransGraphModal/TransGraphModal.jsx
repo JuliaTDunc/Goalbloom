@@ -17,7 +17,7 @@ const TransGraphModal = ({activeTab}) => {
                 await dispatch(fetchTransactions());
                 setLoading(false);
             } catch (err) {
-                setError('Failed to load data');
+                setError(` `);
                 setLoading(false);
             }
         };
@@ -81,7 +81,6 @@ const TransGraphModal = ({activeTab}) => {
     return (
         <div className='modal-container'>
             <div className='modal-content'>
-                <h2>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Graph</h2>
                 <div className='graph-container'>
                     <HighchartsReact highcharts={Highcharts} options={options} />
                 </div>

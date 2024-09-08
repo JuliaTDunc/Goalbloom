@@ -49,9 +49,10 @@ export const fetchGoal = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/goals/${id}`);
     if(res.ok){
         const data = await res.json();
-        dispatch(getGoal(data));
+        await dispatch(getGoal(data));
         return data;
     }else{
+        console.error('Failed to fetch goal :[')
         return null;
     }
 }
@@ -110,9 +111,6 @@ const GoalsReducer = (state = initialState, action) => {
         case EDIT_GOAL:{
             let newState = {...state};
             newState.allGoals[action.payload.id] = action.payload;
-            if (state.currentGoal && state.currentGoal.id === action.payload.id) {
-                newState.currentGoal = action.payload;
-            }
             return newState;
         }
         case DELETE_GOAL: {

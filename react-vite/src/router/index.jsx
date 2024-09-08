@@ -5,6 +5,7 @@ import Transactions from '../components/TransactionsPage';
 import NewTransactionFormModal from '../components/NewTransFormModal';
 import Layout from './Layout';
 import GoalsPage from '../components/GoalsPage';
+import LandingPage from '../components/LandingPage'
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <LandingPage/>,
       },
       {
         path: "login",

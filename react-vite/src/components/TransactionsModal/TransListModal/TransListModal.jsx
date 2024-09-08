@@ -1,17 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction } from '../../../redux/transaction';
+import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction, fetchTransaction } from '../../../redux/transaction';
 import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa'
 import NewTransactionFormModal from '../../NewTransFormModal';
+import { useModal } from '../../../context/Modal';
 import './TransListModal.css'
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    //const expenseTypes = useSelector(state => state.transactions.expenseTypes);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editTransactionId, setEditTransactionId] = useState(null);
+    const { setModalContent } = useModal();
+
+    const openTransModal = (transactionId) => {
+        const existingTrans = transactions.find(transaction => transaction.id === transactionId);
+        if(existingTrans){
+            dispatch(fetchTransaction(transactionId))
+                .then(() => {
+                     setModalContent(<NewTransactionFormModal />);
+                })
+        }
+    }
 
     useEffect(() => {
         dispatch(fetchTransactions());
@@ -30,22 +39,12 @@ const TransListModal = ({activeTab}) => {
                 setFilteredTransactions(filtered);
             }
         }
-    }, [transactions, filteredTransactions, activeTab]);
-
-    const handleEditClick = (transactionId) => {
-        setEditTransactionId(transactionId);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setEditTransactionId(null);
-    };
+    }, [transactions, activeTab]);
 
     const handleDelete = (transactionId) => {
         dispatch(fetchDeleteTransaction(transactionId))
             .then(() => {
-            //    window.location.reload();
+                dispatch(fetchTransactions());
             })
             .catch((error) => {
                 console.error('Failed to delete transaction:', error);
@@ -54,12 +53,18 @@ const TransListModal = ({activeTab}) => {
     
 
     if (!filteredTransactions.length) {
-        return <p>No data for {activeTab}</p>;
+        if(activeTab === 'income' || activeTab === 'expense'){
+            return <p>No data for {activeTab}</p>;
+        }else{
+            return <p>Add income and expense data to track your cash! </p>
+        }
     }
     return (
         <div className='modal-container'>
             <div className='modal-content'>
-                <h2>{activeTab.charAt(0).toUpperCase()+ activeTab.slice(1)}List</h2>
+                {activeTab === 'income' || activeTab === 'expense' ? (
+                    <h2>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} List</h2>
+                ): <h2>Compare</h2>}
                 <div className='list-container'>
                     {filteredTransactions.map(transaction => (
                         <div key={transaction.id} className='transaction-item'>
@@ -67,18 +72,12 @@ const TransListModal = ({activeTab}) => {
                             {transaction.expense && (
                                 <p>Expense Type: {transaction.expenseType ? transaction.expenseType.name : 'Unknown'}</p>
                             )}
-                            <button className='trans-list-edit-button' onClick={() => handleEditClick(transaction.id)}><FaPencilAlt/></button>
+                            <button className='trans-list-edit-button' onClick={() => openTransModal(transaction.id)}><FaPencilAlt /></button>
                             <button className='trans-list-delete-button' onClick={() => handleDelete(transaction.id)}><FaRegTrashAlt /></button>
                         </div> 
                     ))}
                 </div>
             </div>
-            {isModalOpen && (
-                <NewTransactionFormModal
-                transactionId={editTransactionId}
-                onClose={handleCloseModal}
-                />
-            )}
         </div>
     )
 };

@@ -1,12 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes} from '../../redux/transaction';
+import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes, fetchTransactions} from '../../redux/transaction';
 import { useModal } from "../../context/Modal";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 function NewTransactionFormModal(){
-    const {transactionId} = useParams();
     const inputRefs = useRef({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,16 +47,17 @@ function NewTransactionFormModal(){
     useEffect(() => {
         dispatch(fetchExpenseTypes());
 
-        if (transactionId) {
-            dispatch(fetchTransaction(transactionId)).then(() => setIsLoaded(true))
+        if (transaction?.id) {
+            dispatch(fetchTransaction(transaction.id))
+            .then(() => setIsLoaded(true))
         } else {
             setIsLoaded(true);
         }
 
-    }, [transactionId, dispatch]);
+    }, [transaction?.id, dispatch]);
 
     useEffect(() => {
-        if (transaction && transactionId) {
+        if (transaction) {
             setName(transaction.name || "");
             setAmount(transaction.amount || ""); 
             setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
@@ -65,7 +65,7 @@ function NewTransactionFormModal(){
             setExpense(transaction.expense || false);
             setExpenseType(transaction.expense_type || "");
         }
-    }, [transaction, transactionId]);
+    }, [transaction]);
 
     const handleInputs = (set, field) => (e) => {
         set(e.target.value);
@@ -80,6 +80,10 @@ function NewTransactionFormModal(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let transactionData = {};
+        if (transaction) {
+            expenseType = transaction.expenseType.id
+        }
         const formErrors = validationErrors();
         //frequency options prob best HERE. (or helper)
 
@@ -88,20 +92,30 @@ function NewTransactionFormModal(){
             const firstErrorField = Object.keys(formErrors)[0];
             inputRefs.current[firstErrorField].scrollIntoView({ behavior: 'smooth' })
         }else{
-            const transactionData = {
+            transactionData = {
                 name,
-                amount: expense ? -Math.abs(amount) : amount,
+                amount,
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType || 9,
+                expense_type: expenseType,
             };
+            if(transactionData.expense === false){
+                transactionData.expense_type = 9;
+            }
             try {
-                if(transactionId){
-                    await dispatch(fetchEditTransaction({id: transactionId, ...transactionData}))
+                if(transaction && transaction.id){
+                    await dispatch(fetchEditTransaction({id: transaction.id, ...transactionData}))
+                    .then(() => {
+                        dispatch(fetchTransactions())
+                    })
                     closeModal();
+                    
                 }else{
                     await dispatch(fetchCreateTransaction(transactionData))
+                        .then(() => {
+                            dispatch(fetchTransactions())
+                        })
                     closeModal();
                 }
             } catch (error) {
@@ -128,7 +142,7 @@ function NewTransactionFormModal(){
     return isLoaded ? (
         <div className='form-container'>
             <form onSubmit={handleSubmit} className="new-transaction-modal">
-                <div className='expense-container'>
+                {!transaction && (<div className='expense-container'>
                     <label>
                         Expense
                         <input
@@ -137,7 +151,7 @@ function NewTransactionFormModal(){
                             onChange={(e) => setExpense(e.target.checked)}
                         />
                     </label>
-                </div>
+                </div>)}
                 <div>
                     <label>Name
                         <input
@@ -190,7 +204,7 @@ function NewTransactionFormModal(){
                         {errors.frequency && <p>{errors.frequency}</p>}
                     </label>
                 </div>
-                {expense && (
+                {(expense && !transaction) && (
                     <div>
                         <label>
                             Category
@@ -218,48 +232,3 @@ function NewTransactionFormModal(){
 }
 
 export default NewTransactionFormModal;
-
-
-//HANDLE SUBMIT DRAFTS
-
-/* e.preventDefault();
-        const formErrors = validationErrors();
-
-        if (Object.keys(formErrors).length > 0) {
-            setErrors(formErrors);
-            inputRefs.current[Object.keys(formErrors)[0]].scrollIntoView({ behavior: 'smooth' });
-        } else {
-            const transactionData = {
-                name,
-                amount: expense ? -Math.abs(amount) : amount,
-                date,
-                frequency,
-                expense,
-                expense_type: expenseType || null,
-            };
-
-            if (transactionId) {
-                await handleEditTransaction(transactionData);
-            } else {
-                await handleCreateTransaction(transactionData);
-            }
-            
-            navigate('/transactions');
-            closeModal();
-        }*/
-/*
- 
-try {
-    const response = await csrfFetch('/api/transactions', {
-        method: 'POST',
-        body: JSON.stringify(transaction),
-    })
-    if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error:", errorData);
-    }
-} catch (error) {
-    console.error("Submit Error:", error);
-}
-};
-*/

@@ -40,13 +40,13 @@ const GoalsPage = () => {
         <div className="goals-page">
             <header className='goals-header'>
                 <h4>Your Goals!</h4>
-            </header>
             <section className='goals-description'>
                 <p>Track your savings goals!</p>
             </section>
             <div className='add-goal'>
                 <button onClick={openNewGoalModal} className='add-goal-button'>Add New Goal</button>
             </div>
+            </header>
             <div className='goal-cards-grid'>
                   {goalsArr.map(goal => (
                     <GoalCard key={goal.id} goal={goal} />

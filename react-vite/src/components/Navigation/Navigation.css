@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+.HomeLinkLogo{
+  transform: scale(0.75);
+}
 
 .nav-bar{
   background: linear-gradient(90deg, #0c03c3, #6c55ef ,#6c55ef, #0c03c3);
@@ -11,7 +14,7 @@
   font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 5px;
   margin:0;
   list-style-type: none;
@@ -56,6 +59,13 @@ a:hover {
 .menu-button:hover {
       background: linear-gradient(45deg, #b06bf1, #872af9);
       transform: scale(1.05);
+}
+.user-smile{
+  color:white;
+}
+.ghosty-label{
+  color:white;
+  margin-top: -5px;
 }
 
 @media (max-width: 768px) {

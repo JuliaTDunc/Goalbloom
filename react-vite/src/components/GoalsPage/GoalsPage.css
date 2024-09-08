@@ -3,11 +3,14 @@
 .goals-page {
     padding: 20px;
     font-family: 'Poppins', sans-serif;
+    background-color: rgba(255, 12, 101, 0.391);
 }
 
 .goals-header {
     text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .goals-description {
@@ -38,6 +41,7 @@ background-color: #0c03c3;
 
 .goal-cards-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    justify-content: space-evenly;
 }

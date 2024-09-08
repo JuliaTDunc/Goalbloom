@@ -53,7 +53,7 @@ export const fetchTransaction = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/transactions/${id}`);
     if(res.ok){
         const data = await res.json();
-        dispatch(getTransaction(data));
+        await dispatch(getTransaction(data))
         return data;
     }else{
         console.error('Failed to fetch transaction :[' ,res);
@@ -74,7 +74,6 @@ export const fetchExpenseTypes = () => async (dispatch) => {
 }
 //ERROR OCURRING HERE
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
-    console.log("TRANSACTION: ", transaction)
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
         body: JSON.stringify(transaction),
@@ -88,7 +87,7 @@ export const fetchCreateTransaction = (transaction) => async (dispatch) => {
 
 export const fetchEditTransaction = (transaction) => async (dispatch) => {
     const { id, name, amount, date, frequency, expense, expense_type} = transaction;
-    const res = await csrfFetch(`/api/transactions/${id}`, {
+    const res = await csrfFetch(`/api/transactions/${transaction.id}`, {
         method: 'PUT',
         body: JSON.stringify({ name, amount, date, frequency, expense, expense_type })
     });
