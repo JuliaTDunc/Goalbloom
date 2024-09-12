@@ -2,7 +2,7 @@
 
 ## https://goalbloom.onrender.com/
 
-Goalbloom is an educational budgeting app designed to help users understand, and take control of their finances! Users can input their income, track expenses, set savings goals, and create detailed budget plans. As they interact with the app, users will receive recommendations for articles that provide insights into reaching their financial goals. The app also includes an educational resource tab, with different finance-related articles that users can bookmark for future reference.
+Goalbloom is an educational budgeting app designed to help you understand, and take control of your finances! Users can input their income, track expenses, set savings goals, and create detailed budget plans. As they interact with the app, users will receive recommendations for articles to help them reach their financial goals.
 While the app is most useful for those new to budgeting, its features and resources are valuable for anyone looking to enhance their financial literacy and make informed financial decisions!
 
 ## Frontend
