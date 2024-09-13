@@ -35,7 +35,8 @@ const TransGraphModal = ({activeTab}) => {
 
             const dataNameAmount = filteredTrans.map(transaction => ({
                 name: transaction.name,
-                amount: transaction.amount
+                amount: transaction.amount,
+                color: transaction.expense ? '#D66B6B' : '#9BBD9C'
             }));
             if (JSON.stringify(dataNameAmount) !== JSON.stringify(graphData)) {
                 setGraphData(dataNameAmount);
@@ -64,8 +65,10 @@ const TransGraphModal = ({activeTab}) => {
         },
         series: [{
             name: 'Amount',
-            data: graphData.map(item => item.amount),
-            color: '#7cb5ec'
+            data: graphData.map(item => ({
+                y:item.amount,
+                color: item.color
+            })),
         }],
         plotOptions: {
             bar: {

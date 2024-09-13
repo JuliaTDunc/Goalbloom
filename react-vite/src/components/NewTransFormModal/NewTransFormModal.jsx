@@ -3,7 +3,7 @@ import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExp
 import { useModal } from "../../context/Modal";
 import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 
 function NewTransactionFormModal(){
     const inputRefs = useRef({});
