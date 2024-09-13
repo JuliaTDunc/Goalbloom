@@ -51,28 +51,18 @@ export const fetchTransactions = () => async(dispatch) => {
 }
 export const fetchTransaction = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/transactions/${id}`);
-    if(res.ok){
-        const data = await res.json();
-        await dispatch(getTransaction(data))
-        return data;
-    }else{
-        console.error('Failed to fetch transaction :[' ,res);
-        return null;
-    }
+    const data = await res.json();
+    await dispatch(getTransaction(data))
+    return data;
 }
 
 export const fetchExpenseTypes = () => async (dispatch) => {
-    const res = await csrfFetch('http://localhost:8000/api/transactions/expenseTypes');
-    if(res.ok){
-        const data = await res.json();
-        dispatch(getExpenseTypes(data));
-        return data;
-    } else {
-        console.error('Failed expense type fetch :[ ', res)
-        return null;
-    }
+    const res = await csrfFetch('/api/transactions/expenseTypes');
+    const data = await res.json();
+    dispatch(getExpenseTypes(data));
+    return data;
 }
-//ERROR OCURRING HERE
+
 export const fetchCreateTransaction = (transaction) => async (dispatch) => {
     const res = await csrfFetch('/api/transactions', {
         method: 'POST',
