@@ -56,7 +56,7 @@ function NewGoalFormModal({goalId}){
         if (saved_amount > amount) newErrors.saved_amount = "Amount saved must be less than Goal Amount."
         return newErrors;
     }
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGoalData((prevData => ({
