@@ -16,6 +16,7 @@ function NewTransactionFormModal(){
 
     const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
+    const defaultET = expenseTypes[8].id;
     const transaction = useSelector(state => state.transactions.currentTransaction);
     const user = useSelector(state => state.session.user);
 
@@ -35,7 +36,6 @@ function NewTransactionFormModal(){
         if (!date) newErrors.date = "Date is required.";
         if (!frequency) newErrors.frequency = "Frequency is required.";
         if (amount <= 0) newErrors.amount = "Amount must be greater than 0.";
-        if (expense && !expenseType) newErrors.expenseType = "Category is required."
         return newErrors;
     }
     useEffect(() => {
@@ -45,7 +45,7 @@ function NewTransactionFormModal(){
     }, [user, navigate]);
     
     useEffect(() => {
-        dispatch(fetchExpenseTypes());
+        dispatch(fetchExpenseTypes())
 
         if (transaction?.id) {
             dispatch(fetchTransaction(transaction.id))
@@ -63,7 +63,7 @@ function NewTransactionFormModal(){
             setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : "");
             setFrequency(transaction.frequency || "once");
             setExpense(transaction.expense || false);
-            setExpenseType(transaction.expense_type || "");
+            setExpenseType(transaction.expenseType.id || "");
         }
     }, [transaction]);
 
@@ -81,9 +81,6 @@ function NewTransactionFormModal(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         let transactionData = {};
-        if (transaction) {
-            expenseType = transaction.expenseType.id
-        }
         const formErrors = validationErrors();
         //frequency options prob best HERE. (or helper)
 
@@ -98,11 +95,8 @@ function NewTransactionFormModal(){
                 date,
                 frequency,
                 expense,
-                expense_type: expenseType,
+                expense_type: expense ? expenseType : defaultET,
             };
-            if(transactionData.expense === false){
-                transactionData.expense_type = 9;
-            }
             try {
                 if(transaction && transaction.id){
                     await dispatch(fetchEditTransaction({id: transaction.id, ...transactionData}))

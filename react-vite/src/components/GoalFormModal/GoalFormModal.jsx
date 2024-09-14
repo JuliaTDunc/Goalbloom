@@ -33,7 +33,7 @@ function NewGoalFormModal({goalId}){
         if(goal?.id){
             dispatch(fetchGoal(goal.id))
         }
-    }, [goalId, dispatch]);
+    }, [goal?.id, dispatch]);
 
     useEffect(() => {
         if(goal){
@@ -49,13 +49,9 @@ function NewGoalFormModal({goalId}){
     const validationErrors = () => {
         const newErrors = {};
         const { name, amount, saved_amount, end_date } = goalData;
-        const today = new Date();
-        const currEndDate = new Date(end_date);
-
         if (!name) newErrors.name = "Name this Goal."
         if (!amount) newErrors.amount = "Amount is required."
         if (!end_date) newErrors.end_date = "End Date id required."
-        if (end_date && currEndDate < today) newErrors.end_date = "End date can not be in the past."
         if (amount < 0) newErrors.amount = "Amount must be equal to or greater than 0."
         if (saved_amount > amount) newErrors.saved_amount = "Amount saved must be less than Goal Amount."
         return newErrors;
