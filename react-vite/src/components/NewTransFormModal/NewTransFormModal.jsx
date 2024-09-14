@@ -67,6 +67,18 @@ function NewTransactionFormModal(){
         }
     }, [transaction]);
 
+    useEffect(() => {
+        return () => {
+            setName("");
+            setAmount("");
+            setDate("");
+            setFrequency("once");
+            setExpense(false);
+            setExpenseType("");
+            setErrors({});
+        };
+    }, [closeModal]);
+
     const handleInputs = (set, field) => (e) => {
         set(e.target.value);
         if (errors[field]) {
