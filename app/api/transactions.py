@@ -61,7 +61,7 @@ def edit_transaction(id):
         transaction = Transaction.query.filter_by(id=id, user_id=current_user.id).first_or_404()
 
         form = TransactionForm()
-        form.expense_type.choices = [(expense_type.id) for expense_type in ExpenseType.query.all()]
+        form.expense_type.choices = [(expense_type.id, expense_type.name) for expense_type in ExpenseType.query.all()]
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
                 transaction.name = form.data["name"]
@@ -69,7 +69,9 @@ def edit_transaction(id):
                 transaction.date = form.data["date"]
                 transaction.frequency = form.data["frequency"]
                 transaction.expense = form.data["expense"]
-                transaction.expense_type = ExpenseType.query.get(transaction.expense_type)
+                selected_expense_type_id = form.data["expense_type"]
+                transaction.expense_type = ExpenseType.query.get(selected_expense_type_id)
+
 
                 db.session.commit()
                 return jsonify(transaction.to_dict()), 200

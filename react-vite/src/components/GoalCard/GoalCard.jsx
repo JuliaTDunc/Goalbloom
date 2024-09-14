@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDeleteGoal, fetchGoals, fetchGoal } from '../../redux/goals';

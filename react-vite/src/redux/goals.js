@@ -33,7 +33,6 @@ const deleteGoal = (goalId) => ({
 
 export const fetchGoals = () => async (dispatch) => {
     const res = await fetch('/api/goals');
-    console.log('RES IN GOALS REDUX ', res)
     if (res.ok) {
         const data = await res.json();
         dispatch(getGoals(data));
@@ -58,7 +57,6 @@ export const fetchGoal = (id) => async (dispatch) => {
 }
 
 export const fetchCreateGoal = (goal) => async (dispatch) => {
-    console.log("GOAL: ", goal)
     const res = await csrfFetch('/api/goals', {
         method: 'POST',
         body: JSON.stringify(goal)
