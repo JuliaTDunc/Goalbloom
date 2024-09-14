@@ -84,6 +84,11 @@ function SignupFormModal() {
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button className='menu-button' type="submit">Sign Up</button>
+
+        <div className='login-section'>
+          <p>Have an account?</p>
+          <button className='menu-button'><a href='/login'>Log In</a></button>
+        </div>
       </form>
     </>
   );
