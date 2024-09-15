@@ -19,7 +19,7 @@ const GoalCard = ({ goal }) => {
         if(existingGoal){
             dispatch(fetchGoal(goalId))
             .then(() => {
-                setModalContent(<NewGoalFormModal />);
+                setModalContent(<NewGoalFormModal goal={existingGoal}/>);
             })
         }
     }

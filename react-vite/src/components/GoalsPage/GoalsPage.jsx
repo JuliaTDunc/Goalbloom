@@ -28,7 +28,7 @@ const GoalsPage = () => {
     }, [dispatch, user]);
    
     const openNewGoalModal = () => {
-        setModalContent(<NewGoalFormModal />);
+        setModalContent(<NewGoalFormModal goal={null}/>);
     }
   
     return user? (

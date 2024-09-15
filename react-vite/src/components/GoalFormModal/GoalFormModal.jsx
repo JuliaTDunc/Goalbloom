@@ -6,13 +6,13 @@ import { useNavigate} from 'react-router-dom';
 import './GoalFormModal.css';
 
 
-function NewGoalFormModal({goalId}){
+function NewGoalFormModal({goal}){
     const inputRefs = useRef({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {closeModal} = useModal();
 
-    const goal = useSelector(state => state.goals.currentGoal)
+    //const goal = useSelector(state => state.goals.currentGoal)
     const user = useSelector(state=>state.session.user)
 
     const [goalData, setGoalData] = useState({
@@ -43,6 +43,13 @@ function NewGoalFormModal({goalId}){
                 saved_amount:goal.saved_amount || "",
                 endDate:goal.end_date ? new Date(goal.end_date).toISOString().split('T')[0] : "",
             })
+        } else{
+            setGoalData({
+                name: '',
+                amount: '',
+                saved_amount: '',
+                end_date: ''
+            });
         }
     }, [goal]);
 
@@ -84,12 +91,12 @@ function NewGoalFormModal({goalId}){
             inputRefs.current[firstErrorField].scrollIntoView({behavior: 'smooth'})
         }else{
             try{
-                if (goal && goal.id) {
-                    await dispatch(fetchEditGoal({...goalData, id: goal.id}))
-                    closeModal();
+                if (goal) {
+                    let goalId = goal.id
+                    await dispatch(fetchEditGoal({...goalData, id:goalId}))
+                    await dispatch(fetchGoals())
                 } else {
                     await dispatch(fetchCreateGoal(goalData))
-                    closeModal();
                 }
                 closeModal();
                 dispatch(fetchGoals());
@@ -103,7 +110,7 @@ function NewGoalFormModal({goalId}){
     return (
         <div className='form-container'>
             <div className='goal-form-header'>
-                <h3>{goalId ? "Edit Goal" : "Create a New Goal"}</h3>
+                <h3>{goal ? "Edit Goal" : "Create a New Goal"}</h3>
                 <p> Savings Goal Form Description....</p>
             </div>
             <form onSubmit={handleSubmit} className='goal-form'>
