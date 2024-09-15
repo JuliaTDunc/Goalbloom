@@ -17,7 +17,7 @@ const Transactions = () => {
         setActiveTab(tab);
     }
     const openNewTransactionModal = () => {
-        setModalContent(<NewTransactionFormModal />);
+        setModalContent(<NewTransactionFormModal transaction={null}/>);
     }
     useEffect(() => {
         if (user) {
