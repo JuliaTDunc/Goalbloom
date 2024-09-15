@@ -91,8 +91,10 @@ function NewGoalFormModal({goal}){
             inputRefs.current[firstErrorField].scrollIntoView({behavior: 'smooth'})
         }else{
             try{
-                if (goal && goal.id) {
-                    await dispatch(fetchEditGoal({...goalData, id: goal.id}))
+                if (goal) {
+                    let goalId = goal.id
+                    await dispatch(fetchEditGoal({...goalData, id:goalId}))
+                    await dispatch(fetchGoals())
                 } else {
                     await dispatch(fetchCreateGoal(goalData))
                 }
