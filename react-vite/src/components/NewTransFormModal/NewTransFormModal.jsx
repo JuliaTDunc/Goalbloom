@@ -75,8 +75,10 @@ function NewTransactionFormModal({transaction}){
             setExpense(false);
             setExpenseType("");
             setErrors({});
+
+            dispatch(fetchTransactions())
         };
-    }, [closeModal]);
+    }, [closeModal, dispatch]);
 
     const handleInputs = (set, field) => (e) => {
         set(e.target.value);
