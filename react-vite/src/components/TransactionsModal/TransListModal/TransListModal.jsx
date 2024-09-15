@@ -17,7 +17,7 @@ const TransListModal = ({activeTab}) => {
         if(existingTrans){
             dispatch(fetchTransaction(transactionId))
                 .then(() => {
-                     setModalContent(<NewTransactionFormModal />);
+                     setModalContent(<NewTransactionFormModal transaction={existingTrans}/>);
                 })
         }
     }
