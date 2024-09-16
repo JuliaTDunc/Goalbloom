@@ -3,13 +3,14 @@
 .goals-page {
     padding: 20px;
     font-family: 'Poppins', sans-serif;
+    background-color: #bab7fd;
 }
-
+.goals-page-head{
+    text-align:center;
+    font-size: 30px;
+}
 .goals-header {
     text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
 }
 
 .goals-description {
@@ -17,15 +18,19 @@
     margin-bottom: 20px;
     font-size: 16px;
     color: #666;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.499);
 }
 
 .add-goal {
-    text-align: center;
+    text-align: right;
     margin-bottom: 30px;
 }
 
 .add-goal-button {
-background-color: #0c03c3;
+    background-color: #0c03c3;
     color: white;
     padding: 10px 20px;
     border: none;

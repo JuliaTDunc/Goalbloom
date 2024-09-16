@@ -40,49 +40,53 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h1 className='signup-header'>Sign Up</h1>
+      {errors.server && <p className='errors'>{errors.server}</p>}
+      <form className='signup-form' onSubmit={handleSubmit}>
+        <label className='signup-form-label'>
           Email
           <input
+            className='signup-form-input'
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
+        {errors.email && <p className="errors">{errors.email}</p>}
+        <label className="signup-form-label">
           Username
           <input
+            className="signup-form-input"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
+        {errors.username && <p className="errors">{errors.username}</p>}
+        <label className="signup-form-label">
           Password
           <input
+            className="signup-form-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
+        {errors.password && <p className="errors">{errors.password}</p>}
+        <label className="signup-form-label">
           Confirm Password
           <input
+            className="signup-form-input"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}
         <button className='menu-button' type="submit">Sign Up</button>
 
         <div className='login-section'>
