@@ -116,6 +116,7 @@ function NewTransactionFormModal({transaction}){
                     await dispatch(fetchEditTransaction({id: transId, ...transactionData}))
                     await dispatch(fetchTransactions())
                     closeModal();
+                    navigate(0);
                     
                 }else{
                     await dispatch(fetchCreateTransaction(transactionData))
