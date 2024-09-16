@@ -93,22 +93,3 @@ const TransGraphModal = ({activeTab}) => {
 };
 
 export default TransGraphModal;
-/*
-setChartOptions({
-    chart: {
-        type: 'bar'
-    },
-    title: {
-        text: title
-    },
-    xAxis: {
-        categories: ['Category 1', 'Category 2', 'Category 3'] // Replace with actual categories
-    },
-    yAxis: {
-        title: {
-            text: 'Amount'
-        }
-    },
-    series: activeTab === 'both' ? data : [{ name: title, data }]
-});
-        };*/
