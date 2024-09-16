@@ -1,9 +1,9 @@
 .transactions-home {
-    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
+    background-color: #bab7fd;
 }
 
 .transactions-header {
@@ -12,11 +12,19 @@
     align-items: center;
     margin-bottom: 20px;
 }
-
+.transactions-page-head{
+    text-align: center;
+    font-size: 30px;
+    color:black;
+}
+.new-transaction{
+   text-align:right;
+}
 .new-trans-button {
     background-color: #0c03c3;
     color: white;
     padding: 10px 20px;
+    margin:20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -28,15 +36,15 @@
 }
 
 .transactions-description {
-    max-width: 70%;
+    text-align: center;
+    color: #666;
 }
-
-.transactions-description p {
-    margin: 5px 0 0;
-    color: #6c55ef;
-    font-size: 16px;
+.transactions-description p{
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.499);
 }
-
 .transactions-container {
     display: grid;
     grid-template-columns: 1fr 2fr;

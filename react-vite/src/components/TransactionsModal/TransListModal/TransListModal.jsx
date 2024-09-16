@@ -10,7 +10,7 @@ const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const { setModalContent } = useModal();
+    const { setModalContent,closeModal } = useModal();
 
     const openTransModal = (transactionId) => {
         const existingTrans = transactions.find(transaction => transaction.id === transactionId);
@@ -26,6 +26,10 @@ const TransListModal = ({activeTab}) => {
         dispatch(fetchTransactions());
         dispatch(fetchExpenseTypes());
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchTransactions())
+    },[dispatch, closeModal]);
 
     useEffect(() => {
         if (transactions) {

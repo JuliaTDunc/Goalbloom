@@ -76,7 +76,7 @@ function NewTransactionFormModal({transaction}){
             setExpenseType("");
             setErrors({});
 
-            dispatch(fetchTransactions())
+             dispatch(fetchTransactions())
         };
     }, [closeModal, dispatch]);
 
