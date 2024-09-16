@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
-import backgroundImage from '../../../dist/assets/backgroundTwo.png';
+import backgroundImage from '../../images/backgroundTwo.png';
 import './SignupForm.css';
 
 function SignupFormPage() {
