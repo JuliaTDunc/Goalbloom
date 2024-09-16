@@ -26,22 +26,13 @@
 .nav-bar ul li:hover {
   transform: translateY(-3px);
 }
-a{
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bolder;
-  transition: color 0.3s ease-in-out;
-}
-a:hover {
-  color: #64bb61;
-  transform: scale(1.1);
-}
 .profile-dropdown {
+  cursor:pointer;
   position: absolute;
-  background-color: #9e8bffc0;
+  background-color: #fbd382;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .menu-button {
@@ -62,10 +53,12 @@ a:hover {
 }
 .user-smile{
   color:white;
+  cursor:pointer;
 }
 .ghosty-label{
   color:white;
   margin-top: -5px;
+  cursor:pointer;
 }
 
 @media (max-width: 768px) {
