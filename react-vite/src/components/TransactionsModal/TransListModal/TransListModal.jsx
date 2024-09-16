@@ -8,9 +8,11 @@ import './TransListModal.css'
 
 const TransListModal = ({activeTab}) => {
     const dispatch = useDispatch();
-    const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    const { setModalContent,closeModal } = useModal();
+    const { setModalContent } = useModal();
+
+    const transactions = Object.values(allTransactions);
 
     const openTransModal = (transactionId) => {
         const existingTrans = transactions.find(transaction => transaction.id === transactionId);
@@ -27,9 +29,6 @@ const TransListModal = ({activeTab}) => {
         dispatch(fetchExpenseTypes());
     }, [dispatch]);
 
-    useEffect(() => {
-        dispatch(fetchTransactions())
-    },[dispatch, closeModal]);
 
     useEffect(() => {
         if (transactions) {
