@@ -15,6 +15,8 @@ class Goal(db.Model):
     saved_amount = db.Column(db.Float, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
 
+    user = db.relationship('User', back_populates='goals')
+
 
     def to_dict(self):
         return {
