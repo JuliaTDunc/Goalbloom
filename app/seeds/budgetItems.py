@@ -9,6 +9,7 @@ def seed_budget_items():
         transaction=True,
         item_id=1,
     )
+    budget_item2 = BudgetItem(user_id=2, budget_id=2, transaction=True, item_id=3)
 
     budget_item2 = BudgetItem(
         user_id=2,
