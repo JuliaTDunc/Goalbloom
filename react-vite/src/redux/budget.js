@@ -43,9 +43,39 @@ export const fetchBudget = (id) => async(dispatch) => {
         return res;
     }
 }
-export const fetchEditBudget = (budget) => async(dispatch) => {
-    
-}
+export const fetchCreateBudget = (budget) => async (dispatch) => {
+    const res = await csrfFetch('/api/budgets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(budget)
+    });
+
+    if (res.ok) {
+        const newBudget = await res.json();
+        dispatch(createBudget(newBudget));
+        return newBudget;
+    } else {
+        const error = await res.json();
+        return error;
+    }
+};
+
+export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/budgets/${budgetId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(budget)
+    });
+    if (res.ok) {
+        const updatedBudget = await res.json();
+        dispatch(editBudget(updatedBudget));
+        return updatedBudget;
+    } else {
+        const error = await res.json();
+        return error;
+    }
+};
+
 export const fetchDeleteBudget = (budgetId) => async(dispatch) => {
     const res = await csrfFetch(`/api/budgets/${budgetId}`,{
         method: 'DELETE'
@@ -74,6 +104,7 @@ const BudgetsReducer = (state = initialState, action) => {
         case EDIT_BUDGET:{
             let newState = {...state};
             newState.allBudgets[action.payload.id] = action.payload;
+            return newState;
         }
         case DELETE_BUDGET:{
             let newState = {...state};

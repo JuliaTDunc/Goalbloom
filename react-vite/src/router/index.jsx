@@ -5,7 +5,7 @@ import Transactions from '../components/TransactionsPage';
 import NewTransactionFormModal from '../components/NewTransFormModal';
 import Layout from './Layout';
 import GoalsPage from '../components/GoalsPage';
-import BudgetsPage from '../components/Budgets/BudgetsPage';
+import BudgetsPage from '../components/BudgetsPage';
 import LandingPage from '../components/LandingPage'
 
 export const router = createBrowserRouter([
