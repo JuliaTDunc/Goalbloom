@@ -1,25 +1,59 @@
-import React, {useState, useEffect} from 'react';
-import { useDispatch} from 'react-redux';
-import {fetchCreateBudget, fetchEditBudget} from '../../redux/budget';
-//import './BudgetForm.css';
+import {useState, useEffect} from 'react';
+import { useDispatch, useSelector} from 'react-redux';
+import { useModal } from "../../context/Modal";
+import {fetchCreateBudget, fetchEditBudget,fetchBudget} from '../../redux/budget';
+import { fetchTransactions } from '../../redux/transaction';
+import { fetchGoals } from '../../redux/goals';
+import './BudgetForm.css';
+import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
-const BudgetForm = () => {
+const BudgetForm = ({budget}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [editing, isEditing] = useState(false);
+    const { closeModal } = useModal();
 
-    const [incomeItems, setIncomeItems] = useState([{id:1, amount: 0}]);
-    const [expenseItems, setExpenseItems] = useState([{id:1, amount:0}]);
-    const [goalItems, setGoalItems] = useState([{id:1, amount:0}]);
+    const [incomeItems, setIncomeItems] = useState([{}]);
+    const [expenseItems, setExpenseItems] = useState([{}]);
+    const [goalItems, setGoalItems] = useState([{}]);
     const [remainingBalance, setRemainingBalance] = useState(0); 
+
+
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
+    const allGoals = useSelector(state => state.goals.allGoals);
+    const transactions = Object.values(allTransactions)
+    const goals = Object.values(allGoals)
+
+    useEffect(() => {
+        dispatch(fetchTransactions());
+        dispatch(fetchGoals());
+    },[dispatch]);
+
+    useEffect(() => {
+        if(startDate && endDate) {
+            const sortIncomeItems = transactions.filter(
+                item => !item,expense && new Date(item.date) >= new Date(startDate) && newDate(item.date) <= newDate(endDate)
+            );
+            const sortExpenseItems = transactions.filter(
+                item => item.expense && new Date(item.date) >= new Date(startDate) && newDate(item.date) <= newDate(endDate)
+            );
+            const sortGoals = goals.filter(
+                goal => newDate(goal.end_date) >= new Date(startDate) && new Date(goal.end_date) <= new Date(endDate)
+            );
+
+            setIncomeItems(sortIncomeItems);
+            setExpenseItems(sortExpenseItems);
+            setGoalItems(sortGoals);
+        } 
+    }, [startDate, endDate, transactions, goals])
 
     useEffect(() => {
         const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-        setRemainingBalance(totalIncome - totalExpenses);
-    }, [incomeItems, expenseItems]);
+        const totalGoals = goalItems.reduce((sum, goal) => sum + (Number(goal.amount) - Number(goal.saved_amount)),0)
+        setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
+    }, [incomeItems, expenseItems, goalItems]);
 
 
     const addItem = (type) => {
@@ -73,11 +107,13 @@ const BudgetForm = () => {
                 items
             };
             try{
-                if (editing) {
-                    await dispatch(fetchEditBudget(budgetData, budgetId));
-                } else {
+                if(budget){
+                    await dispatch(fetchEditBudget(budgetData, budget));
+                }else {
                     await dispatch(fetchCreateBudget(budgetData));
                 }
+                closeModal();
+                dispatch(fetchBudget());
             }catch(error){
                 return error
             }

@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_BUDGETS = 'budgets/getAll';
 const GET_BUDGET = 'budgets/getById';
-const CREATE_BUDGET = '/budgets/create';
+const CREATE_BUDGET = 'budgets/create';
 const EDIT_BUDGET = 'budgets/edit';
 const DELETE_BUDGET = 'budgets/delete';
 
@@ -36,7 +36,7 @@ export const fetchBudgets = () => async(dispatch) => {
     }
 }
 export const fetchBudget = (id) => async(dispatch) => {
-    const res = await csrfFetch(`api/budgets/${id}`);
+    const res = await csrfFetch(`/api/budgets/${id}`);
     if(res.ok){
         const data = await res.json()
         await dispatch(getBudget(data))

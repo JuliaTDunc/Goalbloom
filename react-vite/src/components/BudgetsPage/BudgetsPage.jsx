@@ -1,22 +1,44 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import {fetchBudget} from '../../redux/budget';
-import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
+import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
+//import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import BudgetForm from '../BudgetForm';
 import { useModal } from '../../context/Modal';
+//import {setSelectedBudget} from '../BudgetsPage/BudgetGraph';
 //import './BudgetsPage.css'
 
 
 
 const BudgetsPage = () => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
+    const allBudgets = useSelector(state => state.budgets.allBudgets)
     const [budgets, setBudgets] = useState([]);
     const {setModalContent} = useModal();
 
-    const openBudgetModal = () => {
-        setModalContent(<BudgetForm />);
+    const openNewBudgetModal = () => {
+        setModalContent(<BudgetForm budget={null}/>);
     }
+
+    const openEditBudgetModal = (budget) => {
+        setModalContent(<BudgetForm budget={budget}/>)
+    }
+
+    /*const updateChartBudget = (budget) => {
+        setSelectedBudget(budget);
+    };*/
+
+    const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        if (isNaN(date)) return 'Invalid Date';
+        return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
 
     useEffect(() => {
         if(user){
@@ -36,6 +58,15 @@ const BudgetsPage = () => {
         return <div>rendering budgets...</div>
     }
 
+    const handleDelete = (budgetId) => {
+        dispatch(fetchDeleteBudget(budgetId))
+            .then(() => {
+                dispatch(fetchBudgets());
+            })
+            .catch((error) => {
+                console.error('Failed to delete goal:', error);
+            });
+    };
 
 return (
     <div className='budgets-page'>
@@ -45,7 +76,7 @@ return (
         </div>
 
         <div className='new-budget-button'>
-            <button className='new-budget-btn' onClick={() => openBudgetModal()}>
+            <button className='new-budget-btn' onClick={() => openNewBudgetModal()}>
                 Create a new Budget
             </button>
         </div>
@@ -74,14 +105,19 @@ return (
                     {budgets.map((budget) => (
                         <tr key={budget.id}>
                             <td>{budget.name}</td>
-                            <td>{new Date(budget.createdAt).toLocaleDateString()}</td>
+                            <td>{formatDate(budget.start_date)}</td>
+                            <td>
+                                <button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
+                                    Edit
+                                </button>
+                                <button className='delete-btn'onClick={() => handleDelete(budget.id)}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
-
-        <div className='budgets-'></div>  
+        <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
     </div>
 )
 }
