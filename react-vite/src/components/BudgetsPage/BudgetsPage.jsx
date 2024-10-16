@@ -1,0 +1,139 @@
+import React , {useEffect, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
+//import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
+import BudgetForm from '../BudgetForm';
+import { useModal } from '../../context/Modal';
+//import {setSelectedBudget} from '../BudgetsPage/BudgetGraph';
+//import './BudgetsPage.css'
+
+
+
+const BudgetsPage = () => {
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user);
+    const allBudgets = useSelector(state => state.budgets.allBudgets);
+    const currentBudget = useSelector(state => state.budgets.currentBudget);
+    const [budgets, setBudgets] = useState([]);
+    const [currBudget, setCurrBudget] = useState(null);
+    const {setModalContent} = useModal();
+
+    const openNewBudgetModal = () => {
+        setModalContent(<BudgetForm budget={null}/>);
+    }
+
+    const updateChartBudget = (budget) => {
+        dispatch(fetchBudget(budget.id))
+        .then(() => {
+            setCurrBudget(budget)
+        });
+    };
+    const openEditBudgetModal = (budget) => {
+        updateChartBudget(budget)
+        setModalContent(<BudgetForm budget={budget} />)
+    }
+
+    const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        if (isNaN(date)) return 'Invalid Date';
+        return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+    useEffect(() => {
+        if (user) {
+            dispatch(fetchBudgets());
+        }
+    }, [user, dispatch]);
+
+    useEffect(() => {
+        if (allBudgets) {
+            const sortedBudgets = Object.values(allBudgets).sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+            setBudgets(sortedBudgets);
+        }
+    }, [allBudgets]);
+    
+    useEffect(() => {
+        if (allBudgets && !currentBudget) {
+            const today = new Date();
+            const closestBudget = budgets.reduce((closest, budget) => {
+            const budgetDate = new Date(budget.start_date);
+            return Math.abs(budgetDate - today) < Math.abs(new Date(closest.start_date) - today)
+            ? budget
+            : closest;
+            },[budgets[0]])
+
+            const deconClosest = closestBudget[0]
+            setCurrBudget(deconClosest)
+        }
+    },[allBudgets, budgets, dispatch]);
+
+    const handleDelete = (budgetId) => {
+        dispatch(fetchDeleteBudget(budgetId))
+            .then(() => {
+                dispatch(fetchBudgets());
+            })
+            .catch((error) => {
+                console.error('Failed to delete goal:', error);
+            });
+    };
+
+return (
+    <div className='budgets-page'>
+        <div className='budgets-page-header'>
+            <h1>Welcome, {user?.username}</h1>
+            <p>Check out your budget plans below!</p>
+        </div>
+
+        <div className='new-budget-button'>
+            <button className='new-budget-btn' onClick={() => openNewBudgetModal()}>
+                Create a new Budget
+            </button>
+        </div>
+
+        <div className='current-budget-section'>
+            {currBudget? (
+                <div className='budget-chart'>
+                    <h2>{currBudget.name}</h2>
+                    <p>{currBudget.name}</p>
+                </div>
+            ): (
+                    <div className='budget-chart'>
+                        <p>Select a Budget</p>
+                    </div>
+            )}
+        </div>
+
+        <div className='saved-budgets'>
+            <h2>Saved Budgets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Budget Name</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {budgets.map((budget) => (
+                        <tr key={budget.id}>
+                            <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
+                            <td>{formatDate(budget.start_date)}</td>
+                            <td>
+                                <button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
+                                    Edit
+                                </button>
+                                <button className='delete-btn'onClick={() => handleDelete(budget.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+        <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
+    </div>
+)
+}
+
+export default BudgetsPage;

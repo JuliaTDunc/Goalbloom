@@ -3,6 +3,8 @@ from .users import seed_users, undo_users
 from .expense_types import seed_expense_types, undo_expense_types
 from .transactions import seed_transactions, undo_transactions
 from .goals import seed_goals, undo_goals
+from .budgets import seed_budgets, undo_budgets
+from .budgetItems import seed_budget_items, undo_budget_items
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -18,6 +20,8 @@ def seed():
         # command, which will  truncate all tables prefixed with 
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
+        undo_budget_items()
+        undo_budgets()
         undo_goals()
         undo_transactions()
         undo_expense_types()
@@ -26,6 +30,8 @@ def seed():
     seed_expense_types()
     seed_transactions()
     seed_goals()
+    seed_budgets()
+    seed_budget_items()
     # Add other seed functions here
 
 
@@ -36,4 +42,6 @@ def undo():
     undo_expense_types()
     undo_transactions()
     undo_goals()
+    undo_budget_items()
+    undo_budgets()
     # Add other undo functions here

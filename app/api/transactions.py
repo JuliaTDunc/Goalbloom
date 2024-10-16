@@ -6,7 +6,7 @@ from app.forms.transaction_form import TransactionForm
 
 transaction_routes = Blueprint("transaction", __name__)
 
-# GET all user Transactions# 
+# GET all user Transactions
 
 @transaction_routes.route("", methods=['GET'])
 @login_required
@@ -18,7 +18,6 @@ def get_all_transactions():
         return jsonify({"error": str(e)}),500
 
 # GET a Transaction by id
-# GET a Goal by goal_id
 
 @transaction_routes.route('/<int:id>', methods=['GET'])
 @login_required
@@ -29,7 +28,7 @@ def get_transaction_by_id(id):
     print(f"Transaction fetched: {transaction.to_dict()}")
     return jsonify(transaction.to_dict()), 200
 
-# POST a new Transaction# 
+# POST a new Transaction
 
 @transaction_routes.route("", methods=["POST"])
 @login_required

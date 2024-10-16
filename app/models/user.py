@@ -15,6 +15,11 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     transactions = db.relationship('Transaction', back_populates='user', cascade='all, delete-orphan')
+    goals = db.relationship('Goal', back_populates='user', cascade='all, delete-orphan')
+    budgets = db.relationship('Budget', back_populates='user', cascade='all, delete-orphan')
+    budget_items = db.relationship('BudgetItem', back_populates='user', cascade='all, delete-orphan')
+
+
     @property
     def password(self):
         return self.hashed_password
