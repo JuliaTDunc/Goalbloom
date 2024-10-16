@@ -1,6 +1,5 @@
-import React from 'react';
+import React , {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
 //import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import BudgetForm from '../BudgetForm';
@@ -13,21 +12,26 @@ import { useModal } from '../../context/Modal';
 const BudgetsPage = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-    const allBudgets = useSelector(state => state.budgets.allBudgets)
+    const allBudgets = useSelector(state => state.budgets.allBudgets);
+    const currentBudget = useSelector(state => state.budgets.currentBudget);
     const [budgets, setBudgets] = useState([]);
+    const [currBudget, setCurrBudget] = useState(null);
     const {setModalContent} = useModal();
 
     const openNewBudgetModal = () => {
         setModalContent(<BudgetForm budget={null}/>);
     }
 
+    const updateChartBudget = (budget) => {
+        dispatch(fetchBudget(budget.id))
+        .then(() => {
+            setCurrBudget(budget)
+        });
+    };
     const openEditBudgetModal = (budget) => {
-        setModalContent(<BudgetForm budget={budget}/>)
+        updateChartBudget(budget)
+        setModalContent(<BudgetForm budget={budget} />)
     }
-
-    /*const updateChartBudget = (budget) => {
-        setSelectedBudget(budget);
-    };*/
 
     const formatDate = (isoString) => {
         const date = new Date(isoString);
@@ -38,25 +42,33 @@ const BudgetsPage = () => {
             day: 'numeric',
         });
     };
-
+    useEffect(() => {
+        if (user) {
+            dispatch(fetchBudgets());
+        }
+    }, [user, dispatch]);
 
     useEffect(() => {
-        if(user){
-            fetch(`/api/budgets`)
-                .then((res) => res.json())
-                .then((data) => {
-                    const sortBudgets = data.sort((a,b) => new Date(b.start_date) - new Date(a.start_date))
-                    setBudgets(sortBudgets);
-                })
-                .catch((err) => console.error("Failed to retch recent budget", err))
+        if (allBudgets) {
+            const sortedBudgets = Object.values(allBudgets).sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+            setBudgets(sortedBudgets);
         }
-    }, [user])
+    }, [allBudgets]);
+    
+    useEffect(() => {
+        if (allBudgets && !currentBudget) {
+            const today = new Date();
+            const closestBudget = budgets.reduce((closest, budget) => {
+            const budgetDate = new Date(budget.start_date);
+            return Math.abs(budgetDate - today) < Math.abs(new Date(closest.start_date) - today)
+            ? budget
+            : closest;
+            },[budgets[0]])
 
-    const recentBudget = budgets.length > 0 ? budgets[0] : null;
-
-    if (!recentBudget){
-        return <div>rendering budgets...</div>
-    }
+            const deconClosest = closestBudget[0]
+            setCurrBudget(deconClosest)
+        }
+    },[allBudgets, budgets, dispatch]);
 
     const handleDelete = (budgetId) => {
         dispatch(fetchDeleteBudget(budgetId))
@@ -81,14 +93,16 @@ return (
             </button>
         </div>
 
-        <div className='recent-budget-section'>
-            <h2>Recent Budget</h2>
-            {recentBudget? (
+        <div className='current-budget-section'>
+            {currBudget? (
                 <div className='budget-chart'>
-                    <p>{recentBudget.name}</p>
+                    <h2>{currBudget.name}</h2>
+                    <p>{currBudget.name}</p>
                 </div>
             ): (
-                <p>Create a new Budget to get started!</p>
+                    <div className='budget-chart'>
+                        <p>Select a Budget</p>
+                    </div>
             )}
         </div>
 
@@ -104,7 +118,7 @@ return (
                 <tbody>
                     {budgets.map((budget) => (
                         <tr key={budget.id}>
-                            <td>{budget.name}</td>
+                            <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
                             <td>{formatDate(budget.start_date)}</td>
                             <td>
                                 <button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>

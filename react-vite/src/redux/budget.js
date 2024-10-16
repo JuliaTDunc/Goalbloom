@@ -27,21 +27,26 @@ const deleteBudget = (budgetId) => ({
     payload: budgetId
 });
 
+const toDict = async (budgets) => {
+    let orderedData = {};
+    budgets.forEach(budget => {
+        orderedData[budget.id] = budget
+    });
+    return orderedData;
+}
+
 export const fetchBudgets = () => async(dispatch) => {
     const res = await csrfFetch('/api/budgets');
-    if(res.ok){
-        const data = await res.json();
-        dispatch(getBudgets(data));
-        return res;
-    }
+    const data = await res.json();
+    const testData = await toDict(data);
+    dispatch(getBudgets(testData));
+    return res;
 }
 export const fetchBudget = (id) => async(dispatch) => {
     const res = await csrfFetch(`/api/budgets/${id}`);
-    if(res.ok){
         const data = await res.json()
         await dispatch(getBudget(data))
         return res;
-    }
 }
 export const fetchCreateBudget = (budget) => async (dispatch) => {
     const res = await csrfFetch('/api/budgets', {
