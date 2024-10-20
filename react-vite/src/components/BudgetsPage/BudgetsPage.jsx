@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
-//import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
+import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import BudgetForm from '../BudgetForm';
 import { useModal } from '../../context/Modal';
 //import {setSelectedBudget} from '../BudgetsPage/BudgetGraph';
@@ -14,8 +14,10 @@ const BudgetsPage = () => {
     const user = useSelector(state => state.session.user);
     const allBudgets = useSelector(state => state.budgets.allBudgets);
     const currentBudget = useSelector(state => state.budgets.currentBudget);
+    const budgetItems = useSelector(state => state.budgetItems.budgetItems);
     const [budgets, setBudgets] = useState([]);
     const [currBudget, setCurrBudget] = useState(null);
+    const [currBudgetItems, setCurrBudgetItems] = useState([]);
     const {setModalContent} = useModal();
 
     const openNewBudgetModal = () => {
@@ -24,14 +26,17 @@ const BudgetsPage = () => {
 
     const updateChartBudget = (budget) => {
         dispatch(fetchBudget(budget.id))
-        .then(() => {
-            setCurrBudget(budget)
+        .then(()=>{
+            setCurrBudget(budget);
         });
     };
     const openEditBudgetModal = (budget) => {
-        updateChartBudget(budget)
-        setModalContent(<BudgetForm budget={budget} />)
-    }
+        dispatch(fetchBudgetItemsByBudget(budget.id))
+        .then(() => {
+            updateChartBudget(budget)
+            setModalContent(<BudgetForm budget={budget}/>)
+        });
+    };
 
     const formatDate = (isoString) => {
         const date = new Date(isoString);
@@ -69,6 +74,15 @@ const BudgetsPage = () => {
             setCurrBudget(deconClosest)
         }
     },[allBudgets, budgets, dispatch]);
+
+    useEffect(() => {
+        if(currentBudget){
+            dispatch(fetchBudgetItemsByBudget(currentBudget.id))
+            .then(() => {
+                setCurrBudgetItems(currentBudget.id)
+            })
+        }
+    },[currentBudget,dispatch])
 
     const handleDelete = (budgetId) => {
         dispatch(fetchDeleteBudget(budgetId))

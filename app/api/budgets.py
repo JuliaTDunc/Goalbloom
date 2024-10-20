@@ -31,7 +31,7 @@ def get_budget_by_id(id):
 @budget_routes.route("/<int:id>/items",methods=['GET'])
 @login_required
 def get_budget_items_by_id(id):
-    budget_items = BudgetItem.query.filter_by(budget_id=id).all()
+    budget_items = BudgetItem.query.filter_by(budget_id=id, user_id=current_user.id).all()
     return {'budgetItems': [item.to_dict() for item in budget_items]}
 
 
