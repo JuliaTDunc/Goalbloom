@@ -17,6 +17,27 @@ const BudgetForm = ({budget}) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
+    const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        if (isNaN(date)) return 'Invalid Date';
+        return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+    const ymdFormatter = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`
+    };
+    const convertYMDToDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return new Date(year, month - 1, day); // month is 0-indexed in JavaScript Date
+    };
+
     const user = useSelector(state => state.session.user);
     const budgetItems = useSelector(state => state.budgetItems.budgetItems);
     const allTransactions = useSelector(state => state.transactions.allTransactions);
@@ -53,53 +74,92 @@ const BudgetForm = ({budget}) => {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
                     setName(budget.name);
-                    setStartDate(budget.start_date);
-                    setEndDate(budget.end_date);
+                    setStartDate(ymdFormatter(budget.start_date));
+                    setEndDate(ymdFormatter(budget.end_date));
                     setIsLoaded(true);
                 });
         }
     }, [budget, dispatch]);
 
-    
     useEffect(() => {
-        if (budget && budgetItems) {
-            const currIncomeItems = budgetItems.filter(item => item.transaction && !item.expense);
-            const currExpenseItems = budgetItems.filter(item => item.transaction && item.expense);
-            const currGoalItems  = budgetItems.filter(item => !item.transaction);
+        if (budget && budgetItems && transactions) {
+            const transactionItems = budgetItems.filter(item => item.transaction);
+            const currGoalItems = budgetItems.filter(item => !item.transaction);
 
-            if (currIncomeItems) setIncomeItems(currIncomeItems);
-            if (currExpenseItems) setExpenseItems(currExpenseItems);
-            const goalItemAmounts = currGoalItems?.map((goal) => ({
-                ...goal,
-                amount: goal.amount - goal.saved_amount
-            })) || goalItems;
-            if (goalItemAmounts) setGoalItems(goalItemAmounts);
+            const currIncomeItems = transactionItems.map(item => {
+                const relatedTransaction = transactions.find(transaction => transaction.id === item.item_id && !transaction.expense);
+                return relatedTransaction ? { ...item, amount: relatedTransaction.amount } : null;
+            }).filter(item => item !== null);
+
+            const currExpenseItems = transactionItems.map(item => {
+                const relatedTransaction = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
+                return relatedTransaction ? { ...item, amount: relatedTransaction.amount } : null;
+            }).filter(item => item !== null);
+
+            if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
+                setIncomeItems(currIncomeItems);
+                console.log("currINc",currIncomeItems)
+                // [{amount:80budget_id:1id:1item_id:1transaction:trueuser_id:1}]
+            }
+
+            if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
+                setExpenseItems(currExpenseItems);
+            }
+
+            const goalItemAmounts = currGoalItems.map(item => {
+                const relatedGoal = goals.find(goal => goal.id === item.item_id)
+                return relatedGoal ? { ...item, difference:(relatedGoal.amount - relatedGoal.saved_amount)}:null;
+            }).filter(item => item !== null)
+
+            if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
+                setGoalItems(goalItemAmounts);
+                console.log('GOAL',goalItemAmounts)
+                //budget_id:1difference:260id:3item_id:1transaction:falseuser_id:1
+            }
         }
-    }, [budget, budgetItems]);
+    }, [budget, budgetItems, transactions, incomeItems, expenseItems, goalItems]);
 
-    /*useEffect(() => {
-        if (!startDate || !endDate || transactions.length === 0 || goals.length === 0) return;
+
+    useEffect(() => {
+        if (!startDate || !endDate || !transactions.length) return;
+
+        const start = convertYMDToDate(startDate);
+        const end = convertYMDToDate(endDate);
+
+        console.log(startDate, new Date(end))
+        //startDate : 2024-10-01
+        //new Date(end) : Wed Oct 30 2024 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+        console.log('exampleTransactionDate',String(transactions[0].date))
+        //2024-09-07
 
         const sortIncomeItems = transactions.filter(
-            item => !item.expense && new Date(item.date) >= new Date(startDate) && new Date(item.date) <= new Date(endDate)
+            item => !item.expense && new Date(item.date) >= start && new Date(item.date) <= end
         );
         const sortExpenseItems = transactions.filter(
-            item => item.expense && new Date(item.date) >= new Date(startDate) && new Date(item.date) <= new Date(endDate)
+            item => item.expense && new Date(item.date) >= start && new Date(item.date) <= end
         );
+        
         const sortGoalItems = goals.map(goal => ({
             ...goal,
-            amount: goal.amount - goal.saved_amount
+            difference: goal.amount - goal.saved_amount
         })).filter(goal =>
             new Date(goal.end_date) >= new Date(startDate) && new Date(goal.end_date) <= new Date(endDate)
         );
-
+        console.log('incomeAFTERdateCheck',sortIncomeItems)
+        // [] --should have values but does not
+        console.log('expense',sortExpenseItems)
+        // [] -- expected
+        console.log('goal',sortGoalItems)
+        // [{...}] does have correct values
+        sortIncomeItems
         setIncomeOptions(sortIncomeItems);
         setExpenseOptions(sortExpenseItems);
         setGoalOptions(sortGoalItems);
 
-    }, [startDate, endDate, transactions, goals]);
+    }, [startDate, endDate]);
     
-*/
+
 
         /*
         if (inputRefs.current.name) {
@@ -241,7 +301,7 @@ const BudgetForm = ({budget}) => {
                             required
                         />
                     </div>
-                    {(incomeOptions) && (<section>
+                    {(incomeOptions.length) && (<section>
                         <h2>Income Sources</h2>
                         {incomeOptions.map((item, index) => (
                             <div key={item.id} className='budget-item'>
@@ -252,7 +312,7 @@ const BudgetForm = ({budget}) => {
                         <button type='button' onClick={() => addItem('income')}>Add Income</button>
                     </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
                     
-                    {(expenseOptions && incomeOptions) && (
+                    {(expenseOptions.length && incomeOptions) && (
                     <section>
                         <h2>Expenses</h2>
                         {expenseItems.map((item, index) => (
@@ -265,16 +325,15 @@ const BudgetForm = ({budget}) => {
                     </section>
                     ) || (<p>Create more data within Budget start date and end date. </p>)}
 
-                    {(goalOptions && incomeOptions) && (
+                    {(goalOptions.length && incomeOptions) && (
                     <section>
                         <h2>Goals</h2>
                         {goalOptions.map((item, index) => (
                             <div key={item.id} className='budget-item'>
-                                <p>ID: {item.id}</p>
+                                <button>Name: {item.name} ID: {item.difference}</button>
                                 <button type='button' onClick={() => removeItem('goal', item.id)}>Remove</button>
                             </div>
                         ))}
-                        <button type='button' onClick={() => addItem('goal')}>Add Goal</button>
                     </section>
                     ) || (<p>Create more data within Budget start date and end date. </p>)}
 
