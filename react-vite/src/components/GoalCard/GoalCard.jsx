@@ -85,6 +85,7 @@ const GoalCard = ({ goal }) => {
             </div>
         </div>
     ) : (<div className='goal-card'>
+            <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt /></button>
             <img className='goldblum-goal' src={Goldblum} />
             <p>This goal has been reached! Good Job!</p>
     </div>);

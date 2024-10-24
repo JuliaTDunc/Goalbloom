@@ -1,3 +1,3 @@
-import {BudgetChart} from './BudgetChart';
+import {BudgetGraph} from './BudgetChart';
 
-export default BudgetChart;
+export default BudgetGraph;

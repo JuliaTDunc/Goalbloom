@@ -2,9 +2,9 @@ import React , {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
 import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
-import BudgetForm from '../BudgetForm';
 import { useModal } from '../../context/Modal';
-//import {BudgetGraph} from '../BudgetsPage/BudgetGraph';
+import BudgetGraph from '../BudgetChart/BudgetChart';
+import BudgetForm from '../BudgetForm';
 import './BudgetsPage.css'
 
 
@@ -18,24 +18,16 @@ const BudgetsPage = () => {
     const [budgets, setBudgets] = useState([]);
     const [currBudget, setCurrBudget] = useState(null);
     const [currBudgetItems, setCurrBudgetItems] = useState([]);
-    const {setModalContent} = useModal();
+    const { setModalContent } = useModal();
 
     const openNewBudgetModal = () => {
         setModalContent(<BudgetForm budget={null}/>);
-    }
-
+    };
     const updateChartBudget = (budget) => {
         dispatch(fetchBudget(budget.id))
         .then(()=>{
             setCurrBudget(budget);
-        });
-    };
-    const openEditBudgetModal = (budget) => {
-        dispatch(fetchBudgetItemsByBudget(budget.id))
-        .then(() => {
-            updateChartBudget(budget)
-            setModalContent(<BudgetForm budget={budget}/>)
-        });
+        })
     };
 
     const formatDate = (isoString) => {
@@ -110,8 +102,7 @@ return (
         <div className='current-budget-section'>
             {currBudget? (
                 <div className='budget-chart'>
-                    <h2>{currBudget.name}</h2>
-                    <p>{currBudget.name}</p>
+                    <BudgetGraph budget={currBudget}/>
                 </div>
             ): (
                     <div className='budget-chart'>
