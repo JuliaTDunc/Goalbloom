@@ -6,8 +6,7 @@ import { fetchGoals } from '../../redux/goals';
 import { useModal } from '../../context/Modal';
 import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 import LoginFormModal from '../LoginFormModal'
-import './GoalsPage.css';
-import {Goldblum2} from '../../images/Goldblum2.png'
+import './GoalsPage.css'
 
 
 
@@ -47,13 +46,11 @@ const GoalsPage = () => {
             </header>
             <div className='goal-cards-grid'>
                   {goalsArr.map(goal => (
-                    goal.saved_amount === goal.amount ? (
-                    <div>{Goldblum2}</div>
-                ):(
-                <GoalCard key={goal.id} goal={goal} />
-                )
+                    <GoalCard key={goal.id} goal={goal} />
                 ))}
             </div>
+            <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
+            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
         </div>
     ) : ( setModalContent(<LoginFormModal/>))
 };
