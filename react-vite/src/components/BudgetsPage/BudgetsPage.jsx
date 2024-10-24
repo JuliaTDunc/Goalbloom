@@ -4,8 +4,8 @@ import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
 import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import BudgetForm from '../BudgetForm';
 import { useModal } from '../../context/Modal';
-//import {setSelectedBudget} from '../BudgetsPage/BudgetGraph';
-//import './BudgetsPage.css'
+//import {BudgetGraph} from '../BudgetsPage/BudgetGraph';
+import './BudgetsPage.css'
 
 
 
@@ -135,9 +135,6 @@ return (
                             <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
                             <td>{formatDate(budget.start_date)}</td>
                             <td>
-                                <button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
-                                    Edit
-                                </button>
                                 <button className='delete-btn'onClick={() => handleDelete(budget.id)}>Delete</button>
                             </td>
                         </tr>
