@@ -6,6 +6,8 @@ import {FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa'
 import HighchartsReact from 'highcharts-react-official';
 import { useModal } from '../../context/Modal';
 import './GoalCard.css';
+import Goldblum from '../../images/Goldblum3.png';
+import Confetti from '../../images/YGg4.gif'
 import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 
 
@@ -71,7 +73,7 @@ const GoalCard = ({ goal }) => {
         }
     };
 
-    return (
+    return (goal.saved_amount < goal.amount) ? (
         <div className="goal-card">
             <HighchartsReact
                 highcharts={Highcharts}
@@ -82,7 +84,11 @@ const GoalCard = ({ goal }) => {
                 <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
             </div>
         </div>
-    );
+    ) : (<div className='goal-card'>
+            <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt /></button>
+            <img className='goldblum-goal' src={Goldblum} />
+            <p>This goal has been reached! Good Job!</p>
+    </div>);
 };
 
 export default GoalCard;
