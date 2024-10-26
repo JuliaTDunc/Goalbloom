@@ -65,17 +65,16 @@ const BudgetGraph = ({budget}) => {
                 setGoalItems(goalItemAmounts);
             }
         }
-    }, [budget, budgetItems, transactions, incomeItems, expenseItems, goalItems]);
+    }, [budget, budgetItems, transactions, goals, incomeItems, expenseItems, goalItems]);
 
     useEffect(() => {
         const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-        const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
+        const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.difference), 0);
+        setTotalIncome(totalIncome);
         setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
         setIsLoaded(true)
     }, [incomeItems, expenseItems, goalItems]);
-    
-    console.log("Items: " ,incomeItems, expenseItems, goalItems)
 
     const expensesData = expenseItems.map(item => ({
         name: item.name,
@@ -85,13 +84,12 @@ const BudgetGraph = ({budget}) => {
 
     const goalsData = goalItems.map(item => ({
         name: item.name,
-        y: (item.difference / totalIncome) * 100
+        y: ((item.difference / totalIncome) * 100)
     }));
     const remainingData = {name: 'Remaining Balance', y: (remainingBalance/totalIncome) * 100}
 
 
     const totalData = [...expensesData, ...goalsData, remainingData];
-    console.log("TOTAL DATA", totalData)
 
     useEffect(() => {
         if (totalData.length > 0) {
@@ -122,7 +120,7 @@ const BudgetGraph = ({budget}) => {
                 cursor: 'pointer',
                 dataLabels:{
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    format: '<b>{point.name}</b>: {point.percenage:.1f} %'
                 }
             }
         }

@@ -12,7 +12,14 @@ def seed_goals():
     goal_4 = Goal(
         user_id=2,name="Monthly Goal",amount=200, saved_amount=10,end_date=date(2024,12,14))
     goal_5 = Goal(
-        user_id=1,name="Kids Party",amount=300,saved_amount=80,end_date=date(2024,11,27))
+        user_id=1,name="Kids Party",amount=300,saved_amount=80,end_date=date(2024,10,27))
+    goal_6 = Goal(
+        user_id=1,name="Shopping Budget",amount=600,saved_amount=250,end_date=date(2024,10,17))
+    goal_7 = Goal(
+         user_id=2,name="Christmas Shopping",amount=600,saved_amount=250,end_date=date(2024,12,24))
+    goal_8 = Goal(
+        user_id=1,name="New Headlights",amount=1000,saved_amount=150,end_date=date(2024,11,1))
+    
     
 
     db.session.add(goal_1)
@@ -20,6 +27,9 @@ def seed_goals():
     db.session.add(goal_3)
     db.session.add(goal_4)
     db.session.add(goal_5)
+    db.session.add(goal_6)
+    db.session.add(goal_7)
+    db.session.add(goal_8)
     db.session.commit()
 
 
