@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useModal } from "../../context/Modal";
 import {fetchCreateBudget, fetchEditBudget,fetchBudget} from '../../redux/budget';
-import { fetchTransaction, fetchTransactions } from '../../redux/transaction';
+import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
 import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
@@ -121,7 +121,7 @@ const BudgetForm = ({budget}) => {
                 setGoalItems(goalItemAmounts);
             }
         }
-    }, [budget, budgetItems, transactions, incomeItems, expenseItems, goalItems]);
+    }, [budget, budgetItems, transactions, goals, incomeItems, expenseItems, goalItems]);
 
 
     //set Options
@@ -193,44 +193,42 @@ const BudgetForm = ({budget}) => {
     }, [incomeItems, expenseItems, goalItems]);
     
 
-    const addItem = (type) => {
-        /*const newItem = {id: Date.now(), amount:0};
-        if(type==='income'){
-            setIncomeItems([...incomeItems, newItem]);
-        } else if(type === 'expense') {
-            setExpenseItems([...expenseItems, newItem]);
-        } else if (type === 'goal'){
-            setGoalItems([...goalItems, newItem])
-        }*/
+    const addItem = (type, item) => {
+        if (!inputRefs.current.budgetItems[type]) {
+            inputRefs.current.budgetItems[type] = {};
+        }
+        inputRefs.current.budgetItems[type][item.id] = item;
     }
 
     const removeItem = (type, id) => {
-        /*if (type==='income'){
-            setIncomeItems(incomeItems.filter((item) => item.id !== id))
-        } else if (type==='expense'){
-            setExpenseItems(expenseItems.filter((item) => item.id !== id))
-        } else if (type==='goal'){
-            setGoalItems(goalItems.filter((item) => item.id !== id))*/
+        switch (type) {
+            case 'income':
+                setIncomeItems((items) => items.filter((item) => item.id !== id));
+                break;
+            case 'expense':
+                setExpenseItems((items) => items.filter((item) => item.id !== id));
+                break;
+            case 'goal':
+                setGoalItems((items) => items.filter((item) => item.id !== id));
+                break;
+            default:
+                console.warn('Unknown item type:', type);
+        }
     }
 
-    const handleChange = (type, id, field, value) => {
-            /*if(type === 'income'){
-                setIncomeItems(incomeItems.map(item => item.id === id ? {...item, [field]: value}: item))
-            } else if (type === 'expense') {
-                setExpenseItems(expenseItems.map(item => item.id === id ? {...item, [field]: value}: item))
-            } else if (type === 'goal'){
-                setGoalItems(goalItems.map(item => item.id === id ? {...item, [field]:value}: item))
-            }*/
+    const handleItemClick = (type, item) => {
+        const isSelected = !!inputRefs.current.budgetItems[type]?.[item.id];
+        if (!isSelected) {
+            addItem(type, item);
+        } else {
+            removeItem(type, item.id);
+        }
     }
 
     const handleSubmit = async (e) => {
             /*e.preventDefault();
 
-            const items = [
-                ...incomeItems.map(item => ({transaction:true, item_id: item.id})),
-                ...expenseItems.map(item => ({transaction:true, item_id: item.id})),
-                ...goalItems.map(item => ({transaction:false, item_id: item.id}))
-            ];
+            //Create BudgetItem Logic submit logic.. budgetid=budget.id..blah blah blah
 
             const budgetData = {
                 name,
@@ -291,9 +289,15 @@ const BudgetForm = ({budget}) => {
                     </div>
                     {(incomeOptions.length) && (<section>
                         <h2>Income Sources</h2>
-                        {incomeOptions.map((item, index) => (
+                        {incomeOptions.map((item) => (
                             <div key={item.id} className='budget-item'>
-                                <p>{item.name} {item.amount}</p>
+                                <button
+                                    type="button"
+                                    className={inputRefs.current.budgetItems['income']?.[item.id] ? 'selected' : ''}
+                                    onClick={() => handleItemClick('income', item)}
+                                >
+                                    {item.name} ${item.amount}
+                                </button>
                                 <button type='button' onClick={() => removeItem('income', item.id)}>Remove</button>
                             </div>
                         ))}
@@ -302,9 +306,15 @@ const BudgetForm = ({budget}) => {
                     {(expenseOptions.length) && (
                     <section>
                         <h2>Expenses</h2>
-                        {expenseOptions.map((item, index) => (
+                        {expenseOptions.map((item) => (
                             <div key={item.id} className='budget-item'>
-                               <p>{item.name} {item.amount}</p>
+                                <button
+                                    type="button"
+                                    className={inputRefs.current.budgetItems['expense']?.[item.id] ? 'selected' : ''}
+                                    onClick={() => handleItemClick('expense', item)}
+                                >
+                                    {item.name} ${item.amount}
+                                </button>
                                 <button type='button' onClick={() => removeItem('expense', item.id)}>Remove</button>
                             </div>
                         ))}
@@ -314,9 +324,15 @@ const BudgetForm = ({budget}) => {
                     {(goalOptions.length && incomeOptions) && (
                     <section>
                         <h2>Goals</h2>
-                        {goalOptions.map((item, index) => (
+                        {goalOptions.map((item) => (
                             <div key={item.id} className='budget-item'>
-                                <p>Name: {item.name} ID: {item.difference}</p>
+                                <button
+                                    type="button"
+                                    className={inputRefs.current.budgetItems['goals']?.[item.id] ? 'selected' : ''}
+                                    onClick={() => handleItemClick('goal', item)}
+                                >
+                                    {item.name} ${item.difference}
+                                </button>
                                 <button type='button' onClick={() => removeItem('goal', item.id)}>Remove</button>
                             </div>
                         ))}

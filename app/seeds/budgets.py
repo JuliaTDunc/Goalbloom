@@ -13,7 +13,7 @@ def seed_budgets():
 
     budget_2 = Budget(
         user_id=1,
-        name = "November Budget",
+        name = "December Budget",
         total_amount = 240.00,
         start_date=datetime(2024,12,1),
         end_date=datetime(2024,12,30),
@@ -23,16 +23,16 @@ def seed_budgets():
         user_id = 2,
         name = "March Budget",
         total_amount = 1200.00,
-        start_date=datetime(2024,3,1),
-        end_date=datetime(2024,3,30),
+        start_date=datetime(2025,3,1),
+        end_date=datetime(2025,3,30),
     )
 
     budget_4 = Budget(
         user_id = 2,
         name = "June Budget",
         total_amount = 2200.00,
-        start_date=datetime(2024,6,1),
-        end_date=datetime(2024,6,30),
+        start_date=datetime(2025,6,1),
+        end_date=datetime(2025,6,30),
     )
     
 
