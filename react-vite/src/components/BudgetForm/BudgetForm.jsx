@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useModal } from "../../context/Modal";
-import {fetchCreateBudget, fetchEditBudget,fetchBudget} from '../../redux/budget';
+import {fetchCreateBudget, fetchEditBudget,fetchBudgets} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
 import './BudgetForm.css';
@@ -133,7 +133,6 @@ const BudgetForm = ({budget}) => {
         const sortExpenseOptions = transactions.filter(
             item => item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
         );
-        console.log(sortExpenseOptions)
         const sortGoalOptions = goals.map(goal => ({
             ...goal,
             difference: goal.amount - goal.saved_amount
@@ -194,10 +193,19 @@ const BudgetForm = ({budget}) => {
     
 
     const addItem = (type, item) => {
-        if (!inputRefs.current.budgetItems[type]) {
-            inputRefs.current.budgetItems[type] = {};
-        }
-        inputRefs.current.budgetItems[type][item.id] = item;
+        switch (type) {
+            case 'income':
+                setIncomeItems((prevItems) => [...prevItems, item]);
+                break;
+            case 'expense':
+                setExpenseItems((prevItems) => [...prevItems, item]);
+                break;
+            case 'goal':
+                setGoalItems((prevItems) => [...prevItems, item]);
+                break;
+            default:
+                console.warn('Unknown item type:', type);
+        }   
     }
 
     const removeItem = (type, id) => {
@@ -226,30 +234,39 @@ const BudgetForm = ({budget}) => {
     }
 
     const handleSubmit = async (e) => {
-            /*e.preventDefault();
 
-            //Create BudgetItem Logic submit logic.. budgetid=budget.id..blah blah blah
+        e.preventDefault();
 
-            const budgetData = {
-                name,
-                total_amount: incomeItems.reduce((sum, item) => sum + Number(item.amount), 0),
-                start_date: startDate,
-                end_date: endDate,
-                items
-            };
-            try{
-                if(budget){
-                    await dispatch(fetchEditBudget(budgetData, budget));
-                }else {
-                    await dispatch(fetchCreateBudget(budgetData));
-                }
-                closeModal();
-                dispatch(fetchBudget());
-            }catch(error){
-                return error
+        // Gather selected items
+        const selectedItems = {
+            income_ids: incomeItems.map(item => item.id),
+            expense_ids: expenseItems.map(item => item.id),
+            goal_ids: goalItems.map(item => item.id),
+        };
+
+        const budgetData = {
+            name,
+            start_date: startDate,
+            end_date: endDate,
+            total_amount: incomeItems.reduce((sum, item) => sum + Number(item.amount), 0),
+            ...selectedItems,
+        };
+
+        console.log(budgetData)
+        try {
+            if (budget) {
+                await dispatch(fetchEditBudget(budgetData, budget.id));
+            } else {
+                await dispatch(fetchCreateBudget(budgetData));
             }
-                */
-        }
+            closeModal();
+            dispatch(fetchBudgets());
+
+        } catch (error) {
+            setErrors({ submit: "Failed to save budget. Please try again." });
+            console.error("Submission Error:", error);
+        } 
+    }
     return isLoaded ? (
             <div className='new-budget-page'>
                 <h1>Budget Plan</h1>
@@ -293,7 +310,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['income']?.[item.id] ? 'selected' : ''}
+                                    className={incomeItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('income', item)}
                                 >
                                     {item.name} ${item.amount}
@@ -310,7 +327,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['expense']?.[item.id] ? 'selected' : ''}
+                                    className={expenseItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('expense', item)}
                                 >
                                     {item.name} ${item.amount}
@@ -328,7 +345,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['goals']?.[item.id] ? 'selected' : ''}
+                                    className={goalItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('goal', item)}
                                 >
                                     {item.name} ${item.difference}

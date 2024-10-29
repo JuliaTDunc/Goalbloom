@@ -2,6 +2,7 @@ from app.models import db, Budget, BudgetItem, Transaction, Goal
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
 from app.forms.budget_form import BudgetForm
+import logging
 
 budget_routes = Blueprint("budget", __name__)
 
@@ -41,6 +42,8 @@ def get_budget_items_by_id(id):
 @login_required
 def create_budget():
     form = BudgetForm()
+    logging.info('form request data recieved ' ,request.form)
+    logging.info("JSON data recieved ", request.json)
 
     if form.validate_on_submit():
         new_budget = Budget(
@@ -55,6 +58,11 @@ def create_budget():
         income_ids = request.json.get('income_ids', [])
         expense_ids = request.json.get('expense_ids', [])
         goal_ids = request.json.get('goal_ids', [])
+        logging.info("income ids ", income_ids)
+        logging.info("expense ids", expense_ids)
+        logging.info("goal ids", goal_ids)
+        logging.info("start date", form.start_date.data)
+        logging.info("end date", form.end_date.data)
 
         incomes = Transaction.query.filter(
             Transaction.id.in_(income_ids),
@@ -107,7 +115,7 @@ def edit_budget(budget_id):
         budget.end_date = form.end_date.data
 
         start_date = form.start_date.data
-        end_date = form.eend_date.data
+        end_date = form.end_date.data
 
         income_ids = request.json.get('income_ids', [])
         expense_ids = request.json.get('expense_ids', [])
