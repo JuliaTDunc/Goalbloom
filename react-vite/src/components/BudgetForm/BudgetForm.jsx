@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useModal } from "../../context/Modal";
-import {fetchCreateBudget, fetchEditBudget,fetchBudget} from '../../redux/budget';
+import {fetchCreateBudget, fetchEditBudget,fetchBudgets} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
 import './BudgetForm.css';
@@ -9,7 +9,7 @@ import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
 const BudgetForm = ({budget}) => {
     const inputRefs = useRef({
-       name: null,
+        name: null,
         startDate: null,
         endDate: null,
         budgetItems: ({})
@@ -53,7 +53,7 @@ const BudgetForm = ({budget}) => {
     const [name, setName] = useState(budget?.name || '');
     const [startDate, setStartDate] = useState(budget?.start_date || '');
     const [endDate, setEndDate] = useState(budget?.end_date || '');
-    // const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
+    const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
 
 
     //Options for Form
@@ -73,13 +73,6 @@ const BudgetForm = ({budget}) => {
     const goals = Object.values(allGoals);
 
     useEffect(() => {
-        dispatch(fetchTransactions());
-        dispatch(fetchGoals())
-        .then(() => setIsLoaded(true));
-    }, [dispatch]);
-
-
-    useEffect(() => {
         if (budget?.id) {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
@@ -89,6 +82,12 @@ const BudgetForm = ({budget}) => {
                 });
         }
     }, [budget, dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchTransactions());
+        dispatch(fetchGoals())
+            .then(() => setIsLoaded(true));
+    }, [dispatch]);
 
     //set selected items
     useEffect(() => {
@@ -133,7 +132,6 @@ const BudgetForm = ({budget}) => {
         const sortExpenseOptions = transactions.filter(
             item => item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
         );
-        console.log(sortExpenseOptions)
         const sortGoalOptions = goals.map(goal => ({
             ...goal,
             difference: goal.amount - goal.saved_amount
@@ -147,57 +145,30 @@ const BudgetForm = ({budget}) => {
 
     }, [startDate, endDate]);
     
-
-
-        /*
-        if (inputRefs.current.name) {
-                inputRefs.current.name.value = budget.name;
-        }
-        if (inputRefs.current.startDate) {
-            inputRefs.current.startDate.value = budget.start_date;
-        }
-        if (inputRefs.current.endDate) {
-            inputRefs.current.endDate.value = budget.end_date;
-        }
-
-        if(incomeItems.length > 0){
-            incomeItems?.forEach((item, index) => {
-                const assocParent = transactions.filter(transaction => transaction.id === item.id); 
-
-                inputRefs.current.incomeItems[index].name.value = transactions[index].name || '';
-                inputRefs.current.incomeItems[index].amount.value = transactions[index].amount || 0;
-            });
-        }
-        if(expenseItems.length > 0){
-            expenseItems?.forEach((item, index) => {
-                inputRefs.current.expenseItems[index].name.value = item.name || '';
-                inputRefs.current.expenseItems[index].amount.value = item.amount || 0;
-            });
-        }
-
-        goalItemAmounts?.forEach((item, index) => {
-            inputRefs.current.goalItems[index].name.value = item.name || '';
-                inputRefs.current.goalItems[index].amount.value = item.amount || 0;
-        });
-        */
-
-
-
     //MATHS
-    useEffect(() => {
-        
+    useEffect(() => { 
         const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount),0);
         setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
+        setTotalAmount(totalIncome);
     }, [incomeItems, expenseItems, goalItems]);
     
 
     const addItem = (type, item) => {
-        if (!inputRefs.current.budgetItems[type]) {
-            inputRefs.current.budgetItems[type] = {};
-        }
-        inputRefs.current.budgetItems[type][item.id] = item;
+        switch (type) {
+            case 'income':
+                setIncomeItems((prevItems) => [...prevItems, item]);
+                break;
+            case 'expense':
+                setExpenseItems((prevItems) => [...prevItems, item]);
+                break;
+            case 'goal':
+                setGoalItems((prevItems) => [...prevItems, item]);
+                break;
+            default:
+                console.warn('Unknown item type:', type);
+        }   
     }
 
     const removeItem = (type, id) => {
@@ -226,30 +197,39 @@ const BudgetForm = ({budget}) => {
     }
 
     const handleSubmit = async (e) => {
-            /*e.preventDefault();
 
-            //Create BudgetItem Logic submit logic.. budgetid=budget.id..blah blah blah
+        e.preventDefault();
 
-            const budgetData = {
-                name,
-                total_amount: incomeItems.reduce((sum, item) => sum + Number(item.amount), 0),
-                start_date: startDate,
-                end_date: endDate,
-                items
-            };
-            try{
-                if(budget){
-                    await dispatch(fetchEditBudget(budgetData, budget));
-                }else {
-                    await dispatch(fetchCreateBudget(budgetData));
-                }
-                closeModal();
-                dispatch(fetchBudget());
-            }catch(error){
-                return error
+        // Gather selected items
+        const selectedItems = {
+            income_ids: incomeItems.map(item => item.id),
+            expense_ids: expenseItems.map(item => item.id),
+            goal_ids: goalItems.map(item => item.id),
+        };
+
+        const budgetData = {
+            name,
+            start_date: startDate,
+            end_date: endDate,
+            total_amount: totalAmount,
+            ...selectedItems,
+        };
+
+        console.log(budgetData)
+        try {
+            if (budget) {
+                await dispatch(fetchEditBudget(budgetData, budget.id));
+            } else {
+                await dispatch(fetchCreateBudget(budgetData));
             }
-                */
-        }
+            closeModal();
+            dispatch(fetchBudgets());
+
+        } catch (error) {
+            setErrors({ submit: "Failed to save budget. Please try again." });
+            console.error("Submission Error:", error);
+        } 
+    }
     return isLoaded ? (
             <div className='new-budget-page'>
                 <h1>Budget Plan</h1>
@@ -293,7 +273,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['income']?.[item.id] ? 'selected' : ''}
+                                    className={incomeItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('income', item)}
                                 >
                                     {item.name} ${item.amount}
@@ -310,7 +290,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['expense']?.[item.id] ? 'selected' : ''}
+                                    className={expenseItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('expense', item)}
                                 >
                                     {item.name} ${item.amount}
@@ -328,7 +308,7 @@ const BudgetForm = ({budget}) => {
                             <div key={item.id} className='budget-item'>
                                 <button
                                     type="button"
-                                    className={inputRefs.current.budgetItems['goals']?.[item.id] ? 'selected' : ''}
+                                    className={goalItems.some(i => i.id === item.id) ? 'selected' : ''}
                                     onClick={() => handleItemClick('goal', item)}
                                 >
                                     {item.name} ${item.difference}
@@ -352,7 +332,3 @@ const BudgetForm = ({budget}) => {
 };
 
 export default BudgetForm;
-
-/*
-Goals has No amount.. make adjustments -- Goal total amount - saved amount. 
-*/
