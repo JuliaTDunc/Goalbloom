@@ -56,7 +56,7 @@ def create_budget():
     totalAmount = sum(income.amount for income in incomes)
 
     form['csrf_token'].data = request.cookies['csrf_token']
-    
+
     if form.validate_on_submit():
         new_budget = Budget(
             user_id = current_user.id,
@@ -95,42 +95,26 @@ def edit_budget(budget_id):
     if budget.user_id != current_user.id:
         return jsonify({'error': 'Unauthorized'})
     
+    income_ids = request.json.get('income_ids', [])
+    expense_ids = request.json.get('expense_ids', [])
+    goal_ids = request.json.get('goal_ids', [])
+
+    incomes = Transaction.query.filter(Transaction.id.in_(income_ids)).all()
+    expenses = Transaction.query.filter(Transaction.id.in_(expense_ids)).all()
+    goals = Goal.query.filter(Goal.id.in_(goal_ids)).all()
+
+    totalAmount = sum(income.amount for income in incomes)
+    
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         budget.name = form.name.data
         budget.start_date = form.start_date.data,
-        budget.end_date = form.end_date.data
-
-        start_date = form.start_date.data
-        end_date = form.end_date.data
-
-        income_ids = request.json.get('income_ids', [])
-        expense_ids = request.json.get('expense_ids', [])
-        goal_ids = request.json.get('goal_ids', [])
+        budget.end_date = form.end_date.data,
+        budget.total_amount=totalAmount
 
         BudgetItem.query.filter_by(budget_id=budget_id).delete()
         budget_items = []
-
-        incomes = Transaction.query.filter(
-            Transaction.id.in_(income_ids),
-            Transaction.expense==False,
-            Transaction.date >= start_date,
-            Transaction.date <= end_date
-        ).all()
-        expenses = Transaction.query.filter(
-            Transaction.id.in_(expense_ids),
-            Transaction.expense == True,
-            Transaction.date >= start_date,
-            Transaction.date <= end_date
-        ).all()
-        goals = Goal.query.filter(
-            Goal.id.in_(goal_ids),
-            Goal.date >= start_date,
-            Goal.date <= end_date
-        ).all()
-        
-        totalAmount = sum(income.amount for income in incomes)
-        budget.total_amount = totalAmount
 
         for income in incomes:
             budget_items.append(BudgetItem(user_id=current_user.id, budget_id=budget.id, item_id=income.id, transaction=True))
