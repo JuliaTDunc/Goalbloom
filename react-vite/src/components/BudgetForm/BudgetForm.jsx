@@ -53,7 +53,7 @@ const BudgetForm = ({budget}) => {
     const [name, setName] = useState(budget?.name || '');
     const [startDate, setStartDate] = useState(budget?.start_date || '');
     const [endDate, setEndDate] = useState(budget?.end_date || '');
-    // const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
+    const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
 
 
     //Options for Form
@@ -146,49 +146,13 @@ const BudgetForm = ({budget}) => {
 
     }, [startDate, endDate]);
     
-
-
-        /*
-        if (inputRefs.current.name) {
-                inputRefs.current.name.value = budget.name;
-        }
-        if (inputRefs.current.startDate) {
-            inputRefs.current.startDate.value = budget.start_date;
-        }
-        if (inputRefs.current.endDate) {
-            inputRefs.current.endDate.value = budget.end_date;
-        }
-
-        if(incomeItems.length > 0){
-            incomeItems?.forEach((item, index) => {
-                const assocParent = transactions.filter(transaction => transaction.id === item.id); 
-
-                inputRefs.current.incomeItems[index].name.value = transactions[index].name || '';
-                inputRefs.current.incomeItems[index].amount.value = transactions[index].amount || 0;
-            });
-        }
-        if(expenseItems.length > 0){
-            expenseItems?.forEach((item, index) => {
-                inputRefs.current.expenseItems[index].name.value = item.name || '';
-                inputRefs.current.expenseItems[index].amount.value = item.amount || 0;
-            });
-        }
-
-        goalItemAmounts?.forEach((item, index) => {
-            inputRefs.current.goalItems[index].name.value = item.name || '';
-                inputRefs.current.goalItems[index].amount.value = item.amount || 0;
-        });
-        */
-
-
-
     //MATHS
-    useEffect(() => {
-        
+    useEffect(() => { 
         const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
         const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount),0);
         setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
+        setTotalAmount(totalIncome);
     }, [incomeItems, expenseItems, goalItems]);
     
 
@@ -248,7 +212,7 @@ const BudgetForm = ({budget}) => {
             name,
             start_date: startDate,
             end_date: endDate,
-            total_amount: incomeItems.reduce((sum, item) => sum + Number(item.amount), 0),
+            total_amount: totalAmount,
             ...selectedItems,
         };
 

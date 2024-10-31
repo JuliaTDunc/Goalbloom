@@ -49,11 +49,13 @@ export const fetchBudget = (id) => async(dispatch) => {
         return res;
 }
 export const fetchCreateBudget = (budget) => async (dispatch) => {
+    console.log("attempting to create budget...", budget)
     const res = await csrfFetch('/api/budgets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(budget)
     });
+    console.log("recieved response...", res)
 
     if (res.ok) {
         const newBudget = await res.json();
@@ -61,6 +63,7 @@ export const fetchCreateBudget = (budget) => async (dispatch) => {
         return newBudget;
     } else {
         const error = await res.json();
+        console.error("Error creating the budget...", error)
         return error;
     }
 };

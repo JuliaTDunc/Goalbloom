@@ -45,54 +45,40 @@ def create_budget():
     logging.info('form request data recieved ' ,request.form)
     logging.info("JSON data recieved ", request.json)
 
+    income_ids = request.json.get('income_ids', [])
+    expense_ids = request.json.get('expense_ids', [])
+    goal_ids = request.json.get('goal_ids', [])
+
+    incomes = Transaction.query.filter(Transaction.id.in_(income_ids)).all()
+    expenses = Transaction.query.filter(Transaction.id.in_(expense_ids)).all()
+    goals = Goal.query.filter(Goal.id.in_(goal_ids)).all()
+
+    totalAmount = sum(income.amount for income in incomes)
+
+    form['csrf_token'].data = request.cookies['csrf_token']
+    
     if form.validate_on_submit():
         new_budget = Budget(
             user_id = current_user.id,
             name = form.name.data,
             start_date = form.start_date.data,
-            end_date = form.end_date.data
+            end_date = form.end_date.data,
+            total_amount = totalAmount
         )
-        start_date = form.start_date.data
-        end_date = form.end_date.data
 
-        income_ids = request.json.get('income_ids', [])
-        expense_ids = request.json.get('expense_ids', [])
-        goal_ids = request.json.get('goal_ids', [])
-        logging.info("income ids ", income_ids)
-        logging.info("expense ids", expense_ids)
-        logging.info("goal ids", goal_ids)
-        logging.info("start date", form.start_date.data)
-        logging.info("end date", form.end_date.data)
-
-        incomes = Transaction.query.filter(
-            Transaction.id.in_(income_ids),
-            Transaction.expense==False,
-            Transaction.date >= start_date,
-            Transaction.date <= end_date
-        ).all()
-        expenses = Transaction.query.filter(
-            Transaction.id.in_(expense_ids),
-            Transaction.expense == True,
-            Transaction.date >= start_date,
-            Transaction.date <= end_date
-        ).all()
-        goals = Goal.query.filter(
-            Goal.id.in_(goal_ids),
-            Goal.date >= start_date,
-            Goal.date <= end_date
-        ).all()
+        db.session.add(new_budget)
+        db.session.flush()
 
         budget_items = []
 
         for income in incomes:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=new_budget, item_id=income.id, transaction=True))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=new_budget.id, item_id=income.id, transaction=True))
         for expense in expenses:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=new_budget, item_id=expense.id, transaction=True))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=new_budget.id, item_id=expense.id, transaction=True))
         for goal in goals:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=new_budget, item_id=goal.id, transaction=False))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=new_budget.id, item_id=goal.id, transaction=False))
         
         db. session.add_all(budget_items)
-        db.session.add(new_budget)
         db.session.commit()
 
         return jsonify(new_budget.to_dict()), 200
@@ -109,6 +95,7 @@ def edit_budget(budget_id):
     if budget.user_id != current_user.id:
         return jsonify({'error': 'Unauthorized'})
     
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         budget.name = form.name.data
         budget.start_date = form.start_date.data,
@@ -141,13 +128,16 @@ def edit_budget(budget_id):
             Goal.date >= start_date,
             Goal.date <= end_date
         ).all()
+        
+        totalAmount = sum(income.amount for income in incomes)
+        budget.total_amount = totalAmount
 
         for income in incomes:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=budget, item_id=income.id, transaction=True))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=budget.id, item_id=income.id, transaction=True))
         for expense in expenses:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=budget, item_id=expense.id, transaction=True))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=budget.id, item_id=expense.id, transaction=True))
         for goal in goals:
-            budget_items.append(BudgetItem(user_id=current_user.id, budget=budget, item_id=goal.id, transaction=False))
+            budget_items.append(BudgetItem(user_id=current_user.id, budget_id=budget.id, item_id=goal.id, transaction=False))
         
         db.session.add_all(budget_items)
         db.session.commit()
