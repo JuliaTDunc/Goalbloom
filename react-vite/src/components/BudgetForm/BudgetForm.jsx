@@ -9,7 +9,7 @@ import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
 const BudgetForm = ({budget}) => {
     const inputRefs = useRef({
-       name: null,
+        name: null,
         startDate: null,
         endDate: null,
         budgetItems: ({})
@@ -73,13 +73,6 @@ const BudgetForm = ({budget}) => {
     const goals = Object.values(allGoals);
 
     useEffect(() => {
-        dispatch(fetchTransactions());
-        dispatch(fetchGoals())
-        .then(() => setIsLoaded(true));
-    }, [dispatch]);
-
-
-    useEffect(() => {
         if (budget?.id) {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
@@ -89,6 +82,12 @@ const BudgetForm = ({budget}) => {
                 });
         }
     }, [budget, dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchTransactions());
+        dispatch(fetchGoals())
+            .then(() => setIsLoaded(true));
+    }, [dispatch]);
 
     //set selected items
     useEffect(() => {
@@ -333,7 +332,3 @@ const BudgetForm = ({budget}) => {
 };
 
 export default BudgetForm;
-
-/*
-Goals has No amount.. make adjustments -- Goal total amount - saved amount. 
-*/
