@@ -5,7 +5,8 @@ import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import { useModal } from '../../context/Modal';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
-import './BudgetsPage.css'
+import LoginFormModal from '../LoginFormModal';
+import './BudgetsPage.css';
 
 
 
@@ -86,56 +87,56 @@ const BudgetsPage = () => {
             });
     };
 
-return (
-    <div className='budgets-page'>
-        <div className='budgets-page-header'>
-            <h1>Welcome, {user?.username}</h1>
-            <p>Check out your budget plans below!</p>
-        </div>
+    return user? (
+        <div className='budgets-page'>
+            <div className='budgets-page-header'>
+                <h1>Welcome, {user?.username}</h1>
+                <p>Check out your budget plans below!</p>
+            </div>
 
-        <div className='new-budget-button'>
-            <button className='new-budget-btn' onClick={() => openNewBudgetModal()}>
-                Create a new Budget
-            </button>
-        </div>
+            <div className='new-budget-button'>
+                <button className='new-budget-btn' onClick={() => openNewBudgetModal()}>
+                    Create a new Budget
+                </button>
+            </div>
 
-        <div className='current-budget-section'>
-            {currBudget? (
-                <div className='budget-chart'>
-                    <BudgetGraph budget={currBudget}/>
-                </div>
-            ): (
+            <div className='current-budget-section'>
+                {currBudget ? (
+                    <div className='budget-chart'>
+                        <BudgetGraph budget={currBudget} />
+                    </div>
+                ) : (
                     <div className='budget-chart'>
                         <p>Select a Budget</p>
                     </div>
-            )}
-        </div>
+                )}
+            </div>
 
-        <div className='saved-budgets'>
-            <h2>Saved Budgets</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Budget Name</th>
-                        <th>Created Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {budgets.map((budget) => (
-                        <tr key={budget.id}>
-                            <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
-                            <td>{formatDate(budget.start_date)}</td>
-                            <td>
-                                <button className='delete-btn'onClick={() => handleDelete(budget.id)}>Delete</button>
-                            </td>
+            <div className='saved-budgets'>
+                <h2>Saved Budgets</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Budget Name</th>
+                            <th>Created Date</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {budgets.map((budget) => (
+                            <tr key={budget.id}>
+                                <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
+                                <td>{formatDate(budget.start_date)}</td>
+                                <td>
+                                    <button className='delete-btn' onClick={() => handleDelete(budget.id)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div>
         </div>
-        <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
-    </div>
-)
+    ) : (setModalContent(<LoginFormModal/>))
 }
 
 export default BudgetsPage;

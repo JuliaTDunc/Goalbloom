@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useModal } from "../../context/Modal";
-import {fetchCreateBudget, fetchEditBudget,fetchBudgets} from '../../redux/budget';
+import {fetchCreateBudget, fetchEditBudget,fetchBudgets,fetchBudget} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
 import './BudgetForm.css';
@@ -39,10 +39,7 @@ const BudgetForm = ({budget}) => {
     const convertYMDToDate = (dateString) => {
         const [datePart] = dateString.split('T');
         const [year, month, day] = datePart.split('-');
-        console.log("Correct Date:", `${year}-${month}-${day}`);
-
         return `${year}-${month}-${day}`;
-
     };
 
     const user = useSelector(state => state.session.user);
@@ -51,7 +48,7 @@ const BudgetForm = ({budget}) => {
     const allGoals = useSelector(state => state.goals.allGoals);
 
     const [name, setName] = useState(budget?.name || '');
-    const [startDate, setStartDate] = useState(budget?.start_date || '');
+    const [startDate, setStartDate] = useState(budget && budget.start_date ? convertYMDToDate(budget.start_date) : '');
     const [endDate, setEndDate] = useState(budget?.end_date || '');
     const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
 
@@ -61,6 +58,7 @@ const BudgetForm = ({budget}) => {
     const [expenseOptions, setExpenseOptions] = useState([]);
     const [goalOptions, setGoalOptions] = useState([]);
     const [remainingBalance, setRemainingBalance] = useState(0);
+    console.log("initial log", remainingBalance)
     let [errors, setErrors] = useState({});
     let [isLoaded, setIsLoaded] = useState(false);
 
@@ -77,8 +75,8 @@ const BudgetForm = ({budget}) => {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
                     setName(budget.name);
-                    setStartDate(ymdFormatter(budget.start_date));
-                    setEndDate(ymdFormatter(budget.end_date));
+                    setStartDate(convertYMDToDate(budget.start_date));
+                    setEndDate(convertYMDToDate(budget.end_date));
                 });
         }
     }, [budget, dispatch]);
@@ -96,14 +94,17 @@ const BudgetForm = ({budget}) => {
             const currGoalItems = budgetItems.filter(item => !item.transaction);
 
             const currIncomeItems = transactionItems.map(item => {
-                const relatedInc = transactions.find(transaction => transaction.id === item.item_id && !transaction.expense);
-                return relatedInc ? { ...item, amount: relatedInc.amount } : null;
+                const relatedInc = transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense);
+                return relatedInc;
             }).filter(item => item !== null);
 
-            const currExpenseItems = transactionItems.map(item => {
-                const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
-                return relatedExp ? { ...item, amount: relatedExp.amount } : null;
-            }).filter(item => item !== null);
+
+            const currExpenseItems = transactionItems.some(item => transactions.some(tx => tx.id === item.item_id && tx.expense))
+                ? transactionItems.map(item => {
+                    const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
+                    return relatedExp ? { ...item, amount: relatedExp.amount } : null;
+                }).filter(item => item !== null)
+                : [];
 
             if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
                 setIncomeItems(currIncomeItems);
@@ -111,11 +112,12 @@ const BudgetForm = ({budget}) => {
             if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
                 setExpenseItems(currExpenseItems);
             }
-            const goalItemAmounts = currGoalItems.map(item => {
-                const relatedGoal = goals.find(goal => goal.id === item.item_id)
-                return relatedGoal ? { ...item, difference:(relatedGoal.amount - relatedGoal.saved_amount)}:null;
-            }).filter(item => item !== null)
-
+            const goalItemAmounts = currGoalItems.length > 0
+                ? currGoalItems.map(item => {
+                    const relatedGoal = goals.find(goal => goal.id === item.item_id);
+                    return relatedGoal ? { ...item, difference: (relatedGoal.amount - relatedGoal.saved_amount) } : null;
+                }).filter(item => item !== null)
+                : [];
             if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
                 setGoalItems(goalItemAmounts);
             }
@@ -147,11 +149,15 @@ const BudgetForm = ({budget}) => {
     
     //MATHS
     useEffect(() => { 
-        const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
-        const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-        const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount),0);
-        setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
-        setTotalAmount(totalIncome);
+        console.log("remainingBalanceONE", remainingBalance, "incomeItems: ", incomeItems)
+        if(incomeItems.length){
+            const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
+            const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
+            const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
+            setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
+            setTotalAmount(totalIncome);
+            console.log("remainingBalanceTWO", remainingBalance)
+        }
     }, [incomeItems, expenseItems, goalItems]);
     
 
