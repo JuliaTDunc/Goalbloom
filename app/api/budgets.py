@@ -109,8 +109,8 @@ def edit_budget(budget_id):
 
     if form.validate_on_submit():
         budget.name = form.name.data
-        budget.start_date = form.start_date.data,
-        budget.end_date = form.end_date.data,
+        budget.start_date = form.start_date.data
+        budget.end_date = form.end_date.data
         budget.total_amount=totalAmount
 
         BudgetItem.query.filter_by(budget_id=budget_id).delete()

@@ -93,36 +93,34 @@ const BudgetForm = ({budget}) => {
             const transactionItems = budgetItems.filter(item => item.transaction);
             const currGoalItems = budgetItems.filter(item => !item.transaction);
 
-            const currIncomeItems = transactionItems.map(item => {
+            const currIncomeItems = transactionItems.flatMap(item => {
                 const relatedInc = transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense);
                 return relatedInc;
             }).filter(item => item !== null);
 
 
-            const currExpenseItems = transactionItems.some(item => transactions.some(tx => tx.id === item.item_id && tx.expense))
-                ? transactionItems.map(item => {
-                    const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
-                    return relatedExp ? { ...item, amount: relatedExp.amount } : null;
-                }).filter(item => item !== null)
-                : [];
+            const currExpenseItems = transactionItems.map(item => {
+                const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
+                return relatedExp || null;
+            }).filter(item => item !== null);
 
             if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
                 setIncomeItems(currIncomeItems);
             }
             if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
-                setExpenseItems(currExpenseItems);
+                setExpenseItems(currExpenseItems.length > 0 ? currExpenseItems : []);
             }
             const goalItemAmounts = currGoalItems.length > 0
                 ? currGoalItems.map(item => {
                     const relatedGoal = goals.find(goal => goal.id === item.item_id);
-                    return relatedGoal ? { ...item, difference: (relatedGoal.amount - relatedGoal.saved_amount) } : null;
+                    return {...relatedGoal, difference:(relatedGoal.amount - relatedGoal.saved_amount)};
                 }).filter(item => item !== null)
                 : [];
             if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
                 setGoalItems(goalItemAmounts);
             }
         }
-    }, [budget, budgetItems, transactions, goals, incomeItems, expenseItems, goalItems]);
+    }, [budget, budgetItems, transactions, goals]);
 
 
     //set Options
@@ -149,14 +147,12 @@ const BudgetForm = ({budget}) => {
     
     //MATHS
     useEffect(() => { 
-        console.log("remainingBalanceONE", remainingBalance, "incomeItems: ", incomeItems)
         if(incomeItems.length){
             const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
             const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
             const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
             setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
             setTotalAmount(totalIncome);
-            console.log("remainingBalanceTWO", remainingBalance)
         }
     }, [incomeItems, expenseItems, goalItems]);
     
