@@ -93,7 +93,7 @@ def edit_budget(budget_id):
     if not budget:
         return jsonify({'error': 'Budget not found'}), 404
     if budget.user_id != current_user.id:
-        return jsonify({'error': 'Unauthorized'})
+        return jsonify({'error': 'Unauthorized'}), 403
     
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])

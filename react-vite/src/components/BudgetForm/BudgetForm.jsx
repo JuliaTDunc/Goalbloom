@@ -174,6 +174,7 @@ const BudgetForm = ({budget}) => {
     }
 
     const removeItem = (type, id) => {
+        console.log("look hereeee", incomeItems, expenseItems)
         switch (type) {
             case 'income':
                 setIncomeItems((items) => items.filter((item) => item.id !== id));
