@@ -31,12 +31,6 @@
     color: #333;
     max-width: 300px;
 }
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 80%;
-}
 .features-section {
     flex: 2;
 }
@@ -47,6 +41,7 @@
     text-align: left;
 }
 .feature-grid {
+    margin-top: 60px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;

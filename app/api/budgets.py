@@ -93,7 +93,7 @@ def edit_budget(budget_id):
     if not budget:
         return jsonify({'error': 'Budget not found'}), 404
     if budget.user_id != current_user.id:
-        return jsonify({'error': 'Unauthorized'})
+        return jsonify({'error': 'Unauthorized'}), 403
     
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])
@@ -109,8 +109,8 @@ def edit_budget(budget_id):
 
     if form.validate_on_submit():
         budget.name = form.name.data
-        budget.start_date = form.start_date.data,
-        budget.end_date = form.end_date.data,
+        budget.start_date = form.start_date.data
+        budget.end_date = form.end_date.data
         budget.total_amount=totalAmount
 
         BudgetItem.query.filter_by(budget_id=budget_id).delete()
