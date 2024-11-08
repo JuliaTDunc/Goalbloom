@@ -98,12 +98,11 @@ def edit_budget(budget_id):
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])
     goal_ids = request.json.get('goal_ids', [])
+    total_amount = request.json.get('total_amount', budget.total_amount)
 
     incomes = Transaction.query.filter(Transaction.id.in_(income_ids)).all()
     expenses = Transaction.query.filter(Transaction.id.in_(expense_ids)).all()
     goals = Goal.query.filter(Goal.id.in_(goal_ids)).all()
-
-    totalAmount = sum(income.amount for income in incomes)
     
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -111,7 +110,7 @@ def edit_budget(budget_id):
         budget.name = form.name.data
         budget.start_date = form.start_date.data
         budget.end_date = form.end_date.data
-        budget.total_amount=totalAmount
+        budget.total_amount=total_amount
 
         BudgetItem.query.filter_by(budget_id=budget_id).delete()
         budget_items = []

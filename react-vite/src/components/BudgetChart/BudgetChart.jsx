@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import HighchartsReact from 'highcharts-react-official';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
+import { fetchBudget } from '../../redux/budget';
 import BudgetForm from '../BudgetForm';
 import { useModal } from '../../context/Modal';
+import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
 
 
@@ -31,6 +33,8 @@ const BudgetGraph = ({budget}) => {
     const [totalIncome, setTotalIncome] = useState(0);
 
     useEffect(() => {
+        dispatch(fetchBudget(budget.id));
+        dispatch(fetchBudgetItemsByBudget(budget.id));
         dispatch(fetchTransactions());
         dispatch(fetchGoals());
     }, [dispatch]);
@@ -73,7 +77,6 @@ const BudgetGraph = ({budget}) => {
         const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.difference), 0);
         setTotalIncome(totalIncome);
         setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
-        setIsLoaded(true)
     }, [incomeItems, expenseItems, goalItems]);
 
     const expensesData = expenseItems.map(item => ({
@@ -105,6 +108,17 @@ const BudgetGraph = ({budget}) => {
         title: {
             text: `${budget.name}`
         },
+        colors: [
+            '#f87666',
+            '#ffbd59',
+            '#B8DBD9',
+            '#57886c',
+            '#c287e8',
+            '#7765E3',
+            '#960200',
+            '#241E4E',
+            '#E6ADEC',
+        ],
         series: [
             {name: 'Expenses and Goals (change)',
                 colorByPoint: true,

@@ -61,6 +61,7 @@ const BudgetForm = ({budget}) => {
     console.log("initial log", remainingBalance)
     let [errors, setErrors] = useState({});
     let [isLoaded, setIsLoaded] = useState(false);
+    const [isFetched, setIsFetched] = useState(false);
 
     //MATHS
     const [incomeItems, setIncomeItems] = useState([]);
@@ -71,21 +72,46 @@ const BudgetForm = ({budget}) => {
     const goals = Object.values(allGoals);
 
     useEffect(() => {
-        if (budget?.id) {
+        if (budget?.id && !isFetched) {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
+                    setIsFetched(true);
                     setName(budget.name);
                     setStartDate(convertYMDToDate(budget.start_date));
                     setEndDate(convertYMDToDate(budget.end_date));
                 });
         }
-    }, [budget, dispatch]);
+    }, [budget, dispatch, isFetched]);
 
     useEffect(() => {
         dispatch(fetchTransactions());
         dispatch(fetchGoals())
-            .then(() => setIsLoaded(true));
+        .then(() => {
+            setIsLoaded(true)
+        });
     }, [dispatch]);
+
+    //set Options
+    useEffect(() => {
+        if (!startDate || !endDate || !transactions.length) return;
+        const sortIncomeOptions = transactions.filter(
+            item => !item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
+        );
+        const sortExpenseOptions = transactions.filter(
+            item => item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
+        );
+        const sortGoalOptions = goals.map(goal => ({
+            ...goal,
+            difference: goal.amount - goal.saved_amount
+        })).filter(goal =>
+            new Date(goal.end_date) >= new Date(startDate) && new Date(goal.end_date) <= new Date(endDate)
+        );
+        setIncomeOptions(sortIncomeOptions)
+        setExpenseOptions(sortExpenseOptions)
+        setGoalOptions(sortGoalOptions)
+        setIsLoaded(true);
+
+    }, [startDate, endDate]);
 
     //set selected items
     useEffect(() => {
@@ -121,42 +147,19 @@ const BudgetForm = ({budget}) => {
             }
         }
     }, [budget, budgetItems, transactions, goals]);
-
-
-    //set Options
-    useEffect(() => {
-        if (!startDate || !endDate || !transactions.length) return;
-        const sortIncomeOptions = transactions.filter(
-            item => !item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
-        );
-        const sortExpenseOptions = transactions.filter(
-            item => item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
-        );
-        const sortGoalOptions = goals.map(goal => ({
-            ...goal,
-            difference: goal.amount - goal.saved_amount
-        })).filter(goal =>
-            new Date(goal.end_date) >= new Date(startDate) && new Date(goal.end_date) <= new Date(endDate)
-        );
-        setIncomeOptions(sortIncomeOptions)
-        setExpenseOptions(sortExpenseOptions)
-        setGoalOptions(sortGoalOptions)
-        setIsLoaded(true);
-
-    }, [startDate, endDate]);
-    
-    //MATHS
+   
+    //MATHS -- REMAINING BALANCE
     useEffect(() => { 
         if(incomeItems.length){
-            const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
+            let totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
+            let totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
+            let totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
             setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
             setTotalAmount(totalIncome);
         }
     }, [incomeItems, expenseItems, goalItems]);
     
-
+ 
     const addItem = (type, item) => {
         switch (type) {
             case 'income':
@@ -191,13 +194,19 @@ const BudgetForm = ({budget}) => {
     }
 
     const handleItemClick = (type, item) => {
-        const isSelected = !!inputRefs.current.budgetItems[type]?.[item.id];
-        if (!isSelected) {
-            addItem(type, item);
-        } else {
+        const itemExists = (type, id) => {
+            return type === 'income'
+                ? incomeItems.some((income) => income.id === id)
+                : type === 'expense'
+                    ? expenseItems.some((expense) => expense.id === id)
+                    : goalItems.some((goal) => goal.id === id);
+        };
+        if (itemExists(type, item.id)) {
             removeItem(type, item.id);
+        } else {
+            addItem(type, item);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
 
@@ -281,7 +290,7 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                <button type='button' onClick={() => removeItem('income', item.id)}>Remove</button>
+                                <button type='button' onClick={() => handleItemClick('income', item.id)}>Remove</button>
                             </div>
                         ))}
                     </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
@@ -298,7 +307,7 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                <button type='button' onClick={() => removeItem('expense', item.id)}>Remove</button>
+                                <button type='button' onClick={() => handleItemClick('expense', item.id)}>Remove</button>
                             </div>
                         ))}
                     </section>
@@ -316,7 +325,7 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.difference}
                                 </button>
-                                <button type='button' onClick={() => removeItem('goal', item.id)}>Remove</button>
+                                <button type='button' onClick={() => handleItemClick('goal', item.id)}>Remove</button>
                             </div>
                         ))}
                     </section>
