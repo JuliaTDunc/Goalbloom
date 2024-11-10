@@ -65,6 +65,7 @@ const BudgetsPage = () => {
 
             const deconClosest = closestBudget[0]
             setCurrBudget(deconClosest)
+            console.log(deconClosest)
         }
     },[allBudgets, budgets, dispatch]);
 

@@ -1,0 +1,18 @@
+.edit-btn{
+    width:100px;
+    height: 35px;
+    background-color: #8da1bbe6;
+    color: rgb(234, 239, 248);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight:bold;
+    margin-left: 85%;
+}
+.edit-btn:hover{
+    background-color: rgb(255, 212, 69);
+    color:rgba(223, 118, 247, 0.829);
+}
