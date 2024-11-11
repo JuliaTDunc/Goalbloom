@@ -85,7 +85,7 @@ const GoalCard = ({ goal }) => {
                 particleCount: 100,
                 spread: 70,
                 origin: { x, y },
-                colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFFFE0']
+                colors: ['#7c04b0', '#e9e9f7', '#ed53ce', '#fa89f1','#9778ff','#020bfa']
             });
         }
     };
