@@ -290,7 +290,9 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                <button type='button' onClick={() => handleItemClick('income', item.id)}>Remove</button>
+                                {incomeItems.some(i => i.id === item.id) && (
+                                    <button type='button' onClick={() => handleItemClick('income', item.id)}>Remove</button>
+                                )}
                             </div>
                         ))}
                     </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
@@ -307,7 +309,9 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                <button type='button' onClick={() => handleItemClick('expense', item.id)}>Remove</button>
+                                {expenseItems.some(i => i.id === item.id) && (
+                                    <button type='button' onClick={() => handleItemClick('expense', item.id)}>Remove</button>
+                                )}
                             </div>
                         ))}
                     </section>
@@ -325,7 +329,9 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.difference}
                                 </button>
-                                <button type='button' onClick={() => handleItemClick('goal', item.id)}>Remove</button>
+                                {goalItems.some(i => i.id === item.id) && (
+                                    <button type='button' onClick={() => handleItemClick('goal', item.id)}>Remove</button>
+                                )}
                             </div>
                         ))}
                     </section>
