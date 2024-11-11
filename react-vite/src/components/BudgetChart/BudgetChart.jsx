@@ -133,7 +133,7 @@ const BudgetGraph = ({budget}) => {
             }
         ],
         tooltip: {
-            pointFormat: '<b>{point.name}</b>: {point.percenage:.1f} %'
+            pointFormat: '<b>{point.name}</b>: {point.y:.2f}'
         },
         plotOptions: {
             pie: {
@@ -141,7 +141,7 @@ const BudgetGraph = ({budget}) => {
                 cursor: 'pointer',
                 dataLabels:{
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percenage:.1f} %'
+                    format: '<b>{point.name}</b>: {point.y:.2f}'
                 }
             }
         }
