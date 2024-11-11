@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "canvas-confetti": "^1.9.3",
     "highcharts": "^11.4.8",
     "highcharts-react-official": "^3.2.1",
     "js-cookie": "^3.0.5",

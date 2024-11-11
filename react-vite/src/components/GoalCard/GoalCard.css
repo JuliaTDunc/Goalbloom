@@ -1,9 +1,19 @@
+.goalbloom-reached {
+    position: relative;
+    border: 3px solid #FFD700;
+    animation: glow 1s infinite alternate;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #fff3c2;
+}
 .goal-card{
     padding: 10px;
     box-shadow: 1px 4px 4px rgba(81, 6, 172, 0.568);
     background-color: #ffbd59d2;
     border-radius: 5px;
     transition: transform 0.5s ease;
+    max-width:300px;
 }
 .goal-card:hover{
     transform: scale(1.05);
@@ -31,7 +41,28 @@
     background-color: rgb(253, 31, 108);
     color: white;
 }
-.goldblum-goal{
-position: relative;
-margin: 60px;
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00;
+    }
+
+    to {
+        box-shadow: 0 0 20px #FFD700, 0 0 30px #FFD700, 0 0 40px #FF8C00;
+    }
+}
+
+.goalbloom-reached p {
+    color: #FFA500;
+    animation: text-fade 2s ease-in-out forwards;
+}
+
+@keyframes text-fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

@@ -1,4 +1,4 @@
-/* Main Budgets Page Layout */
+
 .budgets-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -6,29 +6,22 @@
     font-family: 'Poppins', sans-serif;
     background-color: #bab7fd;
 }
-
-/* Header Section */
 .budgets-page-header {
     text-align: center;
     margin-bottom: 20px;
 }
-
 .budgets-page-header h1 {
     font-size: 30px;
     color: black;
 }
-
 .budgets-page-header p {
     font-size: 18px;
     color: #666;
 }
-
-/* New Budget Button */
 .new-budget-button {
     text-align: right;
     margin-bottom: 20px;
 }
-
 .new-budget-btn {
     background-color: #0c03c3;
     color: white;
@@ -38,16 +31,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .new-budget-btn:hover {
     background-color: #372dff;
 }
-
-/* Current Budget Section */
 .current-budget-section {
     margin-bottom: 30px;
 }
-
 .budget-chart {
     background-color: white;
     padding: 20px;
@@ -55,19 +44,15 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
-
 .budget-chart h2 {
     font-size: 24px;
     color: #0c03c3;
     margin-bottom: 10px;
 }
-
 .budget-chart p {
     font-size: 18px;
     color: #666;
 }
-
-/* Saved Budgets Section */
 .saved-budgets {
     margin-top: 40px;
 }
@@ -77,31 +62,26 @@
     color: #0c03c3;
     margin-bottom: 20px;
 }
-
 .saved-budgets table {
     width: 100%;
     border-collapse: collapse;
 }
-
 .saved-budgets th,
 .saved-budgets td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
-
 .saved-budgets th {
     background-color: #ffbd59d2;
     color: black;
     font-weight: bold;
 }
-
 .saved-budgets td {
     font-size: 16px;
     color: #333;
 }
 
-/* Saved Budget Buttons */
 .saved-budgets button {
     background-color: #ffbd59d2;
     color: white;
@@ -111,30 +91,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .saved-budgets button:hover {
     background-color: #ffbd59;
 }
 
-/* Edit and Delete Buttons */
-.edit-btn {
-    background-color: #5a7684;
-    margin-right: 10px;
-}
-
-.edit-btn:hover {
-    background-color: #4c656d;
-}
-
-.delete-btn {
-    background-color: #ed6a5a;
-}
-
-.delete-btn:hover {
-    background-color: #ff7961;
-}
-
-/* Related Articles Section */
 .related-articles {
     background-color: #0c03c3;
     border-radius: 20px;
@@ -149,14 +109,6 @@
     opacity: 70%;
     box-shadow: 0px 2px 8px rgb(0, 0, 0);
 }
-
-.box-placeholder {
-    color: white;
-    font-weight: bolder;
-    font-size: 18px;
-}
-
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .budgets-page {
         padding: 10px;

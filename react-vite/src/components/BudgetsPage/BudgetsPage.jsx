@@ -5,6 +5,7 @@ import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import { useModal } from '../../context/Modal';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import LoginFormModal from '../LoginFormModal';
 import './BudgetsPage.css';
 
@@ -128,7 +129,7 @@ const BudgetsPage = () => {
                                 <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
                                 <td>{formatDate(budget.start_date)}</td>
                                 <td>
-                                    <button className='delete-btn' onClick={() => handleDelete(budget.id)}>Delete</button>
+                                    <button className='delete-btn-budget' onClick={() => handleDelete(budget.id)}><FaRegTrashAlt/></button>
                                 </td>
                             </tr>
                         ))}
