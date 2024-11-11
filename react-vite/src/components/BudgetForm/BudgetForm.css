@@ -1,0 +1,115 @@
+/* Overall Page Layout */
+.new-budget-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: #bab7fd;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Single Column Form */
+.new-budget-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 2px solid white;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Titles */
+.new-budget-page h2 {
+    font-size: 24px;
+    color: #0c03c3;
+    margin-top: 20px;
+}
+
+/* Budget Item Layout */
+.budget-item {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* Selected Item Style */
+.budget-item-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #fff8a5;
+    border-radius: 10px;
+    color: #0c03c3;
+    font-weight: bold;
+    position: relative;
+}
+
+.budget-item-content.selected {
+    background-color: #fff8a5;
+}
+
+/* Trash Icon (Remove Button) */
+.remove-btn {
+    background: none;
+    border: none;
+    color: #ed6a5a;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color 0.3s ease;
+}
+
+.remove-btn:hover {
+    color: #ff7961;
+}
+
+/* Remaining Balance Section */
+.remaining-balance h3 {
+    font-size: 20px;
+    color: #0c03c3;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Submit Button */
+.new-budget-page button[type="submit"] {
+    background-color: #0c03c3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.new-budget-page button[type="submit"]:hover {
+    background-color: #372dff;
+}

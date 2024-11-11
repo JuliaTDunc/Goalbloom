@@ -18,7 +18,7 @@ const SideMenu = () => {
                 <ul>
                     <li><a href="/transactions">Transactions</a></li>
                     <li><a href="/goals">Goals</a></li>
-                    <li><a href="/">Budgets</a></li>
+                    <li><a href="/budgets">Budgets</a></li>
                     <li><a href="/">Articles</a></li>
                 </ul>
             </div>

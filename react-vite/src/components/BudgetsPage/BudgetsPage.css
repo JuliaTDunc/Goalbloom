@@ -1,0 +1,126 @@
+
+.budgets-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #bab7fd;
+}
+.budgets-page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.budgets-page-header h1 {
+    font-size: 30px;
+    color: black;
+}
+.budgets-page-header p {
+    font-size: 18px;
+    color: #666;
+}
+.new-budget-button {
+    text-align: right;
+    margin-bottom: 20px;
+}
+.new-budget-btn {
+    background-color: #0c03c3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.new-budget-btn:hover {
+    background-color: #372dff;
+}
+.current-budget-section {
+    margin-bottom: 30px;
+}
+.budget-chart {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.budget-chart h2 {
+    font-size: 24px;
+    color: #0c03c3;
+    margin-bottom: 10px;
+}
+.budget-chart p {
+    font-size: 18px;
+    color: #666;
+}
+.saved-budgets {
+    margin-top: 40px;
+}
+
+.saved-budgets h2 {
+    font-size: 24px;
+    color: #0c03c3;
+    margin-bottom: 20px;
+}
+.saved-budgets table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.saved-budgets th,
+.saved-budgets td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.saved-budgets th {
+    background-color: #ffbd59d2;
+    color: black;
+    font-weight: bold;
+}
+.saved-budgets td {
+    font-size: 16px;
+    color: #333;
+}
+
+.saved-budgets button {
+    background-color: #ffbd59d2;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.saved-budgets button:hover {
+    background-color: #ffbd59;
+}
+
+.related-articles {
+    background-color: #0c03c3;
+    border-radius: 20px;
+    opacity: 35%;
+    transition: opacity 1s linear, box-shadow 1s ease;
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+.related-articles:hover {
+    opacity: 70%;
+    box-shadow: 0px 2px 8px rgb(0, 0, 0);
+}
+@media (max-width: 768px) {
+    .budgets-page {
+        padding: 10px;
+    }
+
+    .new-budget-button {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .saved-budgets table {
+        display: block;
+        overflow-x: auto;
+    }
+}

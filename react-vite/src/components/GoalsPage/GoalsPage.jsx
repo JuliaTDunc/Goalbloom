@@ -49,6 +49,8 @@ const GoalsPage = () => {
                     <GoalCard key={goal.id} goal={goal} />
                 ))}
             </div>
+            <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
+            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
         </div>
     ) : ( setModalContent(<LoginFormModal/>))
 };

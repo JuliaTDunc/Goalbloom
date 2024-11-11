@@ -2,14 +2,17 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDeleteGoal, fetchGoals, fetchGoal } from '../../redux/goals';
-import {FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa'
+import {FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa';
+import confetti from 'canvas-confetti';
 import HighchartsReact from 'highcharts-react-official';
 import { useModal } from '../../context/Modal';
 import './GoalCard.css';
+import Goldblum from '../../images/Goldblum3.png';
 import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
 
 
 const GoalCard = ({ goal }) => {
+
     const dispatch = useDispatch();
     const goals = useSelector(state => Object.values(state.goals.allGoals));
     const { setModalContent } = useModal();
@@ -71,7 +74,28 @@ const GoalCard = ({ goal }) => {
         }
     };
 
-    return (
+    const triggerConfetti = () => {
+        const goalElement = document.querySelector('.goalbloom-reached');
+        if (goalElement) {
+            const rect = goalElement.getBoundingClientRect();
+            const x = (rect.left + rect.right) / 2 / window.innerWidth;
+            const y = (rect.top + rect.bottom) / 2 / window.innerHeight;
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { x, y },
+                colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFFFE0']
+            });
+        }
+    };
+/*
+    if (goal.saved_amount >= goal.amount) {
+        triggerConfetti();
+    }
+*/
+
+    return (goal.saved_amount < goal.amount) ? (
         <div className="goal-card">
             <HighchartsReact
                 highcharts={Highcharts}
@@ -82,7 +106,13 @@ const GoalCard = ({ goal }) => {
                 <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt/></button>
             </div>
         </div>
-    );
+    ) : (<div className='goal-card'>
+        <div className='goalbloom-reached' onLoad={triggerConfetti}>
+                <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt /></button>
+                <img className='goldblum-goal' src={Goldblum} />
+                <p>This goal has been reached! Good Job!</p>
+        </div>
+    </div>);
 };
 
 export default GoalCard;

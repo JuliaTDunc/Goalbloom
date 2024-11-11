@@ -15,3 +15,7 @@
     background-color:rgb(253, 31, 108);
     color:white;
 }
+.modal-container{
+    height: 500px;
+    overflow:scroll;
+}

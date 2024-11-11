@@ -1,34 +1,73 @@
-.background-container{
-    background: linear-gradient(90deg, #0c03c3, #6c55ef, #6c55ef, #0c03c3);
+.landing-page{
+    font-family: 'Poppins', sans-serif;
     display: flex;
-    width:auto;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f8f9fa;
 }
-.site-description{
-    font-size: 20px;
-    font-family: 'Poppins';
-    color: white;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.199);
-    height: 200px;
-    align-content: center;
-    opacity: 60%;
-    margin: 30px;
-    width: 80%;
-    transition: all 0.3s ease;
+.fleur-image {
+    margin: 20px 0;
+    margin-bottom: 1rem;
 }
-.site-description:hover{
+.fleur-image img {
+    width: 70px;
+    max-width: 100%;
+}
+.welcome-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.welcome-heading {
+    font-size: 2.5em;
+    color: rgb(250, 163, 208);
+}
+
+.welcome-text {
+    font-size: 1.1em;
+    color: #333;
+    max-width: 300px;
+}
+.features-section {
+    flex: 2;
+}
+.features-title {
+    font-size: 2em;
+    color: #0c03c3;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+.feature-grid {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.feature-item {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+.feature-item h2 {
+    font-size: 1.25em;
+    color: #6c55ef;
+}
+
+.feature-item p {
+    font-size: 1em;
+    color: #333;
+}
+
+.feature-item:hover {
     transform: scale(1.05);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
-.site-description-container{
-    text-align: center;
-    font-family: 'Poppins';
-}
-.site-description-header{
-    font-size: 20px;
-    color: rgb(247, 209, 94);
-}
-.site-description-welcome {
-    font-size: 2em;
-    color: rgb(250, 163, 208);
+.clogs{
+    cursor: pointer;
 }
