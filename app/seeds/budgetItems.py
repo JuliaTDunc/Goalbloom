@@ -1,4 +1,5 @@
-from app.models import db, BudgetItem
+from app.models import db, BudgetItem, environment, SCHEMA
+from sqlalchemy.sql import text
 from datetime import datetime
 
 def seed_budget_items():
@@ -158,8 +159,11 @@ def seed_budget_items():
     db.session.commit()
 
 def undo_budget_items():
-
-    db.session.execute('TRUNCATE budget_items RESTART IDENTITY CASCADE;')
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.budget_items RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM budgets"))
+        
     db.session.commit()
 
 
