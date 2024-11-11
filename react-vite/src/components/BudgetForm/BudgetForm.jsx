@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import {fetchCreateBudget, fetchEditBudget,fetchBudgets,fetchBudget} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
+import { FaRegTrashAlt } from 'react-icons/fa'
 import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
@@ -291,7 +292,7 @@ const BudgetForm = ({budget}) => {
                                     {item.name} ${item.amount}
                                 </button>
                                 {incomeItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('income', item.id)}>Remove</button>
+                                    <button type='button' onClick={() => handleItemClick('income', item.id)}><FaRegTrashAlt/></button>
                                 )}
                             </div>
                         ))}
@@ -310,7 +311,7 @@ const BudgetForm = ({budget}) => {
                                     {item.name} ${item.amount}
                                 </button>
                                 {expenseItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('expense', item.id)}>Remove</button>
+                                    <button type='button' onClick={() => handleItemClick('expense', item.id)}><FaRegTrashAlt/></button>
                                 )}
                             </div>
                         ))}
@@ -330,7 +331,7 @@ const BudgetForm = ({budget}) => {
                                     {item.name} ${item.difference}
                                 </button>
                                 {goalItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('goal', item.id)}>Remove</button>
+                                    <button type='button' onClick={() => handleItemClick('goal', item.id)}><FaRegTrashAlt/></button>
                                 )}
                             </div>
                         ))}

@@ -1,8 +1,13 @@
 import React from 'react';
 import Fleur from '../../images/fleur.png'
+import { FaCogs } from 'react-icons/fa';
 import './LandingPage.css'
 
 function LandingPage() {
+
+    const openFeatures = (() => {
+        alert('-Budget Summaries -Budget Editing -Helpful Resources');
+    });
 
     return (
         <>
@@ -15,7 +20,7 @@ function LandingPage() {
                     </p>
                 </div>
                 <div className="features-section">
-                    <h2 className="features-title">More Features Coming Soon...⚙️</h2>
+                    <h2 className="features-title">More Features Coming Soon...<FaCogs  className='clogs' onClick={openFeatures}/></h2>
                     <div className="feature-grid">
                         <div className="feature-item">
                             <h2>Stay Updated</h2>

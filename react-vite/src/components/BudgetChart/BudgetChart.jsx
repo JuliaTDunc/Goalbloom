@@ -6,12 +6,19 @@ import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
 import { fetchBudget } from '../../redux/budget';
 import BudgetForm from '../BudgetForm';
+import { FaPencilAlt } from 'react-icons/fa'
 import { useModal } from '../../context/Modal';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
+import './BudgetChart.css';
 
 
 
 const BudgetGraph = ({budget}) => {
+
+    const juliaApproved = false;
+
+
+
     const dispatch = useDispatch();
     const allBudgetItems = useSelector(state => state.budgetItems.budgetItems);
     const budgetItems = Object.values(allBudgetItems);
@@ -142,10 +149,10 @@ const BudgetGraph = ({budget}) => {
 
     return isLoaded ? (
         <div className='budget-graph'>
-            <HighchartsReact highcharts={Highcharts} options={graphOptions}/>
-            <button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
-                Edit
-            </button>
+            {(juliaApproved) && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
+                <FaPencilAlt />
+            </button>)}
+            <HighchartsReact highcharts={Highcharts} options={graphOptions} />
         </div>
     ) : (<h2>Loading Data..</h2>)
 }
