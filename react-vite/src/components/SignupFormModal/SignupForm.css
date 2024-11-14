@@ -10,11 +10,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;
     background-color: white;
     border-radius: 10px;
     max-width: 400px;
-  
+
 }
 
 .signup-form-label {
@@ -47,12 +47,33 @@ errors {
     font-size: 0.9rem;
 }
 
-.menu-button {
+.menu-button-login-a {
     margin: 10px 0;
+    border:none;
+    background-color: rgba(255, 255, 255, 0);
 }
 .login-section{
     display:flex;
 }
-.login-a:hover {
+.login-a-signup-form{
+    font-size: 14px;
+    color: rgb(127, 128, 132);
+    text-decoration: underline;
+}
+.option-buttons-signup {
+    font-weight: lighter;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    border-radius: 25px;
+    border: none;
+    background-color: rgba(248, 206, 41, 0.845);
     color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.option-buttons-signup:hover {
+    background: linear-gradient(45deg, #b06bf1, #2a38f9);
+    transform: scale(1.05);
 }

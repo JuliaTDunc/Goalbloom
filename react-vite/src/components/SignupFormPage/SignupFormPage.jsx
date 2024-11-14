@@ -92,7 +92,7 @@ function SignupFormPage() {
             />
           </label>
           {errors.confirmPassword && <p className='errors'>{errors.confirmPassword}</p>}
-          <button type="submit">Sign Up</button>
+          <button className='submit-button-signup-page' type="submit">Sign Up</button>
         </form>
       </div>
     </div>

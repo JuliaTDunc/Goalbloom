@@ -16,3 +16,6 @@
     background-color: rgb(19, 76, 163);
     color:rgba(255, 255, 255, 0.829);
 }
+.budget-chart{
+    max-width:800px;
+}
