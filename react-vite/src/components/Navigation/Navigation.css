@@ -29,27 +29,34 @@
 .profile-dropdown {
   cursor:pointer;
   position: absolute;
-  background-color: #fbd382;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  top:0px;
+  right:0;
+  background-image: url('dist/assets/UserMenuGraphic.png');
+  background-size: cover;
+  background-position: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .menu-button {
-      background: linear-gradient(45deg, #be84f3, #9d55f6);
-      color: white;
-      padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      padding: 8px 16px;
       border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      font-family: 'Poppins', sans-serif;
+      border-radius: 20px;
+      font-size: 14px;
       cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
+      transition: background 0.3s ease;
+      margin-top: 10px;
 }
   
 .menu-button:hover {
-      background: linear-gradient(45deg, #b06bf1, #872af9);
+      background: linear-gradient(45deg, #b06bf19a, #872af99e);
       transform: scale(1.05);
+      color:white;
 }
 .user-smile{
   color:white;

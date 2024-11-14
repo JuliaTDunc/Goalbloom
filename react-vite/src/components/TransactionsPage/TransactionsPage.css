@@ -1,5 +1,5 @@
 .transactions-home {
-    max-width: 1200px;
+    width:auto;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
@@ -37,13 +37,13 @@
 
 .transactions-description {
     text-align: center;
-    color: #666;
-}
-.transactions-description p{
-    font-size: 14px;
-    padding: 10px;
+    color: #323232;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.499);
+}
+.transactions-description p{
+    font-size: 16px;
+    padding: 10px;
 }
 .transactions-container {
     display: grid;

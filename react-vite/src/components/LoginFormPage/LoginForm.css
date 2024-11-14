@@ -70,7 +70,7 @@
     transform: scale(1.02);
 }
 
-button[type="submit"] {
+.submit-button-login-page {
     font-weight: lighter;
     padding: 10px;
     margin: 10px 0;
@@ -83,7 +83,7 @@ button[type="submit"] {
     transition: all 0.3s ease;
 }
 
-button[type="submit"]:hover {
+.submit-button-login-page:hover {
     background-color: rgb(244, 198, 16);
     color: #372dff;
     font-weight: bolder;
@@ -100,13 +100,4 @@ button[type="submit"]:hover {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
-
-.login-a {
-    color: #0c03c3;
-    text-decoration: none;
-}
-
-.login-a:hover {
-    color: #f6c818;
 }

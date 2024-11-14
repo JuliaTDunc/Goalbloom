@@ -1,15 +1,55 @@
 import React from 'react';
 import Fleur from '../../images/fleur.png'
 import { FaCogs } from 'react-icons/fa';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBudgets } from '../../redux/budget';
+import BudgetGraph from '../BudgetChart/BudgetChart';
 import './LandingPage.css'
 
 function LandingPage() {
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user);
+    const budgetsObj = useSelector(state => state.budgets.allBudgets);
+    const budgets = Object.values(budgetsObj);
 
     const openFeatures = (() => {
         alert('-Budget Summaries -Budget Editing -Helpful Resources');
     });
 
-    return (
+    useEffect(() => {
+            dispatch(fetchBudgets());
+    }, [dispatch]);
+
+    const closestBudget = useMemo(() => {
+        if (!budgets || budgets.length === 0) return null;
+
+        const today = new Date();
+        return budgets.reduce((closest, budget) => {
+            const budgetDate = new Date(budget.start_date);
+            return Math.abs(budgetDate - today) < Math.abs(new Date(closest.start_date) - today)
+                ? budget
+                : closest;
+        });
+    }, [budgets]);
+
+
+
+    return user ? (
+    <>
+        <div className="landing-page">
+                <div className="welcome-section">
+                    <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
+                    <h1 className="welcome-heading">Welcome {user.username}</h1>
+                </div>
+                <h4 className="features-title">More Features Coming Soon...<FaCogs className='clogs' onClick={openFeatures} /></h4>
+                {closestBudget && (
+                    <div className="budget-chart-section">
+                        <BudgetGraph budget={closestBudget} /> {/* Pass the closest budget to BudgetGraph */}
+                    </div>
+                )}
+        </div>
+    </>) : (
         <>
             <div className="landing-page">
                 <div className="welcome-section">
@@ -34,7 +74,6 @@ function LandingPage() {
                             <h2>Learn As You Go</h2>
                             <p>Select from your income, expenses, and goals, and GoalBloom will whip up budgeting plans to help you manage your money!</p>
                         </div>
-                        {/* You can add another feature item here if needed */}
                     </div>
                 </div>
             </div>

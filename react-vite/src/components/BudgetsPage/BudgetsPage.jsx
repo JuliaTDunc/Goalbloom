@@ -102,41 +102,47 @@ const BudgetsPage = () => {
                 </button>
             </div>
 
-            <div className='current-budget-section'>
-                {currBudget ? (
-                    <div className='budget-chart'>
-                        <BudgetGraph budget={currBudget} />
-                    </div>
-                ) : (
-                    <div className='budget-chart'>
-                        <p>Select a Budget</p>
-                    </div>
-                )}
-            </div>
+            <div className='budgets-content'>
+                <div className='current-budget-section'>
+                    {currBudget ? (
+                        <div className='budget-chart'>
+                            <BudgetGraph budget={currBudget} />
+                        </div>
+                    ) : (
+                        <div className='budget-chart'>
+                            <p>Select a Budget</p>
+                        </div>
+                    )}
+                </div>
 
-            <div className='saved-budgets'>
-                <h2>Saved Budgets</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Budget Name</th>
-                            <th>Created Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {budgets.map((budget) => (
-                            <tr key={budget.id}>
-                                <td><button onClick={() => updateChartBudget(budget)}>{budget.name}</button></td>
-                                <td>{formatDate(budget.start_date)}</td>
-                                <td>
-                                    <button className='delete-btn-budget' onClick={() => handleDelete(budget.id)}><FaRegTrashAlt/></button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className='saved-budgets'>
+                    <h2>Saved Budgets</h2>
+                    <div className='table-div'>
+                        <table className='saved-table'>
+                            <thead className='saved-table-head'>
+                                <tr className='saved-table-cols'>
+                                    <th>Budget Name</th>
+                                    <th>Created Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody className='saved-table-body'>
+                                {budgets.map((budget) => (
+                                    <tr key={budget.id} className='saved-table-budgetIns'>
+                                        <td><button onClick={() => updateChartBudget(budget)} className='saved-budgets-colName'>{budget.name}</button></td>
+                                        <td>{formatDate(budget.start_date)}</td>
+                                        <td className='saved-table-delete-button'>
+                                            <button className='delete-btn-budget' onClick={() => handleDelete(budget.id)}><FaRegTrashAlt /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div>
+            <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
+            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
         </div>
     ) : (setModalContent(<LoginFormModal/>))
 }
