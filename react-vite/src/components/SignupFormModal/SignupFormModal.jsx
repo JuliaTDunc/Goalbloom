@@ -87,11 +87,11 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}
-        <button className='menu-button' type="submit">Sign Up</button>
+        <button className='option-buttons-signup' type="submit">Sign Up</button>
 
         <div className='login-section'>
           <p>Have an account?</p>
-          <button className='menu-button'><a href='/login'>Log In</a></button>
+          <button className='menu-button-login-a'><a className='login-a-signup-form' href='/login'>Log In</a></button>
         </div>
       </form>
     </>

@@ -69,9 +69,9 @@ function LoginFormModal() {
           />
         </label>
         {errors.password && <p className='errors'>{errors.password}</p>}
-        <button className='menu-button' type="submit">Log In</button>
-        <button className='option-buttons' onClick={handleDemo}>Demo Login</button>
-        <button className='option-buttons'><a className='login-a' href="/signup">Sign Up</a></button>
+        <button className='option-buttons-login' type="submit">Log In</button>
+        <button className='option-buttons-login' onClick={handleDemo}>Demo Login</button>
+        <button className='option-buttons-sign-up-login'><a className='login-modal-a' href="/signup">Sign Up</a></button>
       </form>
     </>
   );

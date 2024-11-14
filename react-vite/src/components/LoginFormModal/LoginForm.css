@@ -49,27 +49,29 @@ errors {
     font-size: 0.9rem;
 }
 
-.option-buttons {
+.option-buttons-login {
     font-weight:lighter;
     padding: 10px;
     margin: 10px 0;
     font-size: 1rem;
     border-radius: 25px;
     border: none;
-    background-color:rgba(244, 198, 16, 0.451);
+    background-color:rgba(248, 206, 41, 0.845);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.option-buttons:hover{
+.option-buttons-login:hover{
     background: linear-gradient(45deg, #b06bf1, #2a38f9);
     transform: scale(1.05);
 }
-
-.menu-button {
-    margin: 10px 0;
+.option-buttons-sign-up-login{
+    border:none;
+    background-color: rgba(255, 255, 255, 0);
 }
-.login-a:hover{
-    color: white;
+.login-modal-a{
+    font-size: 14px;
+    color: rgb(127, 128, 132);
+    text-decoration: underline;
 }

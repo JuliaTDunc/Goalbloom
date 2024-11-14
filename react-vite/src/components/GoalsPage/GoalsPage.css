@@ -8,20 +8,18 @@
 .goals-page-head{
     text-align:center;
     font-size: 30px;
+    color:black;
 }
 .goals-header {
     text-align: center;
+    color: #323232;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.499);
 }
 
 .goals-description {
-    text-align: center;
-    margin-bottom: 20px;
     font-size: 16px;
-    color: #666;
-    font-size: 14px;
     padding: 10px;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.499);
 }
 
 .add-goal {
@@ -50,5 +48,5 @@
     justify-content: space-evenly;
 }
 .helpful-resources{
-    margin: 10px;
+    margin: 20px;
 }

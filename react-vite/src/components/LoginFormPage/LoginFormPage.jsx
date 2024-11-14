@@ -61,7 +61,7 @@ function LoginFormPage() {
             />
           </label>
           {errors.password && <p>{errors.password}</p>}
-          <button type="submit">Log In</button>
+          <button className='submit-button-login-page' type="submit">Log In</button>
         </form>
       </div>
     </div>

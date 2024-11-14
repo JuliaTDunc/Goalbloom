@@ -110,7 +110,7 @@ const BudgetGraph = ({budget}) => {
     const graphOptions = {
         chart: {
             type: 'pie',
-            height: '600px',
+            height: '400px',
         },
         title: {
             text: `${budget.name}`
@@ -152,7 +152,7 @@ const BudgetGraph = ({budget}) => {
             {(juliaApproved) && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
                 <FaPencilAlt />
             </button>)}
-            <HighchartsReact highcharts={Highcharts} options={graphOptions} />
+            <HighchartsReact highcharts={Highcharts} options={graphOptions} className='budget-chart'/>
         </div>
     ) : (<h2>Loading Data..</h2>)
 }

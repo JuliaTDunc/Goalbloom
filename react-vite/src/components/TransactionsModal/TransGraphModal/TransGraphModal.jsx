@@ -76,6 +76,9 @@ const TransGraphModal = ({activeTab}) => {
                     enabled: true
                 }
             }
+        },
+        legend: {
+            enabled: false
         }
     };
     if (loading) return <div>Loading...</div>;
