@@ -45,7 +45,7 @@ function LandingPage() {
                 <h4 className="features-title">More Features Coming Soon...<FaCogs className='clogs' onClick={openFeatures} /></h4>
                 {closestBudget && (
                     <div className="budget-chart-section">
-                        <BudgetGraph budget={closestBudget} /> {/* Pass the closest budget to BudgetGraph */}
+                        <BudgetGraph budget={closestBudget} />
                     </div>
                 )}
         </div>

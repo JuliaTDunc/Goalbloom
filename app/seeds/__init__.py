@@ -5,6 +5,8 @@ from .transactions import seed_transactions, undo_transactions
 from .goals import seed_goals, undo_goals
 from .budgets import seed_budgets, undo_budgets
 from .budgetItems import seed_budget_items, undo_budget_items
+from .articles import seed_articles, undo_articles
+from .bookmarks import seed_bookmarks, undo_bookmarks
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -20,6 +22,8 @@ def seed():
         # command, which will  truncate all tables prefixed with 
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
+        undo_bookmarks()
+        undo_articles()
         undo_budget_items()
         undo_budgets()
         undo_goals()
@@ -32,6 +36,8 @@ def seed():
     seed_goals()
     seed_budgets()
     seed_budget_items()
+    seed_articles()
+    seed_bookmarks()
     # Add other seed functions here
 
 
@@ -44,4 +50,6 @@ def undo():
     undo_goals()
     undo_budget_items()
     undo_budgets()
+    undo_bookmarks()
+    undo_articles()
     # Add other undo functions here
