@@ -18,7 +18,7 @@ class Article(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'title': self.name,
+            'title': self.title,
             'url': self.url,
             'level': self.level,
         }
