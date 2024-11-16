@@ -4,12 +4,14 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-from .models import db, User, Transaction, ExpenseType
+from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.transactions import transaction_routes
 from .api.goals import goal_routes
 from .api.budgets import budget_routes
+from .api.articles import article_routes
+from .api.bookmarks import bookmark_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -34,6 +36,8 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 app.register_blueprint(goal_routes, url_prefix='/api/goals')
 app.register_blueprint(budget_routes, url_prefix='/api/budgets')
+app.register_blueprint(article_routes, url_prefix='/api/articles')
+app.register_blueprint(bookmark_routes, url_prefix='/api/bookmarks')
 db.init_app(app)
 Migrate(app, db)
 
