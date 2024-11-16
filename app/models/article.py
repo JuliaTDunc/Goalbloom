@@ -13,7 +13,8 @@ class Article(db.Model):
     url = db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
 
-
+    bookmarks = db.relationship('Bookmark', back_populates='article', cascade='all, delete-orphan')
+    
     def to_dict(self):
         return {
             'id': self.id,

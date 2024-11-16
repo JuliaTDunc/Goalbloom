@@ -57,7 +57,7 @@ def seed_articles():
     db.session.add(article_26)
     db.session.add(article_27)
     db.session.add(article_28) 
-
+    db.session.commit()
 def undo_articles():
         if environment == "production":
             db.session.execute(f"TRUNCATE table {SCHEMA}.articles RESTART IDENTITY CASCADE;")

@@ -19,6 +19,7 @@ def seed_bookmarks():
      db.session.add(bookmark_6)
      db.session.add(bookmark_7)
      db.session.add(bookmark_8)
+     db.session.commit()
 
 
 def undo_bookmarks():
