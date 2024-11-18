@@ -11,6 +11,7 @@ const RelatedArticles = ({userData}) => {
     const bookmarks = Object.values(allBookmarks);
     const [articles, setArticles] = useState([]);
     const [recArticles, setRecArticles] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const fetchArticles = async () => {
         const res = await csrfFetch('/api/articles');
@@ -34,7 +35,7 @@ const RelatedArticles = ({userData}) => {
     };
 
     useEffect(() => {
-        if(articles.length){
+        if(articles.length && userData){
             let recdArr;
             console.log(userData, "userData")
                 //need to make case for -remainingBalance -difference
@@ -65,17 +66,18 @@ const RelatedArticles = ({userData}) => {
                 shuffleArray(articles);
             }
         };
+        setIsLoaded(true);
     },[articles, userData]);
 
     
 
 
-    return (
+    return isLoaded && (
         <div className='resources-home'>
             <div className='resources-container'>
                 {recArticles.map((article) => (
-                    <div key={article.id} className='article-card'>
-                        <NavLink to={article.url}><h3>{article.title}</h3></NavLink>
+                    <div key={article.id} className=''>
+                        <NavLink to={article.url} target="_blank"><h3 className='article-box-title'>{article.title}</h3></NavLink>
                     </div>
                 ))}
             </div>
