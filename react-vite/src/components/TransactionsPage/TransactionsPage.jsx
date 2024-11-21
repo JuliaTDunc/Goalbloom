@@ -68,7 +68,7 @@ const Transactions = () => {
                     </div>
                 </div>
                 <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>  
-                <div className='related-articles'><RelatedArticles userData={userData}/></div> 
+               { userData && <div className='related-articles'><RelatedArticles userData={userData}/></div> }
             </div>
         </div>
     ) : setModalContent(<LoginFormModal/>)

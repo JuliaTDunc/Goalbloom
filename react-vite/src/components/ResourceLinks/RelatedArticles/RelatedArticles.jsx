@@ -37,30 +37,44 @@ const RelatedArticles = ({userData}) => {
     useEffect(() => {
         if(articles.length && userData){
             let recdArr;
-            console.log(userData, "userData")
-                //need to make case for -remainingBalance -difference
-            if (userData.income) {
-                if (userData.expenses) {
-                    if (userData.income > userData.expenses) {
-                        recdArr = articles.filter(article => article.level === 2)
-                        setRecArticles(recdArr.slice(0,4))
-                    }else if ((userData.income > userData.expenses) && ((userData.income * .75) < userData.expenses)){
-                        recdArr = articles.filter(article => article.level === 1)
-                        setRecArticles(recdArr.slice(0,4))
-                    }else if(userData.income < userData.expenses){
-                        recdArr = articles.filter(article => article.level = 0)
-                        setRecArticles(recdArr.slice(0,4))
-                    }
-                } else{
-                    recdArr = articles.filter(article => article.level === 0)
+            //transactions
+            if (userData.income && userData.expenses) {
+                if (userData.income > userData.expenses) {
+                    recdArr = articles.filter(article => article.level === 3)
                     setRecArticles(recdArr.slice(0,4))
-                    }
+                }else if (((userData.income * .75) < userData.expenses)){
+                    recdArr = articles.filter(article => article.level === 2)
+                    setRecArticles(recdArr.slice(0,4))
+                }else if(userData.income < userData.expenses){
+                    recdArr = articles.filter(article => article.level = 1)
+                    setRecArticles(recdArr.slice(0,4))
+                }
             }
-            if (userData.remainingBalance) {
-
+            //budgets
+            if (userData.remainingBalance && userData.totalIncome) {
+                if(userData.remainingBalance < (userData.totalIncome * .10)){
+                    recdArr = articles.filter(article => article.level === 7)
+                    setRecArticles(recdArr.slice(0,4))
+                }else if(userData.remainingBalance <= (userData.totalIncome * .33)){
+                    recdArr = articles.filter(article => article.level === 8)
+                    setRecArticles(recdArr)
+                }else if(userData.remainingBalance >= (userData.totalIncome * .34)){
+                    recdArr = articles.filter(article => article.level === 9)
+                        setRecArticles(recdArr.slice(0,4))
+                }
             }
-            if (userData.difference) {
-
+            //goals
+            if (userData.difference && userData.totalAmount) {
+                if(userData.difference < (userData.totalAmount * .75)){
+                    recdArr = articles.filter(article => article.level === 6)
+                    setRecArticles(recdArr.slice(0,4))
+                }else if(userData.difference > (userData.totalAmount * .45)){
+                    recdArr = articles.filter(article => article.level === 5)
+                    setRecArticles(recdArr.slice(0,4))
+                }else if(userData.difference >= (userData.totalAmount * .46)){
+                    recdArr = articles.filter(article => article.level === 4)
+                    setRecArticles(recArticles.slice(0,4))
+                }
             }
             else {
                 shuffleArray(articles);
@@ -68,9 +82,6 @@ const RelatedArticles = ({userData}) => {
         };
         setIsLoaded(true);
     },[articles, userData]);
-
-    
-
 
     return isLoaded && (
         <div className='resources-home'>

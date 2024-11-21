@@ -5,7 +5,8 @@ import GoalCard from '../GoalCard';
 import { fetchGoals } from '../../redux/goals';
 import { useModal } from '../../context/Modal';
 import NewGoalFormModal from '../GoalFormModal/GoalFormModal';
-import LoginFormModal from '../LoginFormModal'
+import LoginFormModal from '../LoginFormModal';
+import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './GoalsPage.css'
 
 
@@ -14,8 +15,9 @@ const GoalsPage = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const allGoals = useSelector(state => state.goals.allGoals);
-    const goalsArr = Object.values(allGoals)
+    const goalsArr = Object.values(allGoals);
     const { setModalContent } = useModal();
+    let userData;
 
     useEffect(() => {
         dispatch(fetchGoals());
@@ -29,6 +31,16 @@ const GoalsPage = () => {
    
     const openNewGoalModal = () => {
         setModalContent(<NewGoalFormModal goal={null}/>);
+    }
+    if (allGoals && goalsArr.length) {
+        const userDataTotalAmount = goalsArr
+            .reduce((sum, goal) => sum + parseFloat(goal.total_amount), 0);
+        const userDataSaved = goalsArr
+            .reduce((sum, goal) => sum + parseFloat(goal.saved_amount), 0);
+        userData = {
+            difference : (userDataTotalAmount - userDataSaved),
+            totalAmount: userDataTotalAmount
+        };
     }
   
     return user? (
@@ -48,7 +60,7 @@ const GoalsPage = () => {
                 ))}
             </div>
             <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
-            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
+           {userData && <div className='related-articles'><RelatedArticles userData={userData} /></div> }
         </div>
     ) : ( setModalContent(<LoginFormModal/>))
 };
