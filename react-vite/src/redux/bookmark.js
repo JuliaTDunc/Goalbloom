@@ -29,10 +29,8 @@ export const fetchBookmarks = () => async (dispatch) => {
     return res;
 };
 export const createBookmark = (article_id) => async (dispatch) => {
-    const res = await csrfFetch(`/api/bookmarks`, {
+    const res = await csrfFetch(`/api/bookmarks/${article_id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ article_id }),
     });
     if (!res.ok) {
         throw new Error('Failed to create bookmark');
@@ -41,14 +39,15 @@ export const createBookmark = (article_id) => async (dispatch) => {
     dispatch(addBookmark(data));
     return res;
 };
-export const removeBookmark = (article_id) => async (dispatch) => {
-    const res = await csrfFetch(`/api/bookmarks/${article_id}`, {
+export const removeBookmark = (id) => async (dispatch) => {
+    const res = await csrfFetch(`/api/bookmarks/${id}`, {
         method: 'DELETE',
     });
     if (!res.ok) {
         throw new Error('Failed to delete bookmark');
     }
-    dispatch(deleteBookmark(article_id));
+    const data = await res.json();
+    dispatch(deleteBookmark(id));
 };
 
 const initialState = {

@@ -12,31 +12,31 @@ def get_all_bookmarks():
     return jsonify([bookmark.to_dict() for bookmark in bookmarks]), 200
 
 # POST a new Bookmark
-@bookmark_routes.route("/<int:article_id>", methods=['POST'])
+@bookmark_routes.route("/<int:id>", methods=['POST'])
 @login_required
-def add_bookmark(article_id):
-    existing_bookmark = Bookmark.query.filter_by(user_id=current_user.id, article_id=article_id).first()
+def add_bookmark(id):
+    existing_bookmark = Bookmark.query.filter_by(user_id=current_user.id, article_id=id).first()
     if existing_bookmark:
         return jsonify({'error': 'Bookmark already exists'}), 400
 
     new_bookmark = Bookmark(
         user_id=current_user.id,
-        article_id=article_id
+        article_id=id
     )
     db.session.add(new_bookmark)
     db.session.commit()
 
     return jsonify(new_bookmark.to_dict()), 201
-
-# DELETE a Bookmark
-@bookmark_routes.route('/<int:bookmark_id>', methods=['DELETE'])
+    
+# DELETE a Bookmark by Article id
+@bookmark_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
-def delete_bookmark(bookmark_id):
-    bookmark = Bookmark.query.get(bookmark_id)
+def delete_bookmark(id):
+    bookmark = Bookmark.query.filter_by(user_id=current_user.id, id=id).first()
 
-    if bookmark and bookmark.user_id == current_user.id:
+    if bookmark:
         db.session.delete(bookmark)
         db.session.commit()
-        return jsonify({'message': 'Bookmark successfully deleted', 'bookmarkId': bookmark_id}), 200
+        return jsonify({'message': 'Bookmark successfully deleted', 'bookmarkId': bookmark.id}), 200
     else:
         return jsonify({'error': 'Bookmark Not Found'}), 404

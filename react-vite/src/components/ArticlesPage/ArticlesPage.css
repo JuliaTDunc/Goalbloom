@@ -1,0 +1,42 @@
+.resources-home{
+    width: auto;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #bab7fd;
+}
+.bookmarks-button{
+    background-color: #9c13c9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    margin: 10px;
+    font-size: 16px;
+}
+.bookmarks-button:hover {
+    background-color: #c44075;
+}
+.resources-container-main-page{
+    width: 600px;
+    background-color: rgb(220, 244, 240);
+    padding: 10px 40px;
+    border-radius: 20px;
+}
+.article-card-main-page{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.article-titles-main{
+    color: rgb(202, 106, 3);
+}
+.bookmark-icon{
+    color:rgb(27, 27, 141);
+    font-size: 24px;
+    border: none;
+    background-color: #130e6f00;
+    cursor:pointer;
+}

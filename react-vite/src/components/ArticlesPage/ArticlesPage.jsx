@@ -5,13 +5,12 @@ import { useModal } from '../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import './ArticlesPage.css'
 import LoginFormModal from '../LoginFormModal';
-import { fetchBookmarks, createBookmark } from '../../redux/bookmark';
+import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
 const Articles = () => {
     const user = useSelector(state => state.session.user);
     const bookmarks = useSelector(state => state.bookmarks.bookmarks);
-    //const budgets = Object.values(allBookmarks);
     const [articles, setArticles] = useState([]);
     const { setModalContent } = useModal();
     const dispatch = useDispatch();
@@ -38,17 +37,21 @@ const Articles = () => {
         fetchArticles();
     }, [dispatch, user]);
 
-
     const toggleBookmark = async (article_id) => {
         console.log('TOGGLED', article_id)
         if (!user) {
             setModalContent(<LoginFormModal />);
             return;
         }
-        const isBookmarked = bookmarks.includes(article_id);
+        const isBookmarked = bookmarks.some(bookmark => bookmark.article_id === article_id);
         console.log('isBOOKMARKED???', isBookmarked)
         if (isBookmarked) {
             console.log(`Removing bookmark for article ${article_id}`);
+            const currBookmark = bookmarks.find(bookmark => bookmark.article_id === article_id);
+            if (currBookmark) {
+                console.log('bookmarkId', currBookmark.id)
+                await dispatch(removeBookmark(article_id));
+            }
         } else {
             dispatch(createBookmark(article_id));
         }
@@ -65,15 +68,15 @@ const Articles = () => {
             <div className='bookmarks-button-div'>
                 <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
             </div>
-            <div className='resources-container'>
+            <div className='resources-container-main-page'>
                 {articles.map((article) => (
-                    <div key={article.id} className='article-card'>
-                        <h3>{article.title}</h3>
+                    <div key={article.id} className='article-card-main-page'>
+                        <NavLink to={article.url} target='_blank'><h2 className='article-titles-main'>{article.title}</h2></NavLink>
                         <button
                             className='bookmark-icon'
                             onClick={() => toggleBookmark(article.id)}
                         >
-                            {bookmarks && bookmarks.includes(article.id) ? <FaBookmark/> : <FaRegBookmark/>}
+                            {bookmarks && bookmarks.some(bookmark => bookmark.article_id === article.id) ? <FaBookmark /> : <FaRegBookmark />}
                         </button>
                     </div>
                 ))}
