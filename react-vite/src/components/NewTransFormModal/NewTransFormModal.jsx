@@ -126,7 +126,7 @@ function NewTransactionFormModal({transaction}){
                     closeModal();
                 }
             } catch (error) {
-                console.log(error)
+                console.error(error)
             }
         }
     }

@@ -101,7 +101,7 @@ function NewGoalFormModal({goal}){
                 closeModal();
                 dispatch(fetchGoals());
             }catch(error){
-                console.log(error)
+                console.error(error)
             }
             
         }

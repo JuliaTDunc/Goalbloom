@@ -7,6 +7,7 @@ import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import LoginFormModal from '../LoginFormModal';
+import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './BudgetsPage.css';
 
 
@@ -21,6 +22,9 @@ const BudgetsPage = () => {
     const [currBudget, setCurrBudget] = useState(null);
     const [currBudgetItems, setCurrBudgetItems] = useState([]);
     const { setModalContent } = useModal();
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
+    const transactions = Object.values(allTransactions);
+    let userData;
 
     const openNewBudgetModal = () => {
         setModalContent(<BudgetForm budget={null}/>);
@@ -66,7 +70,6 @@ const BudgetsPage = () => {
 
             const deconClosest = closestBudget[0]
             setCurrBudget(deconClosest)
-            console.log(deconClosest)
         }
     },[allBudgets, budgets, dispatch]);
 
@@ -87,6 +90,17 @@ const BudgetsPage = () => {
             .catch((error) => {
                 console.error('Failed to delete goal:', error);
             });
+    };
+    if (currentBudget && budgetItems) {
+        const transactionItems = budgetItems.filter(item => item.transaction);
+        const totalExpenseAmount = transactionItems
+            .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
+            .filter(transaction => transaction !== undefined)
+            .reduce((sum, transaction) => sum + transaction.amount, 0);
+        userData = {
+            remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
+            totalIncome: currentBudget.total_amount
+        }
     };
 
     return user? (
@@ -142,9 +156,9 @@ const BudgetsPage = () => {
                 </div>
             </div>
             <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
-            <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
+            {userData && <div className='related-articles'><RelatedArticles userData={userData} /></div>} 
         </div>
     ) : (setModalContent(<LoginFormModal/>))
-}
+};
 
 export default BudgetsPage;
