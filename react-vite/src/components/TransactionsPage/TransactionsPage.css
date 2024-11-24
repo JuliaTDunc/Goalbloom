@@ -107,7 +107,7 @@
     background-color: #d1c2ff;
 }
 .helpful-resources, .related-articles{
-    opacity: 35%;
+    opacity: 80%;
     border-radius: 20px;
     transition: opacity 1s linear, font-size 1s ease, box-shadow 1s ease;
     display: flex;
@@ -126,7 +126,5 @@
     font-weight: bolder;
 }
 .helpful-resources:hover, .related-articles:hover{
-    opacity: 100%;
     box-shadow: 0px 2px 8px rgb(0, 0, 0);
-    font-size: large;
 }

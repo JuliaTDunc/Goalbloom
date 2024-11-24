@@ -112,6 +112,7 @@ const BudgetGraph = ({budget}) => {
             type: 'pie',
             height: '400px',
         },
+        backgroundColor: '#f3f37e',
         title: {
             text: `${budget.name}`
         },

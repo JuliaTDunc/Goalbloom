@@ -84,10 +84,10 @@ const RelatedArticles = ({userData}) => {
     },[articles, userData]);
 
     return isLoaded && (
-        <div className='resources-home'>
-            <div className='resources-container'>
+        <div className='resources-links'>
+            <div className='resources-links-container'>
                 {recArticles.map((article) => (
-                    <div key={article.id} className=''>
+                    <div key={article.id} className='single-article-resource-links'>
                         <NavLink to={article.url} target="_blank"><h3 className='article-box-title'>{article.title}</h3></NavLink>
                     </div>
                 ))}
