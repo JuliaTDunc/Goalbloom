@@ -32,11 +32,10 @@ def add_bookmark(id):
 @bookmark_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_bookmark(id):
-    bookmark = Bookmark.query.filter_by(user_id=current_user.id, id=id).first()
-
-    if bookmark:
-        db.session.delete(bookmark)
-        db.session.commit()
-        return jsonify({'message': 'Bookmark successfully deleted', 'bookmarkId': bookmark.id}), 200
-    else:
+    bookmark = Bookmark.query.filter_by(user_id=current_user.id, article_id=id).first()
+    if not bookmark:
         return jsonify({'error': 'Bookmark Not Found'}), 404
+
+    db.session.delete(bookmark)
+    db.session.commit()
+    return jsonify({'message': 'Bookmark successfully deleted', 'bookmarkId': bookmark.article_id}), 200

@@ -16,7 +16,7 @@ def get_all_articles():
 @article_routes.route("/<int:id>", methods=['GET'])
 @login_required
 def get_article_by_id(id):
-    article = Article.query.filter_by(id=id).first()
+    article = Article.query.get_or_404(id)
 
     if not article:
         return jsonify({'error': 'Article not found'}), 404

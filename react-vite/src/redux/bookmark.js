@@ -62,7 +62,7 @@ const bookmarkReducer = (state = initialState, action) => {
         case DELETE_BOOKMARK:
             return {
                 ...state,
-                bookmarks: state.bookmarks.filter((id) => id !== action.payload),
+                bookmarks: state.bookmarks.filter((bookmark) => bookmark.article_id !== action.payload),
             };
         default:
             return state;
