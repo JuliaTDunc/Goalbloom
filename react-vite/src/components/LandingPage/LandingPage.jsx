@@ -5,6 +5,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
+import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
 function LandingPage() {
@@ -12,6 +13,11 @@ function LandingPage() {
     const user = useSelector(state => state.session.user);
     const budgetsObj = useSelector(state => state.budgets.allBudgets);
     const budgets = Object.values(budgetsObj);
+    const currentBudget = useSelector(state => state.budgets.currentBudget);
+    const budgetItems = useSelector(state => state.budgetItems.budgetItems);
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
+    const transactions = Object.values(allTransactions);
+    let userData;
 
     const openFeatures = (() => {
         alert('-Budget Summaries -Budget Editing -Helpful Resources');
@@ -33,7 +39,17 @@ function LandingPage() {
         });
     }, [budgets]);
 
-
+        if (user && currentBudget && budgetItems) {
+            const transactionItems = budgetItems.filter(item => item.transaction);
+            const totalExpenseAmount = transactionItems
+                .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
+                .filter(transaction => transaction !== undefined)
+                .reduce((sum, transaction) => sum + transaction.amount, 0);
+            userData = {
+                remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
+                totalIncome: currentBudget.total_amount
+            }
+        };
 
     return user ? (
     <>
@@ -48,6 +64,9 @@ function LandingPage() {
                         <BudgetGraph budget={closestBudget} />
                     </div>
                 )}
+                <div>
+                    <div className='landing-page-related-articles'><RelatedArticles userData={userData} /></div>
+                </div>
         </div>
     </>) : (
         <>
