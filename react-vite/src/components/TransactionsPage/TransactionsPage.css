@@ -107,7 +107,7 @@
     background-color: #d1c2ff;
 }
 .helpful-resources, .related-articles{
-    opacity: 35%;
+    opacity: 80%;
     border-radius: 20px;
     transition: opacity 1s linear, font-size 1s ease, box-shadow 1s ease;
     display: flex;
@@ -122,13 +122,9 @@
 .related-articles{
     background-color: #0c03c3;
     border: 3px solid #0b01ca;
-}
-.helpful-resources:hover, .related-articles:hover{
-    opacity: 70%;
-    box-shadow: 0px 2px 8px rgb(0, 0, 0);
-    font-size: large;
-}
-.box-placeholder{
     color: rgb(255, 255, 255);
     font-weight: bolder;
+}
+.helpful-resources:hover, .related-articles:hover{
+    box-shadow: 0px 2px 8px rgb(0, 0, 0);
 }

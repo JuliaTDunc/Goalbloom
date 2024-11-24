@@ -3,15 +3,19 @@ import { TransGraphModal, TransListModal } from '../TransactionsModal';
 import { useModal } from '../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import NewTransactionFormModal from '../NewTransFormModal';
+import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './TransactionsPage.css'
 import LoginFormModal from '../LoginFormModal';
 import { fetchTransactions } from '../../redux/transaction';
 
 const Transactions = () => {
     const user = useSelector(state => state.session.user);
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
+    const transactions = Object.values(allTransactions);
     const [activeTab, setActiveTab] = useState('both');
     const {setModalContent} = useModal();
     const dispatch = useDispatch();
+    let userData;
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -24,6 +28,20 @@ const Transactions = () => {
             dispatch(fetchTransactions())
         }
     },[dispatch, user])
+
+    if (transactions && transactions.length > 0) {
+        const userDataInc = transactions
+            .filter(transaction => !transaction.expense)
+            .reduce((sum, transaction) => sum + parseFloat(transaction.amount), 0);
+        const userDataExp = transactions
+            .filter(transaction => transaction.expense)
+            .reduce((sum, transaction) => sum + parseFloat(transaction.amount), 0);
+        userData = {
+            income: userDataInc,
+            expenses: userDataExp
+        };
+    }
+
 
     return user ? (
         <div className='transactions-home'>
@@ -50,7 +68,7 @@ const Transactions = () => {
                     </div>
                 </div>
                 <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>  
-                <div className='related-articles'><p className='box-placeholder'>Related Articles</p></div> 
+               { userData && <div className='related-articles'><RelatedArticles userData={userData}/></div> }
             </div>
         </div>
     ) : setModalContent(<LoginFormModal/>)

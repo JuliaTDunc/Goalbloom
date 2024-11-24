@@ -1,0 +1,74 @@
+.resources-home{
+    width: auto;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #dddbf9;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.resources-description{
+    background-color: #348447c3;
+    border-radius: 10px;
+    padding: 10px;
+}
+.resources-page-head{
+    color:#fffdf0;
+}
+.resources-description p{
+    color: #fffdf0;
+    font-size: 20px;
+}
+.top-section-article-page{
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+}
+.bookmarks-button{
+    background-color: #ffffff4a;
+    box-shadow: 0 2px 3px 2px #1604373e;
+    transition: all 0.5s ease;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 1.5s ease;
+    margin: 10px;
+    font-size: 16px;
+}
+.bookmarks-button:hover {
+    background-color:#fafafa;
+    box-shadow: 0 2px 3px 2px #00000053;
+    color:rgb(229, 149, 0);
+    transform: scale(1.05);
+}
+.resources-container-main-page{
+    width: 600px;
+    margin-top: 10px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 8px 3px #348447;
+    width: auto;
+    padding: 10px 40px;
+    border-radius: 20px;
+    align-self: center;
+}
+.article-card-main-page{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.article-titles-main{
+    color: rgb(238, 124, 3);
+}
+.article-card-main-page a{
+    text-decoration: none;
+}
+.bookmark-icon{
+    color:rgba(29, 29, 225, 0.86);
+    font-size: 24px;
+    border: none;
+    background-color: #130e6f00;
+    cursor:pointer;
+}

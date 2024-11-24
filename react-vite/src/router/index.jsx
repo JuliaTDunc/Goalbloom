@@ -3,6 +3,8 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Transactions from '../components/TransactionsPage';
 import NewTransactionFormModal from '../components/NewTransFormModal';
+import ArticlesPage from '../components/ArticlesPage';
+import BookmarksPage from '../components/BookmarksPage';
 import Layout from './Layout';
 import GoalsPage from '../components/GoalsPage';
 import BudgetsPage from '../components/BudgetsPage';
@@ -39,6 +41,14 @@ export const router = createBrowserRouter([
       {
         path: "budgets",
         element: <BudgetsPage />
+      },
+      {
+        path: "articles",
+        element: <ArticlesPage />
+      },
+      {
+        path: "bookmarks",
+        element: <BookmarksPage/>
       },
       {
         path: "*",

@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     goals = db.relationship('Goal', back_populates='user', cascade='all, delete-orphan')
     budgets = db.relationship('Budget', back_populates='user', cascade='all, delete-orphan')
     budget_items = db.relationship('BudgetItem', back_populates='user', cascade='all, delete-orphan')
+    bookmarks = db.relationship('Bookmark', back_populates='user', cascade='all, delete-orphan')
 
 
     @property

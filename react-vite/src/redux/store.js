@@ -10,13 +10,15 @@ import TransactionsReducer from "./transaction";
 import GoalsReducer from "./goals";
 import BudgetsReducer from "./budget";
 import budgetItemReducer from "./budgetItem";
+import bookmarkReducer from "./bookmark";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   transactions: TransactionsReducer,
   goals: GoalsReducer,
   budgets: BudgetsReducer,
-  budgetItems: budgetItemReducer
+  budgetItems: budgetItemReducer,
+  bookmarks: bookmarkReducer,
 });
 
 let enhancer;

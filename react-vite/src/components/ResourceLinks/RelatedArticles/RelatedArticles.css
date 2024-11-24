@@ -1,0 +1,28 @@
+.article-box-title{
+    color:white;
+}
+.single-article-resource-links a{
+    text-decoration: none;
+}
+.single-article-resource-links{
+    border-radius: 10px;
+    box-shadow: 0 2px 4px #00000044;
+    margin-top: 5px;
+    transition:all 0.6s ease;
+    text-align: center;
+    width:100%;
+}
+.single-article-resource-links:hover{
+    box-shadow: 0 3px 5px 3px #00000075;
+    font-size: 1.1em;
+    background-color: rgba(255, 255, 255, 0.031);
+}
+.resources-links-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width:100%;
+}
+.resources-links{
+    width:90%;
+}
