@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Fleur from '../../images/fleur.png'
 import { FaCogs } from 'react-icons/fa';
 import { useEffect, useMemo } from 'react';
@@ -17,6 +17,7 @@ function LandingPage() {
     const budgetItems = useSelector(state => state.budgetItems.budgetItems);
     const allTransactions = useSelector(state => state.transactions.allTransactions);
     const transactions = Object.values(allTransactions);
+    const [isLoaded, setIsLoaded] = useState(false);
     let userData;
 
     const openFeatures = (() => {
