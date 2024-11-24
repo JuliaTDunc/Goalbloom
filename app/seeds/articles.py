@@ -22,7 +22,7 @@ def seed_articles():
     article_18 = Article(title='What is Portfolio Diversification?',url='https://www.fidelity.com/learning-center/investment-products/mutual-funds/diversification',level=9)
     article_20 = Article(title='How to Get Out of Credit Card Debt',url='https://www.incharge.org/debt-relief/how-to-get-out-of-credit-card-debt/',level=2)
     article_21 = Article(title='Guide to Building an Emergency Fund',url='https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/',level=3)
-    article_22 = Article(title='Pros and Cons of Freelande Work',url='https://www.flexjobs.com/blog/post/pros-and-cons-of-freelance-jobs/',level=4)
+    article_22 = Article(title='Pros and Cons of Freelance Work',url='https://www.flexjobs.com/blog/post/pros-and-cons-of-freelance-jobs/',level=4)
     article_23 = Article(title='When to Look for a New Job',url='https://www.nerdwallet.com/article/finance/is-a-new-job-the-right-financial-move',level=1)
     article_24 = Article(title='How to Ask for a Raise and Get It',url='https://www.roberthalf.com/us/en/insights/career-development/how-to-ask-for-raise-and-get-it',level=5)
     article_25 = Article(title='8 Ways to Get the Cheapest Car Insurance Rates Possible',url='https://www.nerdwallet.com/article/insurance/auto/ways-to-get-cheapest-car-insurance',level=8)
