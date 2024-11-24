@@ -66,26 +66,30 @@ const Articles = () => {
     
     return user ? (
         <div className='resources-home'>
-            <section className='resources-description'>
-                <h2 className='resources-page-head'>Resources</h2>
-                <p>Welcome to your Resources Page, where you can expand your knowledge!<br />
-                    Browse through a variety of helpful tools and articles, and bookmark the articles you want to revisit later. </p>
-            </section>
-            <div className='bookmarks-button-div'>
-                <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
-            </div>
-            <div className='resources-container-main-page'>
-                {articles.map((article) => (
-                    <div key={article.id} className='article-card-main-page'>
-                        <NavLink to={article.url} target='_blank'><h2 className='article-titles-main'>{article.title}</h2></NavLink>
-                        <button
-                            className='bookmark-icon'
-                            onClick={() => toggleBookmark(article.id)}
-                        >
-                            {localBookmarks.includes(article.id) ? <FaBookmark /> : <FaRegBookmark />}
-                        </button>
+            <div className="top-section-article-page">
+                <section className='resources-description'>
+                    <div className='bookmarks-button-div'>
+                        <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
                     </div>
-                ))}
+                    <h2 className='resources-page-head'>Resources</h2>
+                    <p>Welcome to your Resources Page, where you can expand your knowledge!<br />
+                        Browse through a variety of helpful tools and articles, and bookmark the articles you want to revisit later. </p>
+                </section>
+            </div>
+            <div className="bottom-section-article-page">
+                <div className='resources-container-main-page'>
+                    {articles.map((article) => (
+                        <div key={article.id} className='article-card-main-page'>
+                            <NavLink to={article.url} target='_blank'><h2 className='article-titles-main'>{article.title}</h2></NavLink>
+                            <button
+                                className='bookmark-icon'
+                                onClick={() => toggleBookmark(article.id)}
+                            >
+                                {localBookmarks.includes(article.id) ? <FaBookmark /> : <FaRegBookmark />}
+                            </button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     ) : setModalContent(<LoginFormModal />)

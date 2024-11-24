@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark, FaHandPointLeft } from 'react-icons/fa';
+import './BookmarksPage.css';
 
 const Bookmarks = () => {
     const user = useSelector(state => state.session.user);
@@ -59,16 +60,17 @@ const Bookmarks = () => {
  
     
     return (
-        <div className="resources-home">
-            <section className="resources-description">
-                <h2 className="resources-page-head">Resources</h2>
-                <p>Your Bookmarked Articles</p>
+        <div className="bookmarks-home">
+            <section className="bookmarks-description">
+                <h2 className="bookmarks-page-head">Resources</h2>
+                <p>Bookmarked Articles</p>
+                <NavLink to='/articles'><button> <FaHandPointLeft/> Back</button></NavLink>
             </section>
             <div className="resources-container-bookmark-page">
             {bookedArticles.map((article) => (
-                <div key={article.id} className="article-card-main-page">
+                <div key={article.id} className="article-card-bookmark-page">
                     <NavLink to={article.url} target="_blank">
-                        <h2 className="article-titles-main">{article.title}</h2>
+                        <h2 className="article-titles-bookmark">{article.title}</h2>
                     </NavLink>
                     <button
                         className="bookmark-icon"
