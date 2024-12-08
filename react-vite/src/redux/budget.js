@@ -131,9 +131,10 @@ const BudgetsReducer = (state = initialState, action) => {
             newState.allBudgets[action.payload.id] = action.payload;
             return newState;
         }
-        case CREATE_SUMMARY:{
-            let newState = {...state}
-            newState.currentBudget.summary = action.payload;
+        case CREATE_SUMMARY: {
+            let newState = { ...state };
+            newState.budgetSummary = action.payload;
+            return newState;
         }
         case DELETE_BUDGET:{
             let newState = {...state};
