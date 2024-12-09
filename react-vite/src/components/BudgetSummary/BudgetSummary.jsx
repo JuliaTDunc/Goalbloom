@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchBudget, fetchSummary } from '../../redux/budget';
-import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
+import { useDispatch } from 'react-redux';
+import { fetchSummary } from '../../redux/budget';
 import './BudgetSummary.css';
 
 
@@ -21,7 +20,6 @@ const BudgetSummary = (budgetDetails) => {
     }, [summary, currBudget]);
 
     if (error) return <p>Error: {error}</p>;
-    if (!summary) return <p>Loading summary...</p>;
 
     return summary ? (
         <div>
@@ -30,7 +28,6 @@ const BudgetSummary = (budgetDetails) => {
         </div>
     ) : (
         <div>
-            <p>No Summary for this Budget.</p>
         </div>
     );
 
