@@ -84,11 +84,11 @@ export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
         return error;
     }
 };
-export const fetchSummary = async (currBudget) => {
-    const res = await csrfFetch(`/api/budgets/${currBudget.id}/summary`, {
+export const fetchSummary = (currBudget) => async(dispatch) => {
+    const res = await csrfFetch(`/api/budgets/${currBudget.budgetDetails.id}/summary`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ budget_details: currBudget }),
+        body: JSON.stringify({ budget_details: currBudget.budgetDetails }),
     });
 
     if (res.ok) {

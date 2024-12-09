@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from app.forms.budget_form import BudgetForm
 import logging
 import openai
+import os
 
 budget_routes = Blueprint("budget", __name__)
 
@@ -130,21 +131,29 @@ def edit_budget(budget_id):
     return jsonify({'errors': form.errors}), 400
 
 # NEW BUDGET SUMMARY 
-@budget_routes.route('/<int:budget_id>/summary', methods=['POST'])
-def generate_summary():
+@budget_routes.route('/<int:id>/summary', methods=['POST'])
+def generate_summary(id):
     data = request.json
     budget_details = data.get('budget_details')
+    openai.api_key = os.environ.get('OPENAI_API_KEY')
     print(f"Received data: {data}")
+    if not budget_details:
+        return jsonify({'error': 'Budget details are required'}), 400
+    client = openai.Client()
+    prompt=f"Create a summary for this budget: {budget_details}"
 
-    try:
-        res = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=f"Create a summary for this budget: {budget_details}",
-            max_tokens=150
-        )
-        return jsonify({'summary': res['choices'][0]['text'].strip()})
-    except Exception as err:
-        return jsonify({'error': str(err)}),500
+    res = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+        ],
+        max_tokens=150,
+    )
+    summary = res['choices'][0]['message']['content']
+    return jsonify({'summary': summary})
+        #return res;
+    
 
 #DELETE a budget route
 @budget_routes.route('/<int:budget_id>', methods=['DELETE'])

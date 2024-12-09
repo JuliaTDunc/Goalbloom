@@ -70,6 +70,7 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
+app.config["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 @app.route("/api/docs")
 def api_help():

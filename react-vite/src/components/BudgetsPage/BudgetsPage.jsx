@@ -5,6 +5,7 @@ import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
 import { useModal } from '../../context/Modal';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
+import BudgetSummary from '../BudgetSummary';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import LoginFormModal from '../LoginFormModal';
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
@@ -25,6 +26,7 @@ const BudgetsPage = () => {
     const allTransactions = useSelector(state => state.transactions.allTransactions);
     const transactions = Object.values(allTransactions);
     let userData;
+    let summaryData;
 
     const openNewBudgetModal = () => {
         setModalContent(<BudgetForm budget={null}/>);
@@ -101,6 +103,10 @@ const BudgetsPage = () => {
             remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
             totalIncome: currentBudget.total_amount
         }
+        summaryData = {
+            ...currentBudget,
+            budgetItems
+        }
     };
 
     return user? (
@@ -126,6 +132,13 @@ const BudgetsPage = () => {
                         ) : (
                             <div className='budget-chart'>
                                 <p>Select a Budget</p>
+                            </div>
+                        )}
+                    </div>
+                    <div className='current-summary-section'>
+                        {summaryData && (
+                            <div>
+                                <BudgetSummary budgetDetails={summaryData}/>
                             </div>
                         )}
                     </div>

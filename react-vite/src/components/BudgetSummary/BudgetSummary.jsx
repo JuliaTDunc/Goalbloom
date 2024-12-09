@@ -11,22 +11,26 @@ const BudgetSummary = (budgetDetails) => {
     const [error, setError] = useState(null);
     const currBudget = budgetDetails;
 
-    console.log(currBudget, 'HEYYY')
-
     useEffect(() => {
         if (!summary) {
             let currSummary = dispatch(fetchSummary(currBudget))
-                .then(setSummary(currSummary));
+                .then(() => {
+                    setSummary(currSummary);
+                })
         }
     }, [summary, currBudget]);
 
     if (error) return <p>Error: {error}</p>;
     if (!summary) return <p>Loading summary...</p>;
 
-    return (
+    return summary ? (
         <div>
             <h2>{currBudget.name} Summary</h2>
             <p>{summary}</p>
+        </div>
+    ) : (
+        <div>
+            <p>No Summary for this Budget.</p>
         </div>
     );
 
