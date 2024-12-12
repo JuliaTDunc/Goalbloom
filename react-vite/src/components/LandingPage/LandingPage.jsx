@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import Fleur from '../../images/fleur.png'
-import { FaCogs } from 'react-icons/fa';
+import React, { useState,} from 'react';
+import { NavLink } from 'react-router-dom';
+import Fleur from '../../images/fleur.png';
+import LandingVideo from '../../images/LandingVideo.mp4';
+import PhoneImage1 from '../../images/PhoneHomescreen.png';
+import featureImg1 from '../../images/featureImg1.png';
+import featureImg2 from '../../images/featureImg2.png';
+import featureImg3 from '../../images/featureImg3.png';
+import SignupFormPage from '../SignupFormPage';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
@@ -20,14 +26,13 @@ function LandingPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     let userData;
 
-    const openFeatures = (() => {
-        alert('-AI Budget Summaries -Budget Editing');
-    });
-
     useEffect(() => {
-            dispatch(fetchBudgets());
+        dispatch(fetchBudgets());
     }, [dispatch]);
 
+    if(user){
+        
+    }
     const closestBudget = useMemo(() => {
         if (!budgets || budgets.length === 0) return null;
 
@@ -50,16 +55,27 @@ function LandingPage() {
                 remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
                 totalIncome: currentBudget.total_amount
             }
-        };
+        }
+    useEffect(() => {
+        if(user){
+            const loadData = async () => {
+                await dispatch(fetchBudgets());
+                setIsLoaded(true);
+            };
+            loadData();
+        }
+    }, [dispatch]);
 
+    /*if (!isLoaded) {
+        return <div>Loading...</div>;
+    }*/
     return user ? (
     <>
         <div className="landing-page">
             <div className='top-section'>
                     <div className="welcome-section">
                         <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
-                        <h1 className="welcome-heading">Welcome {user.username}</h1>
-                        <h4 className="features-title">More Features Coming Soon...<FaCogs className='clogs' onClick={openFeatures} /></h4>
+                        <h1 className="welcome-heading">Hello, {user.username}!</h1>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">
@@ -73,33 +89,47 @@ function LandingPage() {
         </div>
     </>) : (
         <>
-            <div className="landing-page">
-                <div className='top-section'>
-                        <div className="welcome-section">
-                            <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
-                            <h1 className="welcome-heading">Welcome</h1>
-                            <p className="welcome-text">
-                                Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!
-                            </p>
-                        </div>
-                        <div className="features-section">
-                            <div className="feature-grid">
-                                <div className="feature-item">
-                                    <h2>Stay Updated</h2>
-                                    <p>Keep tabs on your spending, set savings goals, and see where your money goes!</p>
-                                </div>
-                                <div className="feature-item">
-                                    <h2>Plan Ahead</h2>
-                                    <p>Goalbloom has cool tips and articles to help you get smarter with your cash!</p>
-                                </div>
-                                <div className="feature-item">
-                                    <h2>Learn As You Go</h2>
-                                    <p>Select from your income, expenses, and goals, and GoalBloom will whip up budgeting plans to help you manage your money!</p>
-                                </div>
-                            </div>
-                        </div>
+        <div className="landing-page-logged-out">
+            <div className='top-section-logged-out'>
+                <div className="welcome-section-logged-out">
+                    <div className='landing-page-fleur-div'>
+                        <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
                     </div>
-                </div>  
+                    <div className='slogan'>
+                        <h1 className="welcome-heading-logged-out">Welcome</h1>
+                        <p className="welcome-text">Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!</p>
+                    </div> 
+                </div>
+                <div className="welcome-image-section-logged-out">
+                            <video src={LandingVideo} className="top-image" autoPlay muted playsInline />
+                </div>
+            </div>
+            <div className='sign-up-button-landing-page'>
+                <NavLink to='/signup' className='signup-button'> Sign Up</NavLink>
+            </div>
+            <div className='middle-section'>
+                <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
+                <div className='image-phone-goalbloom'>
+                    <img src={PhoneImage1} alt='phone-image' className='phone-image'></img>
+                </div>
+            </div>
+            <div className="features-section">
+                    <div>
+                            <p className="feature-text">Welcome to smarter spending. Start your budget journey today.</p>
+                    </div>
+                    <div className="feature-grid">
+                        <img src={featureImg1} alt="Feature 1" className="feature-image" />
+                            <img src={featureImg2} alt="Feature 2" className="feature-image" />
+                            <img src={featureImg3} alt="Feature 3" className="feature-image" />
+                        {/*<img src={Goldblum2} alt="Feature 4" className="feature-image" />*/}
+                    </div>
+                </div>
+                <div className='bottom-section'>
+                    <footer>
+                        <h2>Connect</h2>
+                    </footer>
+                </div>
+        </div>
         </>
     )
 }

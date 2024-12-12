@@ -128,3 +128,74 @@
 .helpful-resources:hover, .related-articles:hover{
     box-shadow: 0px 2px 8px rgb(0, 0, 0);
 }
+@media screen and (max-width: 768px) {
+    .transactions-home {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .transactions-page-head {
+        font-size: 24px;
+    }
+
+    .new-trans-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .transactions-description p {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .transactions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .graph-list-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .trans-graph,
+    .trans-list {
+        padding: 15px;
+        box-shadow: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .trans-list{
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tabs button {
+        font-size: 14px;
+        padding: 8px;
+        margin-right: 0;
+    }
+
+    .helpful-resources,
+    .related-articles {
+        flex-direction: column;
+        text-align: center;
+        font-size: 12px;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .helpful-resources:hover,
+    .related-articles:hover {
+        box-shadow: none;
+    }
+}
