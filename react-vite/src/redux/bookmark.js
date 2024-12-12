@@ -46,8 +46,9 @@ export const removeBookmark = (id) => async (dispatch) => {
     if (!res.ok) {
         throw new Error('Failed to delete bookmark');
     }
-    const data = await res.json();
-    dispatch(deleteBookmark(id));
+    if(res.ok){
+        dispatch(deleteBookmark(id));
+    }
 };
 
 const initialState = {

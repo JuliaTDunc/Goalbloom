@@ -5,6 +5,7 @@ const GET_BUDGET = 'budgets/getById';
 const CREATE_BUDGET = 'budgets/create';
 const EDIT_BUDGET = 'budgets/edit';
 const DELETE_BUDGET = 'budgets/delete';
+const CREATE_SUMMARY = 'budgets/createSummary';
 
 const getBudgets = (budgets) => ({
     type: GET_BUDGETS,
@@ -22,6 +23,10 @@ const editBudget = (budget) => ({
     type: EDIT_BUDGET,
     payload: budget
 });
+const createSummary = (budget) => ({
+    type: CREATE_SUMMARY,
+    payload: budget
+})
 const deleteBudget = (budgetId) => ({
     type: DELETE_BUDGET,
     payload: budgetId
@@ -79,6 +84,22 @@ export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
         return error;
     }
 };
+export const fetchSummary = (currBudget) => async(dispatch) => {
+    const res = await csrfFetch(`/api/budgets/${currBudget.budgetDetails.id}/summary`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ budget_details: currBudget.budgetDetails }),
+    });
+
+    if (res.ok) {
+        const summary = await res.json();
+        dispatch(createSummary(summary));
+        return summary;
+    } else {
+        const error = await res.json();
+        return error;
+    }
+};
 
 export const fetchDeleteBudget = (budgetId) => async(dispatch) => {
     const res = await csrfFetch(`/api/budgets/${budgetId}`,{
@@ -108,6 +129,11 @@ const BudgetsReducer = (state = initialState, action) => {
         case EDIT_BUDGET:{
             let newState = {...state};
             newState.allBudgets[action.payload.id] = action.payload;
+            return newState;
+        }
+        case CREATE_SUMMARY: {
+            let newState = { ...state };
+            newState.budgetSummary = action.payload;
             return newState;
         }
         case DELETE_BUDGET:{

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import HighchartsReact from 'highcharts-react-official';
@@ -44,7 +44,7 @@ const BudgetGraph = ({budget}) => {
         dispatch(fetchBudgetItemsByBudget(budget.id));
         dispatch(fetchTransactions());
         dispatch(fetchGoals());
-    }, [dispatch]);
+    }, [dispatch, budget.id]);
 
     useEffect(() => {
         if (budgetItems && transactions) {
@@ -99,7 +99,11 @@ const BudgetGraph = ({budget}) => {
     const remainingData = {name: 'Remaining Balance', y: (remainingBalance/totalIncome) * 100}
 
 
-    const totalData = [...expensesData, ...goalsData, remainingData];
+    const totalData = useMemo(() => [...expensesData, ...goalsData, remainingData], [
+        expensesData,
+        goalsData,
+        remainingData,
+    ]);
 
     useEffect(() => {
         if (totalData.length > 0) {

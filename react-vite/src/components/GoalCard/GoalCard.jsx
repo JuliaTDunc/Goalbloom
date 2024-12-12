@@ -107,9 +107,9 @@ const GoalCard = ({ goal }) => {
             </div>
         </div>
     ) : (<div className='goal-card'>
-        <div className='goalbloom-reached' onLoad={triggerConfetti}>
+        <div className='goalbloom-reached'>
                 <button className='goal-delete-button' onClick={() => handleDelete(goal.id)}><FaRegTrashAlt /></button>
-                <img className='goldblum-goal' src={Goldblum} />
+                <img className='goldblum-goal' src={Goldblum} onLoad={triggerConfetti} />
                 <p>This goal has been reached! Good Job!</p>
         </div>
     </div>);
