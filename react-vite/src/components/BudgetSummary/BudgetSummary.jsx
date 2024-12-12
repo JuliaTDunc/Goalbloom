@@ -21,6 +21,7 @@ const BudgetSummary = (budgetDetails) => {
 
     if (error) return <p>Error: {error}</p>;
 
+
     return summary ? (
         <div>
             <h2>{currBudget.name} Summary</h2>
@@ -30,7 +31,6 @@ const BudgetSummary = (budgetDetails) => {
         <div>
         </div>
     );
-
 }
 
 

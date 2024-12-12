@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,} from 'react';
+import { NavLink } from 'react-router-dom';
 import Fleur from '../../images/fleur.png';
+import LandingVideo from '../../images/LandingVideo.mp4';
+import PhoneImage1 from '../../images/PhoneHomescreen.png';
 import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
-import Goldblum2 from '../../images/Goldblum2.png';
+import featureImg3 from '../../images/featureImg3.png';
+import SignupFormPage from '../SignupFormPage';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
@@ -23,9 +27,12 @@ function LandingPage() {
     let userData;
 
     useEffect(() => {
-            dispatch(fetchBudgets());
+        dispatch(fetchBudgets());
     }, [dispatch]);
 
+    if(user){
+        
+    }
     const closestBudget = useMemo(() => {
         if (!budgets || budgets.length === 0) return null;
 
@@ -48,8 +55,20 @@ function LandingPage() {
                 remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
                 totalIncome: currentBudget.total_amount
             }
-        };
+        }
+    useEffect(() => {
+        if(user){
+            const loadData = async () => {
+                await dispatch(fetchBudgets());
+                setIsLoaded(true);
+            };
+            loadData();
+        }
+    }, [dispatch]);
 
+    /*if (!isLoaded) {
+        return <div>Loading...</div>;
+    }*/
     return user ? (
     <>
         <div className="landing-page">
@@ -82,35 +101,27 @@ function LandingPage() {
                     </div> 
                 </div>
                 <div className="welcome-image-section-logged-out">
-                    <img src={Goldblum2} alt="Image" className="top-image" />
+                            <video src={LandingVideo} className="top-image" autoPlay muted playsInline />
                 </div>
             </div>
             <div className='sign-up-button-landing-page'>
-                <button className='signup-button'>Sign Up</button>
+                <NavLink to='/signup' className='signup-button'> Sign Up</NavLink>
             </div>
             <div className='middle-section'>
-                <div><h2 className='phone-image-head'>Placeholder #2</h2></div>
+                <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
                 <div className='image-phone-goalbloom'>
-                    <img src={Goldblum2} alt='phone-image' className='phone-image'></img>
+                    <img src={PhoneImage1} alt='phone-image' className='phone-image'></img>
                 </div>
-                        <h5>Stay Updated</h5>
-                        <p>Keep tabs on your spending, set savings goals, and see where your money goes!</p>
-                   
-                        <h5>Plan Ahead</h5>
-                        <p>Goalbloom has cool tips and articles to help you get smarter with your cash!</p>
-                   
-                        <h5>Learn As You Go</h5>
-                        <p>Select from your income, expenses, and goals, and GoalBloom will whip up budgeting plans to help you manage your money!</p>
             </div>
             <div className="features-section">
                     <div>
-                        <p className="feature-text">Placeholder #3 Features</p>
+                            <p className="feature-text">Welcome to smarter spending. Start your budget journey today.</p>
                     </div>
                     <div className="feature-grid">
                         <img src={featureImg1} alt="Feature 1" className="feature-image" />
                             <img src={featureImg2} alt="Feature 2" className="feature-image" />
-                            <img src={Goldblum2} alt="Feature 3" className="feature-image" />
-                        <img src={Goldblum2} alt="Feature 4" className="feature-image" />
+                            <img src={featureImg3} alt="Feature 3" className="feature-image" />
+                        {/*<img src={Goldblum2} alt="Feature 4" className="feature-image" />*/}
                     </div>
                 </div>
                 <div className='bottom-section'>
