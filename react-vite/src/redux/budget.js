@@ -26,11 +26,11 @@ const editBudget = (budget) => ({
 /*const createSummary = (budget) => ({
     type: CREATE_SUMMARY,
     payload: budget
-})
+})*/
 const deleteBudget = (budgetId) => ({
     type: DELETE_BUDGET,
     payload: budgetId
-});*/
+});
 
 const toDict = async (budgets) => {
     let orderedData = {};
@@ -54,6 +54,7 @@ export const fetchBudget = (id) => async(dispatch) => {
         return res;
 }
 export const fetchCreateBudget = (budget) => async (dispatch) => {
+    console.log("FROM .js", budget)
     const res = await csrfFetch('/api/budgets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

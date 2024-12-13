@@ -90,7 +90,7 @@ const BudgetsPage = () => {
                 dispatch(fetchBudgets());
             })
             .catch((error) => {
-                console.error('Failed to delete goal:', error);
+                console.error('Failed to delete budget:', error);
             });
     };
     if (currentBudget && budgetItems) {

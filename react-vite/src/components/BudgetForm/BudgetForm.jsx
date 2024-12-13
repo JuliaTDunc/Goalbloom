@@ -9,6 +9,9 @@ import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
 const BudgetForm = ({budget}) => {
+    if(budget){
+        console.log("Passed Budget", budget)
+    }
     const inputRefs = useRef({
         name: null,
         startDate: null,
@@ -59,7 +62,6 @@ const BudgetForm = ({budget}) => {
     const [expenseOptions, setExpenseOptions] = useState([]);
     const [goalOptions, setGoalOptions] = useState([]);
     const [remainingBalance, setRemainingBalance] = useState(0);
-    console.log("initial log", remainingBalance)
     let [errors, setErrors] = useState({});
     let [isLoaded, setIsLoaded] = useState(false);
     const [isFetched, setIsFetched] = useState(false);
@@ -117,8 +119,10 @@ const BudgetForm = ({budget}) => {
     //set selected items
     useEffect(() => {
         if (budget && budgetItems && transactions) {
+            console.log('ALL ITEMS', budgetItems)
             const transactionItems = budgetItems.filter(item => item.transaction);
-            const currGoalItems = budgetItems.filter(item => !item.transaction);
+            const goalItems = budgetItems.filter(item => !item.transaction);
+            console.log('Filtered goalItems:', goalItems);
 
             const currIncomeItems = transactionItems.flatMap(item => {
                 const relatedInc = transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense);
@@ -130,6 +134,13 @@ const BudgetForm = ({budget}) => {
                 const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
                 return relatedExp || null;
             }).filter(item => item !== null);
+            console.log('currExp', currExpenseItems)
+
+            const currGoalItems = goalItems.map(item => {
+                const relatedGoal = goals.find(goal => goal.id === item.item_id);
+                return relatedGoal || null;
+            }).filter(item => item !== null);
+            console.log('currGoalItems:', currGoalItems);
 
             if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
                 setIncomeItems(currIncomeItems);
@@ -137,12 +148,14 @@ const BudgetForm = ({budget}) => {
             if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
                 setExpenseItems(currExpenseItems.length > 0 ? currExpenseItems : []);
             }
-            const goalItemAmounts = currGoalItems.length > 0
-                ? currGoalItems.map(item => {
-                    const relatedGoal = goals.find(goal => goal.id === item.item_id);
-                    return {...relatedGoal, difference:(relatedGoal.amount - relatedGoal.saved_amount)};
-                }).filter(item => item !== null)
-                : [];
+            if (JSON.stringify(currGoalItems) !== JSON.stringify(goalItems)) {
+                setGoalItems(currGoalItems.length > 0 ? currGoalItems : []);
+            }
+            const goalItemAmounts = currGoalItems.map(item => ({
+                ...item,
+                difference: item.amount - item.saved_amount,
+            }));
+
             if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
                 setGoalItems(goalItemAmounts);
             }
@@ -150,17 +163,18 @@ const BudgetForm = ({budget}) => {
     }, [budget, budgetItems, transactions, goals]);
    
     //MATHS -- REMAINING BALANCE
-    useEffect(() => { 
-        if(incomeItems.length){
-            let totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            let totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            let totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
-            setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
-            setTotalAmount(totalIncome);
-        }
-    }, [incomeItems, expenseItems, goalItems]);
+   
+    const calculateRemaining = () => {
+        if (!incomeItems.length && !expenseItems.length && !goalItems.length) return;
+
+        const totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
+        const totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
+        const totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
+
+        setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
+        setTotalAmount(totalIncome);
+    }
     
- 
     const addItem = (type, item) => {
         switch (type) {
             case 'income':
@@ -178,7 +192,6 @@ const BudgetForm = ({budget}) => {
     }
 
     const removeItem = (type, id) => {
-        console.log("look hereeee", incomeItems, expenseItems)
         switch (type) {
             case 'income':
                 setIncomeItems((items) => items.filter((item) => item.id !== id));
@@ -207,6 +220,8 @@ const BudgetForm = ({budget}) => {
         } else {
             addItem(type, item);
         }
+        ///// THIS IS ONE CLICK BEHIND -- CREATE USEEFFECT TO CALCULATE WHEN HANDLEITEMCLICK IS CHANGED WTV
+        calculateRemaining();
     };
 
     const handleSubmit = async (e) => {
@@ -228,7 +243,7 @@ const BudgetForm = ({budget}) => {
             ...selectedItems,
         };
 
-        console.log(budgetData)
+        console.log("BudgetData",budgetData)
         try {
             if (budget) {
                 await dispatch(fetchEditBudget(budgetData, budget.id));

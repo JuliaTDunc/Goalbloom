@@ -43,12 +43,13 @@ def get_budget_items_by_id(id):
 @login_required
 def create_budget():
     form = BudgetForm()
-    logging.info('form request data recieved ' ,request.form)
-    logging.info("JSON data recieved ", request.json)
+    print(f'form request data recieved ' ,request.form)
+    print(f"JSON data recieved ", request.json)
 
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])
     goal_ids = request.json.get('goal_ids', [])
+    
 
     incomes = Transaction.query.filter(Transaction.id.in_(income_ids)).all()
     expenses = Transaction.query.filter(Transaction.id.in_(expense_ids)).all()
