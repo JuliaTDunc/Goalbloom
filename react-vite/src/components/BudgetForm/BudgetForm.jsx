@@ -108,7 +108,7 @@ const BudgetForm = ({ budget }) => {
         console.log("Filtered goalItems:", goalItems);
 
         const currIncomeItems = transactionItems
-            .flatMap(item =>
+            .map(item =>
                 transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense)
             )
             .filter(item => item !== null);
@@ -287,7 +287,7 @@ const BudgetForm = ({ budget }) => {
                             >
                                 {item.name} ${item.amount}
                             </button>
-                            {incomeItems.some(i => i.id === item.id) && (
+                            {currIncomeItems.some(i => i.id === item.id) && (
                                 <button type='button' onClick={() => handleItemClick('income', item.id)}><FaRegTrashAlt /></button>
                             )}
                         </div>
