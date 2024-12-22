@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from "../../context/Modal";
-import { fetchCreateBudget, fetchEditBudget, fetchBudgets, fetchBudget } from '../../redux/budget';
+import { fetchCreateBudget, fetchEditBudget, fetchBudgets} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
-import { FaRegTrashAlt } from 'react-icons/fa'
 import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
@@ -53,26 +52,10 @@ const BudgetForm = ({ budget }) => {
     const transactions = Object.values(allTransactions);
     const goals = Object.values(allGoals);
 
-    //IF BUDGET EXISTS, GET ASSOCIATED ITEMS TO STATE ++  SET BUDGET INFO
-    useEffect(() => {
-        if (budget?.id && !isFetched) {
-            dispatch(fetchBudgetItemsByBudget(budget.id))
-                .then(() => {
-                    setIsFetched(true);
-                    setName(budget.name);
-                    setStartDate(convertYMDToDate(budget.start_date));
-                    setEndDate(convertYMDToDate(budget.end_date));
-                });
-        }
-    }, [budget, isFetched, dispatch]);
-
     // FETCH USER TRANSACTIONS AND BUDGETS TO STATE
     useEffect(() => {
         dispatch(fetchTransactions());
         dispatch(fetchGoals())
-            .then(() => {
-                setIsLoaded(true)
-            });
     }, [dispatch]);
 
     //SET Options by budget's start date -> end date
@@ -94,18 +77,22 @@ const BudgetForm = ({ budget }) => {
             }))
             .filter(goal => filterByDateRange(goal.end_date));
 
+        console.log("Sort Income Options:", sortIncomeOptions);
+        console.log("Sort Expense Options:", sortExpenseOptions);
+        console.log("Sort Goal Options:", sortGoalOptions);
+
+
         setIncomeOptions(sortIncomeOptions);
         setExpenseOptions(sortExpenseOptions);
         setGoalOptions(sortGoalOptions);
-    }, [startDate, endDate, transactions, goals]);
+        setIsLoaded(true)
+    }, [startDate, endDate, goals, transactions]);
 
-    useEffect(() => {
+    const filterBudgetItems = useCallback(() => {
         if (!budget || !budgetItems || !transactions) return;
 
-        console.log("ALL ITEMS", budgetItems);
         const transactionItems = budgetItems.filter(item => item.transaction);
         const goalItems = budgetItems.filter(item => !item.transaction);
-        console.log("Filtered goalItems:", goalItems);
 
         const currIncomeItems = transactionItems
             .map(item =>
@@ -127,8 +114,6 @@ const BudgetForm = ({ budget }) => {
             })
             .filter(item => item !== null);
 
-        console.log("currExp", currExpenseItems);
-        console.log("currGoalItems:", currGoalItems);
 
         const goalItemAmounts = currGoalItems.map(item => ({
             ...item,
@@ -143,9 +128,25 @@ const BudgetForm = ({ budget }) => {
         if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
             setGoalItems(goalItemAmounts);
         }
-    }, [budget, budgetItems, transactions, goals]);
+    },[budget, budgetItems, transactions, goals]);
 
-    const calculateRemaining = () => {
+    //IF BUDGET EXISTS, GET ASSOCIATED ITEMS TO STATE ++  SET BUDGET INFO ++ FILTER ITEMS ++ SET FETCHED
+    useEffect(() => {
+        if (budget?.id && !isFetched) {
+            dispatch(fetchBudgetItemsByBudget(budget.id))
+                .then(() => {
+                    setName(budget.name);
+                    setStartDate(convertYMDToDate(budget.start_date));
+                    setEndDate(convertYMDToDate(budget.end_date));
+                })
+                .then(() => {
+                    filterBudgetItems();
+                    setIsFetched(true);
+                });
+        }
+    }, [budget, dispatch, filterBudgetItems]);
+
+    const calculateRemaining = useCallback(() => {
     const sumAmounts = (items) => 
         items.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
     const totalIncome = sumAmounts(incomeItems);
@@ -154,7 +155,8 @@ const BudgetForm = ({ budget }) => {
 
     setRemainingBalance(totalIncome - (totalExpenseAmount + totalGoalAmount));
     setTotalAmount(totalIncome);
-};
+    },[incomeItems,expenseItems,goalItems]);
+    
     const addItem = (type, item) => {
         switch (type) {
             case 'income':
@@ -203,7 +205,7 @@ const BudgetForm = ({ budget }) => {
     };
     useEffect(() => {
         calculateRemaining();
-    }, [incomeItems, expenseItems, goalItems]);
+    }, [incomeItems, expenseItems, goalItems, calculateRemaining]);
 
     const handleSubmit = async (e) => {
 
@@ -287,9 +289,6 @@ const BudgetForm = ({ budget }) => {
                             >
                                 {item.name} ${item.amount}
                             </button>
-                            {currIncomeItems.some(i => i.id === item.id) && (
-                                <button type='button' onClick={() => handleItemClick('income', item.id)}><FaRegTrashAlt /></button>
-                            )}
                         </div>
                     ))}
                 </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
@@ -306,9 +305,6 @@ const BudgetForm = ({ budget }) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                {expenseItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('expense', item.id)}><FaRegTrashAlt /></button>
-                                )}
                             </div>
                         ))}
                     </section>
@@ -326,9 +322,6 @@ const BudgetForm = ({ budget }) => {
                                 >
                                     {item.name} ${item.difference}
                                 </button>
-                                {goalItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('goal', item.id)}><FaRegTrashAlt /></button>
-                                )}
                             </div>
                         ))}
                     </section>
