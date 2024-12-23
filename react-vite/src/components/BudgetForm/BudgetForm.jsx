@@ -153,6 +153,8 @@ const BudgetForm = ({ budget }) => {
             }, 0);
         };
         const totalIncome = sumAmounts(incomeItems);
+        console.log('income items.. empty arrays? ', incomeItems,' calculated total income', totalIncome)
+
         const totalExpenseAmount = sumAmounts(expenseItems);
         const totalGoalAmount = sumAmounts(goalItems);
 
@@ -217,6 +219,7 @@ const BudgetForm = ({ budget }) => {
             expense_ids: expenseItems.map(item => item.id),
             goal_ids: goalItems.map(item => item.id),
         };
+        console.log('selected', selectedItems)
 
         const budgetData = {
             name,
@@ -225,7 +228,7 @@ const BudgetForm = ({ budget }) => {
             total_amount: totalAmount,
             ...selectedItems,
         };
-
+        console.log('budget data on submit',budgetData)
         try {
             if (budget) {
                 await dispatch(fetchEditBudget(budgetData, budget.id));
@@ -340,3 +343,6 @@ const BudgetForm = ({ budget }) => {
 
 }
 export default BudgetForm;
+
+// existing incomeItems does NOT show up as selected 'GREEN' in the form
+// incomeItems still include empty arrays
