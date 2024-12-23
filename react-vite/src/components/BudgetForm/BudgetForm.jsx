@@ -8,7 +8,6 @@ import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
 const BudgetForm = ({ budget }) => {
-
     const inputRefs = useRef({
         name: null,
         startDate: null,
@@ -55,7 +54,8 @@ const BudgetForm = ({ budget }) => {
     // FETCH USER TRANSACTIONS AND BUDGETS TO STATE
     useEffect(() => {
         dispatch(fetchTransactions());
-        dispatch(fetchGoals())
+        dispatch(fetchGoals());
+        setIsLoaded(true);
     }, [dispatch]);
 
     //SET Options by budget's start date -> end date
@@ -77,16 +77,10 @@ const BudgetForm = ({ budget }) => {
             }))
             .filter(goal => filterByDateRange(goal.end_date));
 
-        console.log("Sort Income Options:", sortIncomeOptions);
-        console.log("Sort Expense Options:", sortExpenseOptions);
-        console.log("Sort Goal Options:", sortGoalOptions);
-
-
         setIncomeOptions(sortIncomeOptions);
         setExpenseOptions(sortExpenseOptions);
         setGoalOptions(sortGoalOptions);
-        setIsLoaded(true)
-    }, [startDate, endDate, goals, transactions]);
+    }, [startDate, endDate]);
 
     const filterBudgetItems = useCallback(() => {
         if (!budget || !budgetItems || !transactions) return;
@@ -141,21 +135,30 @@ const BudgetForm = ({ budget }) => {
                 })
                 .then(() => {
                     filterBudgetItems();
+                    //calculateRemaining();
                     setIsFetched(true);
                 });
         }
     }, [budget, dispatch, filterBudgetItems]);
 
-    const calculateRemaining = useCallback(() => {
-    const sumAmounts = (items) => 
-        items.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-    const totalIncome = sumAmounts(incomeItems);
-    const totalExpenseAmount = sumAmounts(expenseItems);
-    const totalGoalAmount = sumAmounts(goalItems);
+    useEffect(() => {
+        const sumAmounts = (items) => {
+            const flatItems = items.flat();
+            return flatItems.reduce((sum, item) => {
+                const parsedAmount = parseFloat(item.amount);
+                if (isNaN(parsedAmount)) {
+                    return sum;
+                }
+                return sum + parsedAmount;
+            }, 0);
+        };
+        const totalIncome = sumAmounts(incomeItems);
+        const totalExpenseAmount = sumAmounts(expenseItems);
+        const totalGoalAmount = sumAmounts(goalItems);
 
-    setRemainingBalance(totalIncome - (totalExpenseAmount + totalGoalAmount));
-    setTotalAmount(totalIncome);
-    },[incomeItems,expenseItems,goalItems]);
+        setRemainingBalance(totalIncome - totalExpenseAmount - totalGoalAmount);
+        setTotalAmount(totalIncome);
+    }, [incomeItems, expenseItems, goalItems]);
     
     const addItem = (type, item) => {
         switch (type) {
@@ -202,10 +205,8 @@ const BudgetForm = ({ budget }) => {
         } else {
             addItem(type, item);
         }
+        //calculateRemaining();
     };
-    useEffect(() => {
-        calculateRemaining();
-    }, [incomeItems, expenseItems, goalItems, calculateRemaining]);
 
     const handleSubmit = async (e) => {
 
@@ -225,7 +226,6 @@ const BudgetForm = ({ budget }) => {
             ...selectedItems,
         };
 
-        console.log("BudgetData", budgetData)
         try {
             if (budget) {
                 await dispatch(fetchEditBudget(budgetData, budget.id));

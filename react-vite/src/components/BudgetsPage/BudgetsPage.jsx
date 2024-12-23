@@ -88,6 +88,7 @@ const BudgetsPage = () => {
         dispatch(fetchDeleteBudget(budgetId))
             .then(() => {
                 dispatch(fetchBudgets());
+                setCurrBudget(null);
             })
             .catch((error) => {
                 console.error('Failed to delete budget:', error);
