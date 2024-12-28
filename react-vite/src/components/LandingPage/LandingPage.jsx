@@ -2,7 +2,7 @@ import React, { useState,} from 'react';
 import { NavLink } from 'react-router-dom';
 import Fleur from '../../images/fleur.png';
 import LandingVideo from '../../images/LandingVideo.mp4';
-import PhoneImage1 from '../../images/PhoneHomescreen.png';
+import PhoneVideo from '../../images/PhoneVideo.mp4';
 import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
@@ -110,7 +110,7 @@ function LandingPage() {
             <div className='middle-section'>
                 <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
                 <div className='image-phone-goalbloom'>
-                    <img src={PhoneImage1} alt='phone-image' className='phone-image'></img>
+                            <video src={PhoneVideo} className="phone-image" autoPlay muted playsInline />
                 </div>
             </div>
             <div className="features-section">

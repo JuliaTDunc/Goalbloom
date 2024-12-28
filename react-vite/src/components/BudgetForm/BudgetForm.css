@@ -71,26 +71,6 @@ input {
 .budget-item-content.selected {
     background-color: #fff8a5;
 }
-
-/* Trash Icon (Remove Button) */
-.remove-btn {
-    background: none;
-    border: none;
-    color: #ed6a5a;
-    font-size: 18px;
-    cursor: pointer;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: color 0.3s ease;
-}
-
-.remove-btn:hover {
-    color: #ff7961;
-}
-
-/* Remaining Balance Section */
 .remaining-balance h3 {
     font-size: 20px;
     color: #0c03c3;
@@ -98,7 +78,6 @@ input {
     margin-top: 20px;
 }
 
-/* Submit Button */
 .new-budget-page button[type="submit"] {
     background-color: #0c03c3;
     color: white;
@@ -112,4 +91,32 @@ input {
 
 .new-budget-page button[type="submit"]:hover {
     background-color: #372dff;
+}
+.budget-item button.selected {
+    background-color: #64bb61;
+    /* Green */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.budget-item button.selected:hover {
+    background-color: #4c9949;
+}
+
+.budget-item button {
+    background-color: #ed6a5a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.budget-item button:hover {
+    background-color: #c5443b;
 }

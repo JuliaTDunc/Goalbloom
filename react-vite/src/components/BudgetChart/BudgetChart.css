@@ -1,6 +1,6 @@
-.edit-btn{
-    width:100px;
-    height: 35px;
+.edit-btn {
+    max-width: 100px;
+    max-height: 35px;
     background-color: #8da1bbe6;
     color: rgb(35, 38, 43);
     padding: 5px 10px;
@@ -9,13 +9,36 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 16px;
-    font-weight:bold;
+    font-weight: bold;
     margin-left: 85%;
 }
-.edit-btn:hover{
+
+/* Add hover effect */
+.edit-btn:hover {
     background-color: rgb(19, 76, 163);
-    color:rgba(255, 255, 255, 0.829);
+    color: rgba(255, 255, 255, 0.829);
 }
-.budget-chart{
-    max-width:800px;
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+    .edit-btn {
+        width: 80px;
+        /* Reduce the width */
+        height: 30px;
+        /* Adjust the height */
+        font-size: 14px;
+        /* Make the font smaller */
+    }
+}
+
+/* Media query for very small screens (e.g., landing page adjustments) */
+@media (max-width: 480px) {
+    .edit-btn {
+        width: 70px;
+        /* Further reduce the width */
+        height: 25px;
+        /* Further adjust the height */
+        font-size: 12px;
+        /* Make the font even smaller */
+    }
 }

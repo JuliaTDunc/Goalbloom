@@ -44,11 +44,8 @@ const Bookmarks = () => {
     }, [bookmarks]);
 
     const toggleBookmark = async (article_id) => {
-        console.log('TOGGLED', article_id)
         const isBookmarked = bookmarks.some((bookmark) => bookmark.article_id === article_id);
-        console.log('isBOOKMARKED???', isBookmarked)
         if (isBookmarked) {
-            console.log(`Removing bookmark for article ${article_id}`);
             const currBookmark = bookmarks.find((bookmark) => bookmark.article_id === article_id);
             if (currBookmark) {
                 await dispatch(removeBookmark(article_id));

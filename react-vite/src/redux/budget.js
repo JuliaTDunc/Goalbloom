@@ -26,11 +26,11 @@ const editBudget = (budget) => ({
 /*const createSummary = (budget) => ({
     type: CREATE_SUMMARY,
     payload: budget
-})
+})*/
 const deleteBudget = (budgetId) => ({
     type: DELETE_BUDGET,
     payload: budgetId
-});*/
+});
 
 const toDict = async (budgets) => {
     let orderedData = {};
@@ -78,6 +78,7 @@ export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
     if (res.ok) {
         const updatedBudget = await res.json();
         dispatch(editBudget(updatedBudget));
+        console.log('updated budget', updatedBudget)
         return updatedBudget;
     } else {
         const error = await res.json();
@@ -122,14 +123,22 @@ const BudgetsReducer = (state = initialState, action) => {
         case GET_BUDGET:
             return {...state, currentBudget: action.payload};
         case CREATE_BUDGET:{
-            let newState = {...state}
-            newState.allBudgets[action.payload.id] = action.payload;
-            return newState;
+            return {
+                ...state,
+                allBudgets: {
+                    ...state.allBudgets,
+                    [action.payload.id]: action.payload
+                }
+            };
         }
         case EDIT_BUDGET:{
-            let newState = {...state};
-            newState.allBudgets[action.payload.id] = action.payload;
-            return newState;
+            return {
+                ...state,
+                allBudgets: {
+                    ...state.allBudgets,
+                    [action.payload.id]: action.payload
+                }
+            };
         }
         /*case CREATE_SUMMARY: {
             let newState = { ...state };

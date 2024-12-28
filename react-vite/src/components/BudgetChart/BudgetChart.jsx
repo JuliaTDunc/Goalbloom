@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
+import { useLocation } from 'react-router-dom';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import HighchartsReact from 'highcharts-react-official';
@@ -15,9 +16,7 @@ import './BudgetChart.css';
 
 const BudgetGraph = ({budget}) => {
 
-    const juliaApproved = false;
-
-
+    const isLandingPage = location.pathname === '/';
 
     const dispatch = useDispatch();
     const allBudgetItems = useSelector(state => state.budgetItems.budgetItems);
@@ -154,7 +153,7 @@ const BudgetGraph = ({budget}) => {
 
     return isLoaded ? (
         <div className='budget-graph'>
-            {(juliaApproved) && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
+            {!isLandingPage && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
                 <FaPencilAlt />
             </button>)}
             <HighchartsReact highcharts={Highcharts} options={graphOptions} className='budget-chart'/>
