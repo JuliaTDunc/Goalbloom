@@ -54,7 +54,6 @@ export const fetchBudget = (id) => async(dispatch) => {
         return res;
 }
 export const fetchCreateBudget = (budget) => async (dispatch) => {
-    console.log("FROM .js", budget)
     const res = await csrfFetch('/api/budgets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -79,6 +78,7 @@ export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
     if (res.ok) {
         const updatedBudget = await res.json();
         dispatch(editBudget(updatedBudget));
+        console.log('updated budget', updatedBudget)
         return updatedBudget;
     } else {
         const error = await res.json();
@@ -123,14 +123,22 @@ const BudgetsReducer = (state = initialState, action) => {
         case GET_BUDGET:
             return {...state, currentBudget: action.payload};
         case CREATE_BUDGET:{
-            let newState = {...state}
-            newState.allBudgets[action.payload.id] = action.payload;
-            return newState;
+            return {
+                ...state,
+                allBudgets: {
+                    ...state.allBudgets,
+                    [action.payload.id]: action.payload
+                }
+            };
         }
         case EDIT_BUDGET:{
-            let newState = {...state};
-            newState.allBudgets[action.payload.id] = action.payload;
-            return newState;
+            return {
+                ...state,
+                allBudgets: {
+                    ...state.allBudgets,
+                    [action.payload.id]: action.payload
+                }
+            };
         }
         /*case CREATE_SUMMARY: {
             let newState = { ...state };

@@ -43,8 +43,6 @@ def get_budget_items_by_id(id):
 @login_required
 def create_budget():
     form = BudgetForm()
-    print(f'form request data recieved ' ,request.form)
-    print(f"JSON data recieved ", request.json)
 
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])
@@ -92,6 +90,9 @@ def edit_budget(budget_id):
     form = BudgetForm()
     budget = Budget.query.get(budget_id)
 
+    print(f'form request data recieved ' ,request.form)
+    print(f"JSON data recieved ", request.json)
+
     if not budget:
         return jsonify({'error': 'Budget not found'}), 404
     if budget.user_id != current_user.id:
@@ -100,11 +101,14 @@ def edit_budget(budget_id):
     income_ids = request.json.get('income_ids', [])
     expense_ids = request.json.get('expense_ids', [])
     goal_ids = request.json.get('goal_ids', [])
-    total_amount = request.json.get('total_amount', budget.total_amount)
 
     incomes = Transaction.query.filter(Transaction.id.in_(income_ids)).all()
     expenses = Transaction.query.filter(Transaction.id.in_(expense_ids)).all()
     goals = Goal.query.filter(Goal.id.in_(goal_ids)).all()
+
+    total_amount = sum(income.amount for income in incomes)
+
+    print(f"total amount, backend edit ", total_amount)
     
     form['csrf_token'].data = request.cookies['csrf_token']
 

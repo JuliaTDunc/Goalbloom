@@ -33,7 +33,8 @@ const BudgetForm = ({ budget }) => {
 
     const [name, setName] = useState(budget?.name || '');
     const [startDate, setStartDate] = useState(budget && budget.start_date ? convertYMDToDate(budget.start_date) : '');
-    const [endDate, setEndDate] = useState(budget?.end_date || '');
+    //convert endDate necessary?
+    const [endDate, setEndDate] = useState(budget && budget.end_date ? convertYMDToDate(budget.end_date) : '');
     const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
 
     //Options for Form
@@ -344,5 +345,7 @@ const BudgetForm = ({ budget }) => {
 }
 export default BudgetForm;
 
+// *** huge REDUX logic issue *** 
 // existing incomeItems does NOT show up as selected 'GREEN' in the form
 // incomeItems still include empty arrays
+// incomeItems unable to hold multiple items. Only ONE and empty arrays
