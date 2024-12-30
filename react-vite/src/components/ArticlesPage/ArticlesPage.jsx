@@ -43,15 +43,12 @@ const Articles = () => {
     }, [bookmarks]);
 
     const toggleBookmark = async (article_id) => {
-        console.log('TOGGLED', article_id)
         if (!user) {
             setModalContent(<LoginFormModal />);
             return;
         }
         const isBookmarked = localBookmarks.includes(article_id);
-        console.log('isBOOKMARKED???', isBookmarked)
         if (isBookmarked) {
-            console.log(`Removing bookmark for article ${article_id}`);
             setLocalBookmarks(prev => prev.filter(id => id !== article_id));
             const currBookmark = bookmarks.find(bookmark => bookmark.article_id === article_id);
             if (currBookmark) {

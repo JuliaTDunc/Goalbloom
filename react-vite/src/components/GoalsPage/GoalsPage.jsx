@@ -46,7 +46,7 @@ const GoalsPage = () => {
     return user? (
         <div className="goals-page">
             <header className='goals-header'>
-                <h4 className='goals-page-head'>Your Goals!</h4>
+                <h4 className='goals-page-head'>Goals</h4>
             <section className='goals-description-container'>
                     <p className='goals-description'>Welcome to your Goals Page! <br/>Track all your savings goals here, and update as you get closer to your goals!</p>
             </section>

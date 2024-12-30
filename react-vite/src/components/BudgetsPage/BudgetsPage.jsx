@@ -10,11 +10,13 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import LoginFormModal from '../LoginFormModal';
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './BudgetsPage.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const BudgetsPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector(state => state.session.user);
     const allBudgets = useSelector(state => state.budgets.allBudgets);
     const currentBudget = useSelector(state => state.budgets.currentBudget);
@@ -88,9 +90,10 @@ const BudgetsPage = () => {
         dispatch(fetchDeleteBudget(budgetId))
             .then(() => {
                 dispatch(fetchBudgets());
+                setCurrBudget(null);
             })
             .catch((error) => {
-                console.error('Failed to delete goal:', error);
+                console.error('Failed to delete budget:', error);
             });
     };
     if (currentBudget && budgetItems) {
@@ -113,7 +116,7 @@ const BudgetsPage = () => {
         <div className='budgets-page'>
             <div className='top-budgets-page-section'>
                 <div className='budgets-page-header'>
-                    <h1>Welcome, {user?.username}</h1>
+                    <h1>Budgets</h1>
                     <p>Check out your budget plans below!</p>
                 </div>
 
@@ -175,7 +178,7 @@ const BudgetsPage = () => {
                 {userData && <div className='related-articles-budgets-page'><RelatedArticles userData={userData} /></div>}
             </div>
             </div>
-    ) : (setModalContent(<LoginFormModal/>))
+    ) : (navigate('/'))
 };
 
 export default BudgetsPage;

@@ -1,14 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from "../../context/Modal";
-import {fetchCreateBudget, fetchEditBudget,fetchBudgets,fetchBudget} from '../../redux/budget';
+import { fetchCreateBudget, fetchEditBudget, fetchBudgets} from '../../redux/budget';
 import { fetchTransactions } from '../../redux/transaction';
 import { fetchGoals } from '../../redux/goals';
-import { FaRegTrashAlt } from 'react-icons/fa'
 import './BudgetForm.css';
 import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
 
-const BudgetForm = ({budget}) => {
+const BudgetForm = ({ budget }) => {
     const inputRefs = useRef({
         name: null,
         startDate: null,
@@ -18,25 +17,9 @@ const BudgetForm = ({budget}) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        if (isNaN(date)) return 'Invalid Date';
-        return date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
     const removeQuotes = (dString) => {
         return dString;
     }
-    const ymdFormatter = (dateString) => {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`
-    };
     const convertYMDToDate = (dateString) => {
         const [datePart] = dateString.split('T');
         const [year, month, day] = datePart.split('-');
@@ -50,21 +33,18 @@ const BudgetForm = ({budget}) => {
 
     const [name, setName] = useState(budget?.name || '');
     const [startDate, setStartDate] = useState(budget && budget.start_date ? convertYMDToDate(budget.start_date) : '');
-    const [endDate, setEndDate] = useState(budget?.end_date || '');
+    //convert endDate necessary?
+    const [endDate, setEndDate] = useState(budget && budget.end_date ? convertYMDToDate(budget.end_date) : '');
     const [totalAmount, setTotalAmount] = useState(budget?.total_amount || 0);
-
 
     //Options for Form
     const [incomeOptions, setIncomeOptions] = useState([]);
     const [expenseOptions, setExpenseOptions] = useState([]);
     const [goalOptions, setGoalOptions] = useState([]);
     const [remainingBalance, setRemainingBalance] = useState(0);
-    console.log("initial log", remainingBalance)
     let [errors, setErrors] = useState({});
     let [isLoaded, setIsLoaded] = useState(false);
     const [isFetched, setIsFetched] = useState(false);
-
-    //MATHS
     const [incomeItems, setIncomeItems] = useState([]);
     const [expenseItems, setExpenseItems] = useState([]);
     const [goalItems, setGoalItems] = useState([]);
@@ -72,95 +52,116 @@ const BudgetForm = ({budget}) => {
     const transactions = Object.values(allTransactions);
     const goals = Object.values(allGoals);
 
+    // FETCH USER TRANSACTIONS AND BUDGETS TO STATE
+    useEffect(() => {
+        dispatch(fetchTransactions());
+        dispatch(fetchGoals());
+        setIsLoaded(true);
+    }, [dispatch]);
+
+    //SET Options by budget's start date -> end date
+    useEffect(() => {
+        if (!startDate || !endDate || !transactions.length) return;
+        const filterByDateRange = (itemDate) =>
+            new Date(itemDate) >= new Date(startDate) && new Date(itemDate) <= new Date(endDate);
+
+        const sortIncomeOptions = transactions.filter(
+            item => !item.expense && filterByDateRange(removeQuotes(item.date))
+        );
+        const sortExpenseOptions = transactions.filter(
+            item => item.expense && filterByDateRange(removeQuotes(item.date))
+        );
+        const sortGoalOptions = goals
+            .map(goal => ({
+                ...goal,
+                difference: goal.amount - goal.saved_amount
+            }))
+            .filter(goal => filterByDateRange(goal.end_date));
+
+        setIncomeOptions(sortIncomeOptions);
+        setExpenseOptions(sortExpenseOptions);
+        setGoalOptions(sortGoalOptions);
+    }, [startDate, endDate]);
+
+    const filterBudgetItems = useCallback(() => {
+        if (!budget || !budgetItems || !transactions) return;
+
+        const transactionItems = budgetItems.filter(item => item.transaction);
+        const goalItems = budgetItems.filter(item => !item.transaction);
+
+        const currIncomeItems = transactionItems
+            .map(item => {
+                const relatedInc = transactions.find(transaction => transaction.id === item.item_id && !transaction.expense);
+                return relatedInc || null;
+            })
+            .filter(item => item !== null);
+
+        const currExpenseItems = transactionItems
+            .map(item => {
+                const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
+                return relatedExp || null;
+            })
+            .filter(item => item !== null);
+
+        const currGoalItems = goalItems
+            .map(item => {
+                const relatedGoal = goals.find(goal => goal.id === item.item_id);
+                return relatedGoal || null;
+            })
+            .filter(item => item !== null);
+
+
+        const goalItemAmounts = currGoalItems.map(item => ({
+            ...item,
+            difference: item.amount - item.saved_amount,
+        }));
+        if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
+            setIncomeItems(currIncomeItems);
+        }
+        if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
+            setExpenseItems(currExpenseItems);
+        }
+        if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
+            setGoalItems(goalItemAmounts);
+        }
+    },[budget, budgetItems, transactions, goals]);
+
+    //IF BUDGET EXISTS, GET ASSOCIATED ITEMS TO STATE ++  SET BUDGET INFO ++ FILTER ITEMS ++ SET FETCHED
     useEffect(() => {
         if (budget?.id && !isFetched) {
             dispatch(fetchBudgetItemsByBudget(budget.id))
                 .then(() => {
-                    setIsFetched(true);
                     setName(budget.name);
                     setStartDate(convertYMDToDate(budget.start_date));
                     setEndDate(convertYMDToDate(budget.end_date));
+                })
+                .then(() => {
+                    filterBudgetItems();
+                    //calculateRemaining();
+                    setIsFetched(true);
                 });
         }
-    }, [budget, dispatch, isFetched]);
+    }, [budget, dispatch, filterBudgetItems]);
 
     useEffect(() => {
-        dispatch(fetchTransactions());
-        dispatch(fetchGoals())
-        .then(() => {
-            setIsLoaded(true)
-        });
-    }, [dispatch]);
+        const sumAmounts = (items) => {
+            const flatItems = items.flat();
+            return flatItems.reduce((sum, item) => {
+                const parsedAmount = parseFloat(item.amount);
+                if (isNaN(parsedAmount)) {
+                    return sum;
+                }
+                return sum + parsedAmount;
+            }, 0);
+        };
+        const totalIncome = sumAmounts(incomeItems);
+        const totalExpenseAmount = sumAmounts(expenseItems);
+        const totalGoalAmount = sumAmounts(goalItems);
 
-    //set Options
-    useEffect(() => {
-        if (!startDate || !endDate || !transactions.length) return;
-        const sortIncomeOptions = transactions.filter(
-            item => !item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
-        );
-        const sortExpenseOptions = transactions.filter(
-            item => item.expense && removeQuotes(item.date) >= startDate && removeQuotes(item.date) <= endDate
-        );
-        const sortGoalOptions = goals.map(goal => ({
-            ...goal,
-            difference: goal.amount - goal.saved_amount
-        })).filter(goal =>
-            new Date(goal.end_date) >= new Date(startDate) && new Date(goal.end_date) <= new Date(endDate)
-        );
-        setIncomeOptions(sortIncomeOptions)
-        setExpenseOptions(sortExpenseOptions)
-        setGoalOptions(sortGoalOptions)
-        setIsLoaded(true);
-
-    }, [startDate, endDate]);
-
-    //set selected items
-    useEffect(() => {
-        if (budget && budgetItems && transactions) {
-            const transactionItems = budgetItems.filter(item => item.transaction);
-            const currGoalItems = budgetItems.filter(item => !item.transaction);
-
-            const currIncomeItems = transactionItems.flatMap(item => {
-                const relatedInc = transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense);
-                return relatedInc;
-            }).filter(item => item !== null);
-
-
-            const currExpenseItems = transactionItems.map(item => {
-                const relatedExp = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
-                return relatedExp || null;
-            }).filter(item => item !== null);
-
-            if (JSON.stringify(currIncomeItems) !== JSON.stringify(incomeItems)) {
-                setIncomeItems(currIncomeItems);
-            }
-            if (JSON.stringify(currExpenseItems) !== JSON.stringify(expenseItems)) {
-                setExpenseItems(currExpenseItems.length > 0 ? currExpenseItems : []);
-            }
-            const goalItemAmounts = currGoalItems.length > 0
-                ? currGoalItems.map(item => {
-                    const relatedGoal = goals.find(goal => goal.id === item.item_id);
-                    return {...relatedGoal, difference:(relatedGoal.amount - relatedGoal.saved_amount)};
-                }).filter(item => item !== null)
-                : [];
-            if (JSON.stringify(goalItemAmounts) !== JSON.stringify(goalItems)) {
-                setGoalItems(goalItemAmounts);
-            }
-        }
-    }, [budget, budgetItems, transactions, goals]);
-   
-    //MATHS -- REMAINING BALANCE
-    useEffect(() => { 
-        if(incomeItems.length){
-            let totalIncome = incomeItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            let totalExpenses = expenseItems.reduce((sum, item) => sum + Number(item.amount), 0);
-            let totalGoals = goalItems.reduce((sum, goal) => sum + Number(goal.amount), 0);
-            setRemainingBalance(totalIncome - (totalExpenses + totalGoals));
-            setTotalAmount(totalIncome);
-        }
+        setRemainingBalance(totalIncome - totalExpenseAmount - totalGoalAmount);
+        setTotalAmount(totalIncome);
     }, [incomeItems, expenseItems, goalItems]);
     
- 
     const addItem = (type, item) => {
         switch (type) {
             case 'income':
@@ -174,11 +175,10 @@ const BudgetForm = ({budget}) => {
                 break;
             default:
                 console.warn('Unknown item type:', type);
-        }   
+        }
     }
 
     const removeItem = (type, id) => {
-        console.log("look hereeee", incomeItems, expenseItems)
         switch (type) {
             case 'income':
                 setIncomeItems((items) => items.filter((item) => item.id !== id));
@@ -207,13 +207,13 @@ const BudgetForm = ({budget}) => {
         } else {
             addItem(type, item);
         }
+        //calculateRemaining();
     };
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        // Gather selected items
         const selectedItems = {
             income_ids: incomeItems.map(item => item.id),
             expense_ids: expenseItems.map(item => item.id),
@@ -227,11 +227,10 @@ const BudgetForm = ({budget}) => {
             total_amount: totalAmount,
             ...selectedItems,
         };
-
-        console.log(budgetData)
         try {
             if (budget) {
                 await dispatch(fetchEditBudget(budgetData, budget.id));
+                //may need to take id out
             } else {
                 await dispatch(fetchCreateBudget(budgetData));
             }
@@ -241,64 +240,61 @@ const BudgetForm = ({budget}) => {
         } catch (error) {
             setErrors({ submit: "Failed to save budget. Please try again." });
             console.error("Submission Error:", error);
-        } 
+        }
     }
     return isLoaded ? (
-            <div className='new-budget-page'>
-                <h1>Budget Plan</h1>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Budget Name:</label>
-                        <input
-                            name='name'
-                            ref={(el) => (inputRefs.current.name = el)}
-                            type='text'
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Start Date:</label>
-                        <input
-                            name = 'startDate'
-                            ref={(el) => inputRefs.current.startDate = el}
-                            type='date'
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>End Date:</label>
-                        <input
-                            name='endDate'
-                            ref={(el) => inputRefs.current.endDate = el}
-                            type='date'
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                    {(incomeOptions.length) && (<section>
-                        <h2>Income Sources</h2>
-                        {incomeOptions.map((item) => (
-                            <div key={item.id} className='budget-item'>
-                                <button
-                                    type="button"
-                                    className={incomeItems.some(i => i.id === item.id) ? 'selected' : ''}
-                                    onClick={() => handleItemClick('income', item)}
-                                >
-                                    {item.name} ${item.amount}
-                                </button>
-                                {incomeItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('income', item.id)}><FaRegTrashAlt/></button>
-                                )}
-                            </div>
-                        ))}
-                    </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
-                    
-                    {(expenseOptions.length) && (
+        <div className='new-budget-page'>
+            <h1>Budget Plan</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Budget Name:</label>
+                    <input
+                        name='name'
+                        ref={(el) => (inputRefs.current.name = el)}
+                        type='text'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Start Date:</label>
+                    <input
+                        name='startDate'
+                        ref={(el) => inputRefs.current.startDate = el}
+                        type='date'
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>End Date:</label>
+                    <input
+                        name='endDate'
+                        ref={(el) => inputRefs.current.endDate = el}
+                        type='date'
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        required
+                    />
+                </div>
+                {(incomeOptions.length) && (<section>
+                    <h2>Income Sources</h2>
+                    {incomeOptions.map((item) => (
+                        <div key={item.id} className='budget-item'>
+                            <button
+                                type="button"
+                                className={incomeItems.some(i => i.id === item.id) ? 'selected' : ''}
+                                onClick={() => handleItemClick('income', item)}
+                            >
+                                {item.name} ${item.amount}
+                            </button>
+                        </div>
+                    ))}
+                </section>) || (<p>Add Income Sources within Budget start date and end date to create a Budget Plan.</p>)}
+
+                {(expenseOptions.length) && (
                     <section>
                         <h2>Expenses</h2>
                         {expenseOptions.map((item) => (
@@ -310,15 +306,12 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.amount}
                                 </button>
-                                {expenseItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('expense', item.id)}><FaRegTrashAlt/></button>
-                                )}
                             </div>
                         ))}
                     </section>
-                    ) || (<p>Create more data within Budget start date and end date. </p>)}
+                ) || (<p>Create more data within Budget start date and end date. </p>)}
 
-                    {(goalOptions.length && incomeOptions) && (
+                {(goalOptions.length && incomeOptions) && (
                     <section>
                         <h2>Goals</h2>
                         {goalOptions.map((item) => (
@@ -330,24 +323,26 @@ const BudgetForm = ({budget}) => {
                                 >
                                     {item.name} ${item.difference}
                                 </button>
-                                {goalItems.some(i => i.id === item.id) && (
-                                    <button type='button' onClick={() => handleItemClick('goal', item.id)}><FaRegTrashAlt/></button>
-                                )}
                             </div>
                         ))}
                     </section>
-                    ) || (<p>Create more data within Budget start date and end date. </p>)}
+                ) || (<p>Create more data within Budget start date and end date. </p>)}
 
-                    <section className='remaining-balance'>
-                        <h3>Remaining Balance  {remainingBalance}</h3>
-                    </section>
+                <section className='remaining-balance'>
+                    <h3>Remaining Balance  {remainingBalance}</h3>
+                </section>
 
-                    <button type='submit'>{budget ? 'Edit' : 'Create'} Budget</button>
-                </form>
-            </div>
-        ):(
-            <h2>Loading Budget..</h2>
+                <button type='submit'>{budget ? 'Edit' : 'Create'} Budget</button>
+            </form>
+        </div>
+    ) : (
+        <h2>Loading Budget..</h2>
     )
-};
 
+}
 export default BudgetForm;
+
+// *** huge REDUX logic issue *** 
+// existing incomeItems does NOT show up as selected 'GREEN' in the form
+// incomeItems still include empty arrays
+// incomeItems unable to hold multiple items. Only ONE and empty arrays

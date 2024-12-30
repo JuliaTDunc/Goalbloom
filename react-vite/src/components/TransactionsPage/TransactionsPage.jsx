@@ -46,7 +46,7 @@ const Transactions = () => {
     return user ? (
         <div className='transactions-home'>
             <section className='transactions-description'>
-                <h2 className='transactions-page-head'>Your Transactions</h2>
+                <h2 className='transactions-page-head'>Transactions</h2>
                 <p>Welcome to your Transactions Page, where you get to be the boss of your money!<br/>
                     To get started, just add your first transaction and see how your financial story unfolds. </p>
             </section>

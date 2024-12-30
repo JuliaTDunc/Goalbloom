@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
+import { useLocation } from 'react-router-dom';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import HighchartsReact from 'highcharts-react-official';
@@ -15,9 +16,7 @@ import './BudgetChart.css';
 
 const BudgetGraph = ({budget}) => {
 
-    const juliaApproved = false;
-
-
+    const isLandingPage = location.pathname === '/';
 
     const dispatch = useDispatch();
     const allBudgetItems = useSelector(state => state.budgetItems.budgetItems);
@@ -138,7 +137,10 @@ const BudgetGraph = ({budget}) => {
             }
         ],
         tooltip: {
-            pointFormat: '<b>{point.name}</b>: {point.y:.2f}'
+            pointFormatter: function () {
+                const absoluteAmount = (this.y / 100) * totalIncome;
+                return `<b>${this.name}</b>: $${absoluteAmount.toFixed(2)}`;
+            },
         },
         plotOptions: {
             pie: {
@@ -146,7 +148,10 @@ const BudgetGraph = ({budget}) => {
                 cursor: 'pointer',
                 dataLabels:{
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y:.2f}'
+                    formatter: function () {
+                        const absoluteAmount = (this.y / 100) * totalIncome;
+                        return `<b>${this.point.name}</b>: $${Math.round(absoluteAmount)}`;
+                    },
                 }
             }
         }
@@ -154,7 +159,7 @@ const BudgetGraph = ({budget}) => {
 
     return isLoaded ? (
         <div className='budget-graph'>
-            {(juliaApproved) && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
+            {!isLandingPage && (<button className='edit-btn' onClick={() => openEditBudgetModal(budget)}>
                 <FaPencilAlt />
             </button>)}
             <HighchartsReact highcharts={Highcharts} options={graphOptions} className='budget-chart'/>
