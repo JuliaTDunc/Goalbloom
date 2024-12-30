@@ -137,7 +137,10 @@ const BudgetGraph = ({budget}) => {
             }
         ],
         tooltip: {
-            pointFormat: '<b>{point.name}</b>: {point.y:.2f}'
+            pointFormatter: function () {
+                const absoluteAmount = (this.y / 100) * totalIncome;
+                return `<b>${this.name}</b>: $${absoluteAmount.toFixed(2)}`;
+            },
         },
         plotOptions: {
             pie: {
@@ -145,7 +148,10 @@ const BudgetGraph = ({budget}) => {
                 cursor: 'pointer',
                 dataLabels:{
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y:.2f}'
+                    formatter: function () {
+                        const absoluteAmount = (this.y / 100) * totalIncome;
+                        return `<b>${this.point.name}</b>: $${Math.round(absoluteAmount)}`;
+                    },
                 }
             }
         }

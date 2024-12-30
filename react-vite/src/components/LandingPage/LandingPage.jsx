@@ -24,7 +24,6 @@ function LandingPage() {
     const allTransactions = useSelector(state => state.transactions.allTransactions);
     const transactions = Object.values(allTransactions);
     const [isLoaded, setIsLoaded] = useState(false);
-    let userData;
 
     useEffect(() => {
         dispatch(fetchBudgets());
@@ -45,30 +44,33 @@ function LandingPage() {
         });
     }, [budgets]);
 
+    const userData = useMemo(() => {
         if (user && currentBudget && budgetItems) {
             const transactionItems = budgetItems.filter(item => item.transaction);
             const totalExpenseAmount = transactionItems
                 .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
                 .filter(transaction => transaction !== undefined)
                 .reduce((sum, transaction) => sum + transaction.amount, 0);
-            userData = {
-                remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
-                totalIncome: currentBudget.total_amount
-            }
+
+            return {
+                remainingBalance: currentBudget.total_amount - totalExpenseAmount,
+                totalIncome: currentBudget.total_amount,
+            };
         }
+        return null;
+    }, [user, currentBudget, budgetItems, transactions]);
+
     useEffect(() => {
-        if(user){
-            const loadData = async () => {
+        const loadData = async () => {
+            if (user) {
                 await dispatch(fetchBudgets());
                 setIsLoaded(true);
-            };
-            loadData();
-        }
-    }, [dispatch]);
+            }
+        };
+        loadData();
+    }, [dispatch, user]);
 
-    /*if (!isLoaded) {
-        return <div>Loading...</div>;
-    }*/
+    
     return user ? (
     <>
         <div className="landing-page">

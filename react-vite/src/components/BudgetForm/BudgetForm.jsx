@@ -90,9 +90,10 @@ const BudgetForm = ({ budget }) => {
         const goalItems = budgetItems.filter(item => !item.transaction);
 
         const currIncomeItems = transactionItems
-            .map(item =>
-                transactions.filter(transaction => transaction.id === item.item_id && !transaction.expense)
-            )
+            .map(item => {
+                const relatedInc = transactions.find(transaction => transaction.id === item.item_id && !transaction.expense);
+                return relatedInc || null;
+            })
             .filter(item => item !== null);
 
         const currExpenseItems = transactionItems
@@ -154,8 +155,6 @@ const BudgetForm = ({ budget }) => {
             }, 0);
         };
         const totalIncome = sumAmounts(incomeItems);
-        console.log('income items.. empty arrays? ', incomeItems,' calculated total income', totalIncome)
-
         const totalExpenseAmount = sumAmounts(expenseItems);
         const totalGoalAmount = sumAmounts(goalItems);
 
@@ -220,7 +219,6 @@ const BudgetForm = ({ budget }) => {
             expense_ids: expenseItems.map(item => item.id),
             goal_ids: goalItems.map(item => item.id),
         };
-        console.log('selected', selectedItems)
 
         const budgetData = {
             name,
@@ -229,7 +227,6 @@ const BudgetForm = ({ budget }) => {
             total_amount: totalAmount,
             ...selectedItems,
         };
-        console.log('budget data on submit',budgetData)
         try {
             if (budget) {
                 await dispatch(fetchEditBudget(budgetData, budget.id));
