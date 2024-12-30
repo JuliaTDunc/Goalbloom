@@ -78,7 +78,6 @@ export const fetchEditBudget = (budget, budgetId) => async(dispatch) => {
     if (res.ok) {
         const updatedBudget = await res.json();
         dispatch(editBudget(updatedBudget));
-        console.log('updated budget', updatedBudget)
         return updatedBudget;
     } else {
         const error = await res.json();
