@@ -1,8 +1,8 @@
 import React, { useState,} from 'react';
 import { NavLink } from 'react-router-dom';
 import Fleur from '../../images/fleur.png';
-import LandingVideo from '../../images/LandingVideo.mp4';
 import PhoneVideo from '../../images/PhoneVideo.mp4';
+import Piggy from '../../images/Piggy.png';
 import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
@@ -103,7 +103,7 @@ function LandingPage() {
                     </div> 
                 </div>
                 <div className="welcome-image-section-logged-out">
-                            <video src={LandingVideo} className="top-image" autoPlay muted playsInline />
+                            <img src={Piggy} alt='Piggy Bank' className="top-image"/>
                 </div>
             </div>
             <div className='sign-up-button-landing-page'>
