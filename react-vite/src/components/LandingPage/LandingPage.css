@@ -120,19 +120,16 @@
 }
 
 .welcome-heading-logged-out {
-    font-size: 2rem;
+    font-size: 3rem;
     color: #6c55ef;
 }
-
 .top-image {
     max-width:400px;
     height: auto;
 }
-
 .sign-up-button-landing-page {
     margin: 1rem 0;
 }
-
 .signup-button {
     text-decoration: none;
     font-size: 1.25rem;
@@ -170,6 +167,7 @@
 }
 
 .feature-text {
+    color: #6c55ef;
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
