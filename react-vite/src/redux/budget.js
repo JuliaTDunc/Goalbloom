@@ -30,7 +30,7 @@ const editBudget = (budget) => ({
 const deleteBudget = (budgetId) => ({
     type: DELETE_BUDGET,
     payload: budgetId
-});
+});*/
 
 const toDict = async (budgets) => {
     let orderedData = {};
