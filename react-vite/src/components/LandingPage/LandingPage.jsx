@@ -6,6 +6,7 @@ import Piggy from '../../images/Piggy.png';
 import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
+import featureImg4 from '../../images/featureImg4.png';
 import SignupFormPage from '../SignupFormPage';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -121,9 +122,9 @@ function LandingPage() {
                     </div>
                     <div className="feature-grid">
                         <img src={featureImg1} alt="Feature 1" className="feature-image" />
-                            <img src={featureImg2} alt="Feature 2" className="feature-image" />
-                            <img src={featureImg3} alt="Feature 3" className="feature-image" />
-                        {/*<img src={Goldblum2} alt="Feature 4" className="feature-image" />*/}
+                        <img src={featureImg2} alt="Feature 2" className="feature-image" />
+                        <img src={featureImg3} alt="Feature 3" className="feature-image" />
+                        <img src={featureImg4} alt="Feature 4" className="feature-image" />
                     </div>
                 </div>
                 <div className='bottom-section'>
