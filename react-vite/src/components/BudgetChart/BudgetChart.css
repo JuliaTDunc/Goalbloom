@@ -17,7 +17,6 @@
     background-color: rgb(0, 14, 173);
     color: rgba(255, 255, 255, 0.829);
 }
-
 @media (max-width: 768px) {
     .edit-btn {
         width: 80px;
@@ -25,7 +24,6 @@
         font-size: 14px;
     }
 }
-
 @media (max-width: 480px) {
     .edit-btn {
         width: 70px;
