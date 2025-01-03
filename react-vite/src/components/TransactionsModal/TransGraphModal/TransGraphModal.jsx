@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import {FaToggleOn, FaToggleOff} from 'react-icons/fa'
 import { fetchTransactions} from '../../../redux/transaction';
+import './TransGraphModal.css';
 
 const TransGraphModal = ({activeTab}) => {
     const dispatch = useDispatch();
@@ -106,9 +108,11 @@ const TransGraphModal = ({activeTab}) => {
         <div className='modal-container'>
             <div className='modal-content'>
                 <div className='graph-container'>
-                    <button onClick={() => setChartType(chartType === 'column' ? 'line' : 'column')}>
-                        Toggle to {chartType === 'column' ? 'Line' : 'Bar'} Chart
-                    </button>
+                    {chartType === 'column' ? (
+                        <FaToggleOn className='toggle-switch-chart' onClick={() => setChartType('line')} style={{ cursor: 'pointer' }} />
+                    ) : (
+                            <FaToggleOff className='toggle-switch-chart' onClick={() => setChartType('column')} style={{ cursor: 'pointer' }} />
+                    )}
                     <HighchartsReact highcharts={Highcharts} options={options} />
                 </div>
             </div>
