@@ -1,6 +1,6 @@
 import React, { useState,} from 'react';
 import { NavLink } from 'react-router-dom';
-import Fleur from '../../images/fleur.png';
+import HomeLinkLogo from '../../images/HomeLinkLogo.png';
 import PhoneVideo from '../../images/PhoneVideo.mp4';
 import Piggy from '../../images/Piggy.png';
 import featureImg1 from '../../images/featureImg1.png';
@@ -77,7 +77,6 @@ function LandingPage() {
         <div className="landing-page">
             <div className='top-section'>
                     <div className="welcome-section">
-                        <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
                         <h1 className="welcome-heading">Hello, {user.username}!</h1>
                     </div>
                     {closestBudget && (
@@ -95,11 +94,9 @@ function LandingPage() {
         <div className="landing-page-logged-out">
             <div className='top-section-logged-out'>
                 <div className="welcome-section-logged-out">
-                    <div className='landing-page-fleur-div'>
-                        <img src={Fleur} alt="Welcome Fleur" className="fleur-image" />
-                    </div>
                     <div className='slogan'>
-                        <h1 className="welcome-heading-logged-out">Welcome</h1>
+                        <h1 className="welcome-heading-logged-out">Welcome to </h1>
+                        <img src={HomeLinkLogo} className='goalbloom-word-logged-out'/>
                         <p className="welcome-text">Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!</p>
                     </div> 
                 </div>
@@ -118,7 +115,7 @@ function LandingPage() {
             </div>
             <div className="features-section">
                     <div>
-                            <p className="feature-text">Welcome to smarter spending. Start your budget journey today.</p>
+                            <h2 className="feature-text">Welcome to smarter spending. Start your budget journey today.</h2>
                     </div>
                     <div className="feature-grid">
                         <img src={featureImg1} alt="Feature 1" className="feature-image" />
@@ -129,7 +126,7 @@ function LandingPage() {
                 </div>
                 <div className='bottom-section'>
                     <footer>
-                        <h2>Connect</h2>
+                        {/*<h2>Connect</h2>*/}
                     </footer>
                 </div>
         </div>
