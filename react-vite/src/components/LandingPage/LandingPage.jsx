@@ -89,12 +89,19 @@ function LandingPage() {
                         </div>
                     )}
             </div>
+            <div className='middle-section-logged-in'>
+                    <div className='second-head-logged-in animate__animated animate__slideInLeft'>
+                        <p>Let's take a look at {new Date().toLocaleString('default', { month: 'long' })}'s </p>
+                        <NavLink to='/transactions' className='trans-link-landing'>Transaction</NavLink>
+                        <p>history</p>
+                    </div>
                     {allTransactions && (
                         <div className='transaction-chart-section'>
                             <LandingPageTransactionsGraph/>
                         </div>
                     )}
-                <h3 className='animate__animated animate__slideInLeft'>Explore Financial Resources</h3>
+            </div>
+                <h3 className='animate__animated animate__slideInLeft third-head-logged-in'>Explore Financial Resources</h3>
             <div className='bottom-section-logged-in'>
                 <div className='stem-bullets'>
                     <div className="stem-container">
@@ -126,7 +133,7 @@ function LandingPage() {
             <div className='sign-up-button-landing-page'>
                 <NavLink to='/signup' className='signup-button'> Sign Up</NavLink>
             </div>
-            <div className='middle-section'>
+            <div className='middle-section-logged-out'>
                 <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
                 <div className='image-phone-goalbloom'>
                             <video src={PhoneVideo} className="phone-image" autoPlay muted playsInline />
