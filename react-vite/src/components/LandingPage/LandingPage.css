@@ -14,13 +14,12 @@ a {
 
 .top-section-logged-in{
     display:flex;
-    justify-content: space-between;
     align-items: center;
     gap: 2rem;
     margin-bottom: 2rem;
 }
-.welcome-heading-logged-in {
-    flex: 1;
+.welcome-section-logged-in{
+    max-width: 400px;
 }
 .welcome-heading-logged-in h1 {
     font-size: 2.5em;
@@ -31,7 +30,7 @@ a {
 .budget-chart-section{
     flex: 1;
     padding: 2rem;
-    max-width: 500px;
+    max-width: 80%;
     border-radius: 10px;
     box-shadow: 0 6px 8px 4px rgba(235, 235, 235, 0.546);
     height: 400px;
@@ -41,6 +40,7 @@ a {
     overflow: hidden;
 }
 .transaction-chart-section{
+    margin-top: 2rem;
     width: 100%;
     background-color: #ffffff;
     border-radius: 10px;
