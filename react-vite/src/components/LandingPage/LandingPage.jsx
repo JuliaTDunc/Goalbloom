@@ -12,6 +12,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
+import TransGraphModal from '../TransactionsModal/TransGraphModal/TransGraphModal';
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
@@ -74,19 +75,36 @@ function LandingPage() {
     
     return user ? (
     <>
-        <div className="landing-page">
-            <div className='top-section'>
-                    <div className="welcome-section">
-                        <h1 className="welcome-heading">Hello, {user.username}!</h1>
+        <div className="landing-page-logged-in">
+            <div className='top-section-logged-in'>
+                    <div className="welcome-section-logged-in">
+                        <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula dui eget nisl.</p>
+                        <p>Quisque id nisi ac urna pharetra facilisis sit amet ac magna. Nulla facilisi.</p>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">
                             <BudgetGraph budget={closestBudget} />
                         </div>
                     )}
+                    {allTransactions && (
+                        <div className='transaction-chart-section'>
+                            <TransGraphModal activeTab={'both'}/>
+                        </div>
+                    )}
             </div>
-            <div className='bottom-section'>
+                <h3>Explore Financial Resources</h3>
+            <div className='bottom-section-logged-in'>
+                <div className='stem-bullets'>
+                    <div className="stem-container">
+                        <div className="stem"></div>
+                        <div className="circle circle-1"></div>
+                        <div className="circle circle-2"></div>
+                        <div className="circle circle-3"></div>
+                        <div className="circle circle-4"></div>
+                    </div>
                     <div className='landing-page-related-articles'><RelatedArticles userData={userData} /></div>
+                </div>
             </div>
         </div>
     </>) : (
