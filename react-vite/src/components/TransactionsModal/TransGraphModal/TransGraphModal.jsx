@@ -78,7 +78,7 @@ const TransGraphModal = ({activeTab}) => {
             },
             min: 0
         },
-        series: [{
+        series:[{
             name: 'Amount',
             data: graphData.map(item => ({
                 y:item.amount,
@@ -106,17 +106,15 @@ const TransGraphModal = ({activeTab}) => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
-    const isLandingPage = location.pathname === '/';
-
 
     return (
         <div className='modal-container'>
             <div className='modal-content'>
                 <div className='graph-container'>
                     {chartType === 'column' ? (
-                        <FaToggleOn className='toggle-switch-chart' onClick={() => setChartType('line')} style={{ cursor: 'pointer', opacity: isLandingPage ? 0 : 1 }} />
+                        <FaToggleOn className='toggle-switch-chart' onClick={() => setChartType('line')} style={{ cursor: 'pointer'}} />
                     ) : (
-                            <FaToggleOff className='toggle-switch-chart' onClick={() => setChartType('column')} style={{ cursor:'pointer', opacity: isLandingPage ? 0 : 1 }} />
+                            <FaToggleOff className='toggle-switch-chart' onClick={() => setChartType('column')} style={{ cursor:'pointer'}} />
                     )}
                     <HighchartsReact highcharts={Highcharts} options={options} />
                 </div>

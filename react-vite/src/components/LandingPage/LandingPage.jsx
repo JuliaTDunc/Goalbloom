@@ -1,5 +1,6 @@
-import React, { useState,} from 'react';
+import React, { useState, useRef} from 'react';
 import { NavLink } from 'react-router-dom';
+import 'animate.css';
 import HomeLinkLogo from '../../images/HomeLinkLogo.png';
 import PhoneVideo from '../../images/PhoneVideo.mp4';
 import Piggy from '../../images/Piggy.png';
@@ -12,7 +13,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
-import TransGraphModal from '../TransactionsModal/TransGraphModal/TransGraphModal';
+import { LandingPageTransactionsGraph} from '../TransactionsModal';
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
@@ -77,7 +78,7 @@ function LandingPage() {
     <>
         <div className="landing-page-logged-in">
             <div className='top-section-logged-in'>
-                    <div className="welcome-section-logged-in">
+                    <div className="welcome-section-logged-in animate__animated animate__slideInLeft">
                         <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula dui eget nisl.</p>
                         <p>Quisque id nisi ac urna pharetra facilisis sit amet ac magna. Nulla facilisi.</p>
@@ -90,10 +91,10 @@ function LandingPage() {
             </div>
                     {allTransactions && (
                         <div className='transaction-chart-section'>
-                            <TransGraphModal activeTab={'both'}/>
+                            <LandingPageTransactionsGraph/>
                         </div>
                     )}
-                <h3>Explore Financial Resources</h3>
+                <h3 className='animate__animated animate__slideInLeft'>Explore Financial Resources</h3>
             <div className='bottom-section-logged-in'>
                 <div className='stem-bullets'>
                     <div className="stem-container">
@@ -112,11 +113,11 @@ function LandingPage() {
         <div className="landing-page-logged-out">
             <div className='top-section-logged-out'>
                 <div className="welcome-section-logged-out">
-                    <div className='slogan'>
+                            <div className='slogan animate__animated animate__slideInLeft'>
                         <h1 className="welcome-heading-logged-out">Welcome to </h1>
                         <img src={HomeLinkLogo} className='goalbloom-word-logged-out'/>
-                        <p className="welcome-text">Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!</p>
                     </div> 
+                    <p className="welcome-text">Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!</p>
                 </div>
                 <div className="welcome-image-section-logged-out">
                             <img src={Piggy} alt='Piggy Bank' className="top-image"/>
