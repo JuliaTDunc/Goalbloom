@@ -87,12 +87,12 @@ function LandingPage() {
                             <BudgetGraph budget={closestBudget} />
                         </div>
                     )}
+            </div>
                     {allTransactions && (
                         <div className='transaction-chart-section'>
                             <TransGraphModal activeTab={'both'}/>
                         </div>
                     )}
-            </div>
                 <h3>Explore Financial Resources</h3>
             <div className='bottom-section-logged-in'>
                 <div className='stem-bullets'>
