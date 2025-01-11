@@ -14,7 +14,7 @@ const TransGraphModal = ({activeTab}) => {
     const [graphData, setGraphData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [chartType, setChartType] = useState('column');
+    const [chartType, setChartType] = useState(location.pathname === '/' ? 'line' : 'column');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -105,7 +105,6 @@ const TransGraphModal = ({activeTab}) => {
     };
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
-
 
 
     return (
