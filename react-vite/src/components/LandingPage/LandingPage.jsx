@@ -80,8 +80,8 @@ function LandingPage() {
             <div className='top-section-logged-in'>
                     <div className="welcome-section-logged-in animate__animated animate__slideInLeft">
                         <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula dui eget nisl.</p>
-                        <p>Quisque id nisi ac urna pharetra facilisis sit amet ac magna. Nulla facilisi.</p>
+                        <p>Welcome back to your dashboard- your personal hub for all things important.</p>
+                        <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">
@@ -120,10 +120,10 @@ function LandingPage() {
         <div className="landing-page-logged-out">
             <div className='top-section-logged-out'>
                         <div className="welcome-image-section-logged-out">
-                            <img src={waveLanding} alt='Piggy Bank' className="top-image" />
+                            <img src={waveLanding} alt='Piggy Bank' className="top-image animate__animated animate__fadeInDown" />
                         </div>
                 <div className="welcome-section-logged-out">
-                            <div className='slogan animate__animated animate__slideInLeft'>
+                            <div className='slogan animate__animated animate__fadeInDown'>
                         <h1 className="welcome-heading-logged-out">Welcome to </h1>
                         <img src={HomeLinkLogo} className='goalbloom-word-logged-out'/>
                     </div> 
@@ -134,7 +134,7 @@ function LandingPage() {
                         </div>
             </div>
             <div className='middle-section-logged-out'>
-                <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
+                        <div><h2 className='phone-image-head animate__animated animate__fadeInDown'>Where goals meet growth</h2></div>
                 <div className='image-phone-goalbloom'>
                             <video src={PhoneVideo} className="phone-image" autoPlay muted playsInline />
                 </div>

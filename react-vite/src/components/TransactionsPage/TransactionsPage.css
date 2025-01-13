@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
-    background-color: #bab7fd;
+    background-color:#f6fafb;;
 }
 
 .transactions-header {
@@ -106,27 +106,14 @@
 .tabs button:hover {
     background-color: #d1c2ff;
 }
-.helpful-resources, .related-articles{
-    opacity: 80%;
-    border-radius: 20px;
-    transition: opacity 1s linear, font-size 1s ease, box-shadow 1s ease;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.helpful-resources{
-    background-color: rgb(244, 198, 16);
-    border: 2px solid rgb(222, 159, 0);
-}
-.related-articles{
-    background-color: #0c03c3;
-    border: 3px solid #0b01ca;
-    color: rgb(255, 255, 255);
-    font-weight: bolder;
-}
-.helpful-resources:hover, .related-articles:hover{
-    box-shadow: 0px 2px 8px rgb(0, 0, 0);
+.related-articles-transactions{
+    background-color: #ffffff;
+    text-align: center;
+    width: 75%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 8px 4px #ebebeb;
 }
 @media screen and (max-width: 768px) {
     .transactions-home {
@@ -185,17 +172,4 @@
         margin-right: 0;
     }
 
-    .helpful-resources,
-    .related-articles {
-        flex-direction: column;
-        text-align: center;
-        font-size: 12px;
-        padding: 10px;
-        gap: 10px;
-    }
-
-    .helpful-resources:hover,
-    .related-articles:hover {
-        box-shadow: none;
-    }
 }

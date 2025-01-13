@@ -10,39 +10,35 @@
 }
 
 .bookmarks-description {
-    background-color: #348447c3;
+    background-color: #fefefe10;
     width: 100%;
     border-radius: 10px;
     padding: 15px;
 }
 .bookmarks-description button{
+    background-color: #ffffff00;
     border: none;
     border-radius: 10px;
     padding: 10px;
-    background-color:rgba(255, 255, 255, 0.152);
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.265);;
-    color: rgb(224, 224, 224);
-    font-size: 20px;
+    color: rgb(32, 32, 32);
+    font-size: 16px;
     transition: all 1.3s ease;
 }
 .bookmarks-description button:hover{
-    background-color: #fafafa;
-    box-shadow: 0 2px 3px 2px #0000008c;
-    color: rgb(229, 149, 0);
-    transform: scale(1.05);
+    text-decoration: underline;
+    color: rgba(29, 29, 225, 0.86);
 }
 .bookmarks-page-head {
-    color: #fffdf0;
+    color: #444444;
 }
 
 .bookmarks-description p {
-    color: #fffdf0;
+    color: #353535;
     font-size: 20px;
 }
 .resources-container-bookmark-page {
     width: 600px;
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 4px 8px 3px #348447;
     width: 80%;
     padding: 10px 40px;
     margin-top: 15px;
@@ -57,7 +53,7 @@
 }
 
 .article-titles-bookmark {
-    color: rgb(238, 124, 3);
+    color: rgb(14, 13, 21);
     text-align: center;
     transition: all 0.5s ease;
 }

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './ArticlesPage.css'
 import LoginFormModal from '../LoginFormModal';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark} from 'react-icons/fa';
 
 const Articles = () => {
     const user = useSelector(state => state.session.user);
@@ -64,7 +64,7 @@ const Articles = () => {
     return user ? (
         <div className='resources-home'>
             <div className="top-section-article-page">
-                <section className='resources-description'>
+                <section className='resources-description animate__animated animate__slideInLeft'>
                     <div className='bookmarks-button-div'>
                         <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
                     </div>
@@ -77,7 +77,7 @@ const Articles = () => {
                 <div className='resources-container-main-page'>
                     {articles.map((article) => (
                         <div key={article.id} className='article-card-main-page'>
-                            <NavLink to={article.url} target='_blank'><h2 className='article-titles-main'>{article.title}</h2></NavLink>
+                            <NavLink to={article.url} target='_blank'><p className='article-titles-main'>{article.title}</p></NavLink>
                             <button
                                 className='bookmark-icon'
                                 onClick={() => toggleBookmark(article.id)}
