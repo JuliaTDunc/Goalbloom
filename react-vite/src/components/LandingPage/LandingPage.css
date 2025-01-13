@@ -2,6 +2,21 @@ a {
     text-decoration: none;
     color: inherit;
 }
+.signup-button {
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: white;
+    background-color: #6c55ef;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.signup-button:hover {
+    background-color: #5a4dcf;
+    transform: scale(1.05);
+}
 .landing-page-logged-in{
     font-family: 'Poppins', sans-serif;
     padding: 2rem;
@@ -39,9 +54,29 @@ a {
     border-radius: 15px;
     overflow: hidden;
 }
+
+.middle-section-logged-in{
+    width: 100%;
+    max-height: 350px auto;
+}
+.second-head-logged-in{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.trans-link-landing{
+    color:#114b8a;
+    text-decoration: none;
+    padding: 0 5px;
+}
 .transaction-chart-section{
     margin-top: 2rem;
-    width: 100%;
+    width: auto;
+    max-height: 350px auto;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 2rem;
@@ -51,6 +86,10 @@ a {
     margin-top: 4rem;
     text-align: center;
     position: relative;
+}
+.third-head-logged-in{
+    text-align:center;
+    font-size: 1.5rem;
 }
 .stem-bullets {
     display: flex;
@@ -99,67 +138,7 @@ a {
 .circle-4 {
     bottom: -10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-.welcome-text {
-    font-size: 1.1em;
-    color: #333;
-    max-width: 300px;
-}
-
-.features-section {
-    flex: 2;
-}
-
-.features-title {
-    color:rgb(55, 51, 173);
-    margin-bottom: 1rem;
-    text-align: left;
-}
-
-.feature-grid {
-    margin-top: 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-.feature-item {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-}
-.feature-item h2 {
-    font-size: 1.25em;
-    color: #6c55ef;
-}
-
-.feature-item p {
-    font-size: 1em;
-    color: #333;
-}
-
-.feature-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-}
-.clogs{
-    cursor: pointer;
-}
-.landing-page-related-articles{
+.landing-page-related-articles {
     background-color: #ffffff;
     text-align: center;
     width: 75%;
@@ -168,65 +147,84 @@ a {
     border-radius: 10px;
     box-shadow: 0 6px 8px 4px #ebebeb;
 }
+
+
+
+
+
+
+
+
+
+
+
 .landing-page-logged-out {
     font-family: 'Poppins', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
     background-color: #f6fafb;
     min-height: 100vh;
     gap: 2rem;
+    position: relative;
 }
 .top-section-logged-out {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    position: relative;
+}
+.welcome-image-section-logged-out{
+    flex:1;
+    position: relative;
+}
+.top-image {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
 }
 .welcome-section-logged-out,
-.welcome-image-section-logged-out {
-    flex: 1;
+.sign-up-button-landing-page {
+    position: absolute;
+    z-index: 2;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-
+.welcome-section-logged-out {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+}
 .welcome-heading-logged-out {
     font-size: 3rem;
     color: #6c55ef;
 }
-.top-image {
-    max-width:400px;
-    height: auto;
+.welcome-text {
+    font-size: 1.1em;
+    color: #333;
+    max-width: 300px;
+    margin-top: 1rem;
 }
 .sign-up-button-landing-page {
-    margin: 1rem 0;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.signup-button {
-    text-decoration: none;
-    font-size: 1.25rem;
-    color: white;
-    background-color: #6c55ef;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.signup-button:hover {
-    background-color: #5a4dcf;
-    transform: scale(1.05);
-}
-.middle-section {
+.middle-section-logged-out {
     width: 100%;
+    margin: 0 auto;
     background-color: #ffffff;
     border-radius: 10px;
+    box-sizing: border-box;
     padding: 2rem;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 }
-.phone-image-head{
+.phone-image-head {
     font-size: 1.5rem;
     color: #6c55ef;
     margin-bottom: 1rem;
@@ -236,38 +234,39 @@ a {
     height: auto;
     overflow-y: hidden;
     border-radius: 10px;
-    
+
 }
 .features-section {
     text-align: center;
     width: 100%;
+    max-width: 1200px;
+    flex: 2;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
-
 .feature-text {
     color: rgb(55, 51, 173);
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
-
 .feature-grid {
+    margin-top: 60px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
-
 .feature-image {
-    width: 250px;
-    height: 250px;
+    max-width: 200px;
+    max-height: 200px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .feature-image:hover {
     transform: scale(1.05);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
-.bottom-section-logged-out{
+.bottom-section-logged-out {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -325,19 +324,7 @@ a {
     }
 
     .feature-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 2fr;
         gap: 1rem;
-    }
-
-    .feature-item {
-        padding: 1rem;
-    }
-
-    .feature-item h2 {
-        font-size: 1.1em;
-    }
-
-    .feature-item p {
-        font-size: 0.9em;
     }
 }
