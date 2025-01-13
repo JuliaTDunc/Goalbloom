@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
+import { useLocation } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import {FaToggleOn, FaToggleOff} from 'react-icons/fa'
 import { fetchTransactions} from '../../../redux/transaction';
+import './TransGraphModal.css';
 
 const TransGraphModal = ({activeTab}) => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
     const [graphData, setGraphData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [chartType, setChartType] = useState(location.pathname === '/' ? 'line' : 'column');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,10 +48,20 @@ const TransGraphModal = ({activeTab}) => {
             }
         }
     }, [transactions, activeTab, graphData]);
+
+    const getChartColor = (chartType, activeTab) => {
+        if (chartType === 'line') {
+            if (activeTab === 'both'){
+                return '#696969'
+            }
+            return activeTab === 'income' ? '#9BBD9C' : '#D66B6B';
+        }
+        return null;
+    };
     
     const options = {
         chart: {
-            type: 'column'
+            type: chartType
         },
         title: {
             text: `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Overview`
@@ -63,17 +78,24 @@ const TransGraphModal = ({activeTab}) => {
             },
             min: 0
         },
-        series: [{
+        series:[{
             name: 'Amount',
             data: graphData.map(item => ({
                 y:item.amount,
                 color: item.color
             })),
+            color: getChartColor(chartType, activeTab)
         }],
         plotOptions: {
             bar: {
                 dataLabels: {
                     enabled: true
+                }
+            },
+            line: {
+                marker: {
+                    enabled: true,
+                    radius: 4
                 }
             }
         },
@@ -84,10 +106,16 @@ const TransGraphModal = ({activeTab}) => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
+
     return (
         <div className='modal-container'>
             <div className='modal-content'>
                 <div className='graph-container'>
+                    {chartType === 'column' ? (
+                        <FaToggleOn className='toggle-switch-chart' onClick={() => setChartType('line')} style={{ cursor: 'pointer'}} />
+                    ) : (
+                            <FaToggleOff className='toggle-switch-chart' onClick={() => setChartType('column')} style={{ cursor:'pointer'}} />
+                    )}
                     <HighchartsReact highcharts={Highcharts} options={options} />
                 </div>
             </div>

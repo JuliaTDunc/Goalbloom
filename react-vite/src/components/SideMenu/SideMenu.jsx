@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import './SideMenu.css';
 import { FaBars, FaAngleLeft } from 'react-icons/fa';
 
 const SideMenu = () => {
+    const user = useSelector(state => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
 
-    return (
+    return user ? (
         <div className={`side-menu ${showMenu ? 'open' : ''}`}>
             <button className="menu-toggle" onClick={toggleMenu}>
                 {showMenu ? <FaAngleLeft/> : <FaBars />}
@@ -23,7 +25,7 @@ const SideMenu = () => {
                 </ul>
             </div>
         </div>
-    );
+    ) : (null);
 };
 
 export default SideMenu;

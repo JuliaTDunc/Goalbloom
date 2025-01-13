@@ -1,28 +1,32 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
 .article-box-title{
-    color:white;
+    color:rgb(55, 51, 173);
 }
 .single-article-resource-links a{
     text-decoration: none;
 }
 .single-article-resource-links{
-    border-radius: 10px;
-    box-shadow: 0 2px 4px #00000044;
     margin-top: 5px;
     transition:all 0.6s ease;
     text-align: center;
     width:100%;
 }
 .single-article-resource-links:hover{
-    box-shadow: 0 3px 5px 3px #00000075;
     font-size: 1.1em;
-    background-color: rgba(255, 255, 255, 0.031);
 }
 .resources-links-container{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     width:100%;
+    padding: 10px;
 }
 .resources-links{
-    width:90%;
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
 }
