@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import 'animate.css';
 import HomeLinkLogo from '../../images/HomeLinkLogo.png';
 import PhoneVideo from '../../images/PhoneVideo.mp4';
-import Piggy from '../../images/Piggy.png';
+import waveLanding from '../../images/waveLanding.png';
 import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
@@ -119,6 +119,9 @@ function LandingPage() {
         <>
         <div className="landing-page-logged-out">
             <div className='top-section-logged-out'>
+                        <div className="welcome-image-section-logged-out">
+                            <img src={waveLanding} alt='Piggy Bank' className="top-image" />
+                        </div>
                 <div className="welcome-section-logged-out">
                             <div className='slogan animate__animated animate__slideInLeft'>
                         <h1 className="welcome-heading-logged-out">Welcome to </h1>
@@ -126,12 +129,9 @@ function LandingPage() {
                     </div> 
                     <p className="welcome-text">Ready to get your finances on track? Say hello to GoalBloom, your new favorite budgeting tool, here to make money management easy and even a bit fun!</p>
                 </div>
-                <div className="welcome-image-section-logged-out">
-                            <img src={Piggy} alt='Piggy Bank' className="top-image"/>
-                </div>
-            </div>
-            <div className='sign-up-button-landing-page'>
-                <NavLink to='/signup' className='signup-button'> Sign Up</NavLink>
+                        <div className='sign-up-button-landing-page'>
+                            <NavLink to='/signup' className='signup-button'> Sign Up</NavLink>
+                        </div>
             </div>
             <div className='middle-section-logged-out'>
                 <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
@@ -150,11 +150,11 @@ function LandingPage() {
                         <img src={featureImg4} alt="Feature 4" className="feature-image" />
                     </div>
                 </div>
-                <div className='bottom-section'>
+                    {/* <div className='bottom-section-logged-out'>
                     <footer>
-                        {/*<h2>Connect</h2>*/}
+                        <h2>Connect</h2>
                     </footer>
-                </div>
+                    </div>*/}
         </div>
         </>
     )
