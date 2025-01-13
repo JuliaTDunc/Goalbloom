@@ -3,7 +3,7 @@
 .goals-page {
     padding: 20px;
     font-family: 'Poppins', sans-serif;
-    background-color: #bab7fd;
+    background-color: #f6fafb;
 }
 .goals-page-head{
     text-align:center;
@@ -49,4 +49,13 @@
 }
 .helpful-resources{
     margin: 20px;
+}
+.related-articles-goals{
+    background-color: #ffffff;
+        text-align: center;
+        width: 75%;
+        height: auto;
+        margin: 20px auto;
+        border-radius: 10px;
+        box-shadow: 0 6px 8px 4px #ebebeb;
 }

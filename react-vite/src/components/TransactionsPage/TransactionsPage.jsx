@@ -45,7 +45,7 @@ const Transactions = () => {
 
     return user ? (
         <div className='transactions-home'>
-            <section className='transactions-description'>
+            <section className='transactions-description animate__animated animate__slideInLeft'>
                 <h2 className='transactions-page-head'>Transactions</h2>
                 <p>Welcome to your Transactions Page, where you get to be the boss of your money!<br/>
                     To get started, just add your first transaction and see how your financial story unfolds. </p>
@@ -67,9 +67,9 @@ const Transactions = () => {
                         <TransGraphModal activeTab={activeTab} />
                     </div>
                 </div>
-                <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>  
-               { userData && <div className='related-articles'><RelatedArticles userData={userData}/></div> }
             </div>
+            {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>  */}
+            {userData && <div className='related-articles-transactions'><RelatedArticles userData={userData} /></div>}
         </div>
     ) : setModalContent(<LoginFormModal/>)
 };

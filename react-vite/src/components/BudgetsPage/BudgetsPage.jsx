@@ -115,7 +115,7 @@ const BudgetsPage = () => {
     return user? (
         <div className='budgets-page'>
             <div className='top-budgets-page-section'>
-                <div className='budgets-page-header'>
+                <div className='budgets-page-header animate__animated animate__slideInLeft'>
                     <h1>Budgets</h1>
                     <p>Check out your budget plans below!</p>
                 </div>
@@ -174,7 +174,7 @@ const BudgetsPage = () => {
                 </div>
             </div>
             <div className='bottom-budgets-page-section'>
-                <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
+                {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>*/}
                 {userData && <div className='related-articles-budgets-page'><RelatedArticles userData={userData} /></div>}
             </div>
             </div>

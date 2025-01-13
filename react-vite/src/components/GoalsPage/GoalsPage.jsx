@@ -45,7 +45,7 @@ const GoalsPage = () => {
   
     return user? (
         <div className="goals-page">
-            <header className='goals-header'>
+            <header className='goals-header animate__animated animate__slideInLeft'>
                 <h4 className='goals-page-head'>Goals</h4>
             <section className='goals-description-container'>
                     <p className='goals-description'>Welcome to your Goals Page! <br/>Track all your savings goals here, and update as you get closer to your goals!</p>
@@ -59,8 +59,8 @@ const GoalsPage = () => {
                     <GoalCard key={goal.id} goal={goal} />
                 ))}
             </div>
-            <div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>
-           {userData && <div className='related-articles'><RelatedArticles userData={userData} /></div> }
+            {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>*/}
+           {userData && <div className='related-articles-goals'><RelatedArticles userData={userData} /></div> }
         </div>
     ) : ( setModalContent(<LoginFormModal/>))
 };

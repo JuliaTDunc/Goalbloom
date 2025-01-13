@@ -4,7 +4,7 @@
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
-    background-color: #bab7fd;
+    background-color: #f6fafb;
 }
 .budgets-page-header {
     text-align: center;
@@ -115,12 +115,13 @@
     background-color: red;
 }
 .related-articles-budgets-page {
-    display: flex;
-    justify-content: center;
-    background-color: #0c03c3;
-    border-radius: 20px;
-    opacity: 90%;
-    margin-top: 40px;
+    background-color: #ffffff;
+    text-align: center;
+    width: 75%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 8px 4px #ebebeb;
 }
 @media (max-width: 768px) {
     .budgets-page {

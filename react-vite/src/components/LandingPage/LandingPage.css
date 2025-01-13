@@ -41,6 +41,10 @@ a {
     color: rgb(35, 35, 35);
     margin-bottom: 0.5rem;
 }
+.subheading-Landing{
+    font-size: 0.9rem;
+    color:#333;
+}
 
 .budget-chart-section{
     flex: 1;
@@ -163,7 +167,6 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
     background-color: #f6fafb;
     min-height: 100vh;
     gap: 2rem;
@@ -178,6 +181,7 @@ a {
 .welcome-image-section-logged-out{
     flex:1;
     position: relative;
+    opacity: 0.5;
 }
 .top-image {
     width: 100%;
@@ -218,11 +222,10 @@ a {
 .middle-section-logged-out {
     width: 100%;
     margin: 0 auto;
-    background-color: #ffffff;
+    text-align: center;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 2rem;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 }
 .phone-image-head {
     font-size: 1.5rem;
