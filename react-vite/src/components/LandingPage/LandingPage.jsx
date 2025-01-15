@@ -1,4 +1,5 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import 'animate.css';
 import HomeLinkLogo from '../../images/HomeLinkLogo.png';
@@ -8,12 +9,11 @@ import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
 import featureImg4 from '../../images/featureImg4.png';
-import SignupFormPage from '../SignupFormPage';
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import { LandingPageTransactionsGraph} from '../TransactionsModal';
+import SnapshotData from '/src/components/LandingComps/SnapshotData';
+import CreateButton from '/src/components/LandingComps/CreateButton'
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
@@ -82,6 +82,9 @@ function LandingPage() {
                         <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
                         <p>Welcome back to your dashboard- your personal hub for all things important.</p>
                         <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
+                        <div className='create-button-div'>
+                            <CreateButton/>
+                        </div>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">
@@ -100,6 +103,9 @@ function LandingPage() {
                             <LandingPageTransactionsGraph/>
                         </div>
                     )}
+                    <div className='snapshot-data-landing-page animate__animated animate__slideInLeft'>
+                       <SnapshotData/>
+                    </div>
             </div>
                 <h3 className='animate__animated animate__slideInLeft third-head-logged-in'>Explore Financial Resources</h3>
             <div className='bottom-section-logged-in'>
