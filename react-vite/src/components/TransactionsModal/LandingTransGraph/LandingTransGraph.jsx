@@ -11,7 +11,6 @@ const LandingPageTransactionsGraph = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [hasInitialized, setHasInitialized] = useState(false);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
