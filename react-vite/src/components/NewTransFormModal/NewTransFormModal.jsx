@@ -16,7 +16,7 @@ function NewTransactionFormModal({transaction}){
 
     const expenseTypeObj = useSelector(state => state.transactions.expenseTypes);
     const expenseTypes = Object.values(expenseTypeObj);
-    const defaultET = expenseTypes[8].id;
+    const defaultET = expenseTypes[8]?.id || 9;
     const user = useSelector(state => state.session.user);
 
     let [name, setName] = useState("");

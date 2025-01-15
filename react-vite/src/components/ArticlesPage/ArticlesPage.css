@@ -3,21 +3,21 @@
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
-    background-color: #dddbf9;
+    background-color: #f6fafb;
     display:flex;
     flex-direction: column;
     align-items: center;
 }
 .resources-description{
-    background-color: #348447c3;
+    background-color: #efe7fb10;
     border-radius: 10px;
     padding: 10px;
 }
 .resources-page-head{
-    color:#fffdf0;
+    color:black;
 }
 .resources-description p{
-    color: #fffdf0;
+    color: black;
     font-size: 20px;
 }
 .top-section-article-page{
@@ -26,29 +26,23 @@
     width: 75%;
 }
 .bookmarks-button{
-    background-color: #ffffff4a;
-    box-shadow: 0 2px 3px 2px #1604373e;
     transition: all 0.5s ease;
-    color: rgb(255, 255, 255);
-    padding: 10px 20px;
+    background-color: #f8f8f800;
+    color:rgb(46, 12, 216);
+    padding: 10px ;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 1.5s ease;
     margin: 10px;
     font-size: 16px;
 }
 .bookmarks-button:hover {
-    background-color:#fafafa;
-    box-shadow: 0 2px 3px 2px #00000053;
-    color:rgb(229, 149, 0);
-    transform: scale(1.05);
+    text-decoration: underline;
 }
 .resources-container-main-page{
     width: 600px;
     margin-top: 10px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 4px 8px 3px #348447;
+    background-color: rgba(255, 255, 255, 0.632);
     width: auto;
     padding: 10px 40px;
     border-radius: 20px;
@@ -59,11 +53,14 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.article-titles-main{
-    color: rgb(238, 124, 3);
-}
 .article-card-main-page a{
     text-decoration: none;
+    color: rgb(53, 53, 53);
+    font-size: large;
+    transition: all 0.5s ease;
+}
+.article-card-main-page a:hover{
+    transform: scale(1.10);
 }
 .bookmark-icon{
     color:rgba(29, 29, 225, 0.86);

@@ -1,4 +1,5 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import 'animate.css';
 import HomeLinkLogo from '../../images/HomeLinkLogo.png';
@@ -8,12 +9,11 @@ import featureImg1 from '../../images/featureImg1.png';
 import featureImg2 from '../../images/featureImg2.png';
 import featureImg3 from '../../images/featureImg3.png';
 import featureImg4 from '../../images/featureImg4.png';
-import SignupFormPage from '../SignupFormPage';
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import { LandingPageTransactionsGraph} from '../TransactionsModal';
+import SnapshotData from '/src/components/LandingComps/SnapshotData';
+import CreateButton from '/src/components/LandingComps/CreateButton'
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
@@ -80,8 +80,11 @@ function LandingPage() {
             <div className='top-section-logged-in'>
                     <div className="welcome-section-logged-in animate__animated animate__slideInLeft">
                         <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula dui eget nisl.</p>
-                        <p>Quisque id nisi ac urna pharetra facilisis sit amet ac magna. Nulla facilisi.</p>
+                        <p>Welcome back to your dashboard- your personal hub for all things important.</p>
+                        <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
+                        <div className='create-button-div'>
+                            <CreateButton/>
+                        </div>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">
@@ -100,6 +103,9 @@ function LandingPage() {
                             <LandingPageTransactionsGraph/>
                         </div>
                     )}
+                    <div className='snapshot-data-landing-page animate__animated animate__slideInLeft'>
+                       <SnapshotData/>
+                    </div>
             </div>
                 <h3 className='animate__animated animate__slideInLeft third-head-logged-in'>Explore Financial Resources</h3>
             <div className='bottom-section-logged-in'>
@@ -120,10 +126,10 @@ function LandingPage() {
         <div className="landing-page-logged-out">
             <div className='top-section-logged-out'>
                         <div className="welcome-image-section-logged-out">
-                            <img src={waveLanding} alt='Piggy Bank' className="top-image" />
+                            <img src={waveLanding} alt='Piggy Bank' className="top-image animate__animated animate__fadeInDown" />
                         </div>
                 <div className="welcome-section-logged-out">
-                            <div className='slogan animate__animated animate__slideInLeft'>
+                            <div className='slogan animate__animated animate__fadeInDown'>
                         <h1 className="welcome-heading-logged-out">Welcome to </h1>
                         <img src={HomeLinkLogo} className='goalbloom-word-logged-out'/>
                     </div> 
@@ -134,7 +140,7 @@ function LandingPage() {
                         </div>
             </div>
             <div className='middle-section-logged-out'>
-                <div><h2 className='phone-image-head'>Where goals meet growth</h2></div>
+                        <div><h2 className='phone-image-head animate__animated animate__fadeInDown'>Where goals meet growth</h2></div>
                 <div className='image-phone-goalbloom'>
                             <video src={PhoneVideo} className="phone-image" autoPlay muted playsInline />
                 </div>

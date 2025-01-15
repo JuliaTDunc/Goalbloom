@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -10,8 +10,7 @@ const LandingPageTransactionsGraph = () => {
     const [graphData, setGraphData] = useState({ income: [], expense: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const today = new Date();
-
+    const [hasInitialized, setHasInitialized] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,15 +25,17 @@ const LandingPageTransactionsGraph = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (transactions.length) {
-
+        if (!hasInitialized && transactions && transactions.length > 0) {
+            const today = new Date();
             const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1));
 
             const filteredTransactions = transactions.filter(transaction => {
                 const transactionDate = new Date(transaction.date);
+                if(transactionDate >= oneMonthAgo){
+                console.log(transactionDate, oneMonthAgo);
+                }
                 return transactionDate >= oneMonthAgo;
             });
-
             const incomeItems = filteredTransactions
                 .filter(transaction => !transaction.expense)
                 .map(transaction => ({
@@ -49,52 +50,64 @@ const LandingPageTransactionsGraph = () => {
                     amount: transaction.amount,
                 }));
             setGraphData({ income: incomeItems, expense: expenseItems });
-        };
-    }, [transactions]);
+            setHasInitialized(true);
+        }
+    }, [transactions, hasInitialized]);
 
     const options = {
         chart: {
             type: 'line',
         },
         title: {
-            text: `${new Date().toLocaleString('default', { month: 'long' })} Overview`,
+            text: `Monthly Overview`,
         },
         xAxis: {
-            categories: graphData.income.map(item => item.name),
-            title: {
-                text: '',
-            },
-            labels:{
+            type: 'linear',
+            min: 0,
+            max: Math.max(graphData.income.length, graphData.expense.length) - 1,
+            tickInterval: 1,
+            labels: {
                 enabled:false,
-            }
+            },
+            
         },
         yAxis: {
             title: {
                 text: 'Amount',
             },
             min: 0,
+            max: Math.max(
+                ...graphData.income.map(item => item.amount),
+                ...graphData.expense.map(item => item.amount)
+            ) * 1.2
         },
         series: [
             {
                 name: 'Income',
                 data: graphData.income.map(item => item.amount),
                 color: '#9BBD9C',
+                marker:{
+                    symbol:'circle'
+                }
             },
             {
                 name: 'Expense',
                 data: graphData.expense.map(item => item.amount),
                 color: '#D66B6B',
+                marker: {
+                    symbol: 'circle'
+                }
             },
         ],
         plotOptions: {
             line: {
                 marker: {
-                    enabled:false,
+                    enabled: true,
                 },
             },
         },
         legend: {
-            enabled: false,
+            enabled: true,
         },
     };
 

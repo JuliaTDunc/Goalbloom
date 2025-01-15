@@ -26,7 +26,7 @@
 .nav-bar ul li:hover {
   transform: translateY(-3px);
 }
-.profile-dropdown {
+.profile-dropdown-nav {
   cursor:pointer;
   position: absolute;
   width: 300px;
@@ -35,13 +35,12 @@
   background-image: url('src/images/ProfileDropdownImg.png');
   background-size: cover;
   background-position: center;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.menu-button {
+.menu-button-nav {
     background: rgba(255, 255, 255, 0.8);
       color: #333;
       padding: 8px 16px;
@@ -53,7 +52,7 @@
       margin-top: 10px;
 }
   
-.menu-button:hover {
+.menu-button-nav:hover {
       background: linear-gradient(45deg, #b06bf19a, #872af99e);
       transform: scale(1.05);
       color:white;

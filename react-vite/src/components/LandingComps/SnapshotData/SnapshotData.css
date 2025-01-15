@@ -1,0 +1,36 @@
+.snapshot-data{
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+.current-spending, .spending-difference{
+    display: flex;
+    gap: 0.5rem;
+}
+.current-spending{
+    font-size: 1.05rem;
+}
+.spending-difference{
+    font-size: 1.03rem;
+}
+.snapshot-text{
+    color: #333;
+}
+.snapshot-dollar{
+    color: rgb(17, 99, 17);
+    font-weight: bold;
+    transition: all 1.5s ease;
+}
+.snapshot-dollar:hover {
+    animation: glow 1s infinite alternate;
+    transform: scale(1.05);
+}
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 10px #bcebd4, 0 0 20px #bcebd4, 0 0 30px #bcebd4, 0 0 40px #5a7684;
+    }
+
+    100% {
+        text-shadow: 0 0 20px #bcebd4, 0 0 30px #5a7684, 0 0 40px #5a7684, 0 0 50px #5a7684;
+    }
+}

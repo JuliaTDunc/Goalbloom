@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
-import { FaBookmark, FaRegBookmark, FaHandPointLeft } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark, FaArrowLeft } from 'react-icons/fa';
 import './BookmarksPage.css';
 
 const Bookmarks = () => {
@@ -58,10 +58,10 @@ const Bookmarks = () => {
     
     return (
         <div className="bookmarks-home">
-            <section className="bookmarks-description">
+            <section className="bookmarks-description animate__animated animate__slideInLeft">
                 <h2 className="bookmarks-page-head">Resources</h2>
                 <p>Bookmarked Articles</p>
-                <NavLink to='/articles'><button> <FaHandPointLeft/> Back</button></NavLink>
+                <NavLink to='/articles'><button> <FaArrowLeft/> Back</button></NavLink>
             </section>
             <div className="resources-container-bookmark-page">
             {bookedArticles.map((article) => (
