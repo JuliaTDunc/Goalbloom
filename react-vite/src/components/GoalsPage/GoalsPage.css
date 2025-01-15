@@ -5,42 +5,9 @@
     font-family: 'Poppins', sans-serif;
     background-color: #f6fafb;
 }
-.goals-page-head{
-    text-align:center;
-    font-size: 30px;
-    color:black;
-}
-.goals-header {
-    text-align: center;
-    color: #323232;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.499);
-}
-
-.goals-description {
-    font-size: 16px;
-    padding: 10px;
-}
-
 .add-goal {
     text-align: right;
-    margin-bottom: 30px;
 }
-
-.add-goal-button {
-    background-color: #0c03c3;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.add-goal-button:hover {
-    background-color: #372dff;
-}
-
 .goal-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

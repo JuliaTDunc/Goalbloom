@@ -45,14 +45,15 @@ const GoalsPage = () => {
   
     return user? (
         <div className="goals-page">
-            <header className='goals-header animate__animated animate__slideInLeft'>
-                <h4 className='goals-page-head'>Goals</h4>
-            <section className='goals-description-container'>
-                    <p className='goals-description'>Welcome to your Goals Page! <br/>Track all your savings goals here, and update as you get closer to your goals!</p>
+            <section className='goals-description animate__animated animate__slideInLeft'>
+                <h2 className='feature-page-head'>Goals</h2>
+                <div className='feature-head-divider'></div>
+                <p className='goals-description'>Welcome to your Goals Page!</p>
+                {!allGoals ? (<p className='feature-page-subhead'>Track all your savings goals here, and update as you get closer to your goals!</p>) :
+                    <p className='feature-page-subhead'>Check out your goals down below</p>}
             </section>
-            </header>
             <div className='add-goal'>
-                <button onClick={openNewGoalModal} className='add-goal-button'>Add New Goal</button>
+                <button onClick={openNewGoalModal} className='feature-page-create-button'>New Goal</button>
             </div>
             <div className='goal-cards-grid'>
                   {goalsArr.map(goal => (

@@ -115,14 +115,17 @@ const BudgetsPage = () => {
     return user? (
         <div className='budgets-page'>
             <div className='top-budgets-page-section'>
-                <div className='budgets-page-header animate__animated animate__slideInLeft'>
-                    <h1>Budgets</h1>
-                    <p>Check out your budget plans below!</p>
-                </div>
+                <section className='budgets-description animate__animated animate__slideInLeft'>
+                    <h2 className='feature-page-head'>Budgets</h2>
+                    <div className='feature-head-divider'></div>
+                    <p className='feature-page-subhead'>Welcome to your Budgets Page</p>
+                    {!allBudgets ? (<p className='feature-page-subhead'>To get started, select dates for your budget and simply choose the Transaction and Goal items you want to apply to your budget. </p>) :
+                        <p className='feature-page-subhead'>Check out your budgets down below</p>}
+                </section>
 
                 <div className='new-budget-button'>
-                    <button className='new-budget-btn' onClick={() => openNewBudgetModal()}>
-                        Create a new Budget
+                    <button className='feature-page-create-button' onClick={() => openNewBudgetModal()}>
+                        New Budget
                     </button>
                 </div>
 
