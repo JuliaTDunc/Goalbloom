@@ -12,7 +12,8 @@ import featureImg4 from '../../images/featureImg4.png';
 import { fetchBudgets } from '../../redux/budget';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import { LandingPageTransactionsGraph} from '../TransactionsModal';
-import SnapshotData from '/src/components/SnapshotData';
+import SnapshotData from '/src/components/LandingComps/SnapshotData';
+import CreateButton from '/src/components/LandingComps/CreateButton'
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
@@ -81,6 +82,9 @@ function LandingPage() {
                         <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
                         <p>Welcome back to your dashboard- your personal hub for all things important.</p>
                         <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
+                        <div className='create-button-div'>
+                            <CreateButton/>
+                        </div>
                     </div>
                     {closestBudget && (
                         <div className="budget-chart-section">

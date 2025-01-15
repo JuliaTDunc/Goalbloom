@@ -47,13 +47,13 @@ function ProfileButton() {
     <>
       {user ? (<FaRegUser onClick={toggleMenu} className='user-smile' />) : <div><FaGhost className='user-smile' onClick={toggleMenu} /><h6 className='ghosty-label' onClick={toggleMenu}>Log In</h6></div>} 
       {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
+        <ul className={"profile-dropdown-nav"} ref={ulRef}>
           {user ? (
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <button className='menu-button' onClick={logout}>Log Out</button>
+                <button className='menu-button-nav' onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (

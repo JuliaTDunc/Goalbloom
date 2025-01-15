@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions} from '../../redux/transaction';
-import { fetchGoals } from '../../redux/goals';
+import { fetchTransactions} from '../../../redux/transaction';
+import { fetchGoals } from '../../../redux/goals';
 import './SnapshotData.css'
 
 const SnapshotData = () => {
