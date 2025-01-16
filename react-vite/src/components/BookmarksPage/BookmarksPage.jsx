@@ -1,9 +1,8 @@
-import { csrfFetch } from "../../redux/csrf";
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
-import { FaBookmark, FaRegBookmark, FaArrowLeft } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import './BookmarksPage.css';
 
 const Bookmarks = () => {
@@ -54,14 +53,19 @@ const Bookmarks = () => {
             await dispatch(createBookmark(article_id));
         }
     };
- 
     
     return (
         <div className="bookmarks-home">
             <section className="bookmarks-description animate__animated animate__slideInLeft">
-                <h2 className="bookmarks-page-head">Resources</h2>
-                <p>Bookmarked Articles</p>
-                <NavLink to='/articles'><button> <FaArrowLeft/> Back</button></NavLink>
+                <div className='bookmarks-button-div'>
+                    <button className='bookmarks-button'><NavLink to='/articles'>Back to Articles</NavLink></button>
+                    <div className='bookmark-button-divider'></div>
+                </div>
+                <h2 className='feature-page-head'>Bookmarks</h2>
+                <div className='feature-head-divider'></div>
+                <p className='feature-page-subhead'>Welcome to your Bookmarks!</p>
+                {bookedArticles.length < 1 ? (<div className = 'feature-page-subhead beta'><p>To get started, bookmark some</p><NavLink to='/articles' className={'artLink'}>Articles</NavLink></div>) :
+                    <p className='feature-page-subhead'>Check out your saved Articles down below</p>}
             </section>
             <div className="resources-container-bookmark-page">
             {bookedArticles.map((article) => (

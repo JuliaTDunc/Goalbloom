@@ -52,6 +52,9 @@
 .beta {
     opacity: 80%;
     font-size: 0.9rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .resources-container-main-page{
     width: 600px;

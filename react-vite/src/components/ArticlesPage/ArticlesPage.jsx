@@ -66,7 +66,7 @@ const Articles = () => {
             <div className="top-section-article-page">
                 <section className='resources-description animate__animated animate__slideInLeft'>
                     <div className='bookmarks-button-div'>
-                        <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
+                        <button className='bookmarks-button'><NavLink to='/bookmarks'>My Bookmarks</NavLink></button>
                         <div className='bookmark-button-divider'></div>
                     </div>
                     <h2 className='feature-page-head'>Resources</h2>
