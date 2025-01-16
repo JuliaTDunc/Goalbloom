@@ -2,6 +2,7 @@ import { csrfFetch } from "../../../redux/csrf";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBookmarks} from '../../../redux/bookmark';
+import { FaInfoCircle } from "react-icons/fa";
 import './RelatedArticles.css';
 import { NavLink } from 'react-router-dom';
 
@@ -90,6 +91,10 @@ const RelatedArticles = ({userData}) => {
                 {recArticles.map((article) => (
                     <div key={article.id} className='single-article-resource-links'>
                         <NavLink to={article.url} target="_blank"><h3 className='article-box-title'>{article.title}</h3></NavLink>
+                        <div className="tldr">
+                        <FaInfoCircle className="info-circle"/>
+                        <p className='information'>TLDR</p>
+                        </div>
                     </div>
                 ))}
             </div>
