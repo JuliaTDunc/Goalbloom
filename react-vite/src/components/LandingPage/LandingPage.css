@@ -23,7 +23,7 @@ a {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     background-color: #f6fafb;
 }
 
@@ -35,9 +35,11 @@ a {
     margin-bottom: 1rem;
 }
 .welcome-section-logged-in{
-    border: 1px solid red;
-    max-width: 40%;
-    align-self:fit-content;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
 }
 .welcome-heading-logged-in h1 {
     font-size: 2.5em;
@@ -47,6 +49,12 @@ a {
 .subheading-Landing{
     font-size: 0.9rem;
     color:#333;
+}
+.create-button-div{
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    position: relative;
 }
 
 .budget-chart-section{

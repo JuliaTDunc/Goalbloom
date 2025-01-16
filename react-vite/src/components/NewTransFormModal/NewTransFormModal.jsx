@@ -122,6 +122,7 @@ function NewTransactionFormModal({transaction}){
                     await dispatch(fetchCreateTransaction(transactionData))
                         .then(() => {
                             dispatch(fetchTransactions())
+                            navigate('/transactions')
                         })
                     closeModal();
                 }

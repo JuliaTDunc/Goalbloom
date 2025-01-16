@@ -99,7 +99,8 @@ function NewGoalFormModal({goal}){
                     await dispatch(fetchCreateGoal(goalData))
                 }
                 closeModal();
-                dispatch(fetchGoals());
+                dispatch(fetchGoals())
+                navigate('/goals')
             }catch(error){
                 console.error(error)
             }

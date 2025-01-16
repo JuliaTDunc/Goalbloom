@@ -79,9 +79,11 @@ function LandingPage() {
         <div className="landing-page-logged-in">
             <div className='top-section-logged-in'>
                     <div className="welcome-section-logged-in animate__animated animate__slideInLeft">
-                        <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
-                        <p>Welcome back to your dashboard- your personal hub for all things important.</p>
-                        <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
+                        <div className='welcome-one'>
+                            <h1 className="welcome-heading-logged-in">Hello, {user.username}!</h1>
+                            <p>Welcome back to your dashboard- your personal hub for all things important.</p>
+                            <p className='subheading-Landing'>Catch up on your latest activity and explore resources designed just for you!</p>
+                        </div>
                         <div className='create-button-div'>
                             <CreateButton/>
                         </div>

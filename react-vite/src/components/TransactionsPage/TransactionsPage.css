@@ -5,45 +5,39 @@
     font-family: 'Poppins', sans-serif;
     background-color:#f6fafb;;
 }
-
-.transactions-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.feature-page-head, .feature-page-subhead{
+    text-align: left;
+    padding: 0rem 1rem;
 }
-.transactions-page-head{
-    text-align: center;
-    font-size: 30px;
-    color:black;
+.feature-page-head{
+    font-size: 1.75rem;
+    color:rgba(15, 18, 211, 0.718);
+}
+.feature-head-divider{
+    width: 66.6%;
+    height: 2px;
+    background-color: rgba(15, 18, 211, 0.5);
+    margin: 0 auto 1rem 1rem;
+    border: none;
+}
+.feature-page-subhead{
+    color:rgb(78, 78, 78);
 }
 .new-transaction{
    text-align:right;
 }
-.new-trans-button {
+.feature-page-create-button {
     background-color: #0c03c3;
     color: white;
-    padding: 10px 20px;
+    padding: 0.5rem 1rem;
     margin:20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
-.new-transaction-btn:hover {
-    background-color: #372dff;
-}
-
-.transactions-description {
-    text-align: center;
-    color: #323232;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.499);
-}
-.transactions-description p{
-    font-size: 16px;
-    padding: 10px;
+.feature-page-create-button:hover {
+    background-color: #0d03c3af
 }
 .transactions-container {
     display: grid;
@@ -51,7 +45,6 @@
     grid-template-rows: 2fr 1fr;
     gap: 20px;
 }
-
 .graph-list-section {
     display: flex;
     grid-column: 1 / 3;
