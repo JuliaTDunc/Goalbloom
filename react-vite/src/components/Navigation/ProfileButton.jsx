@@ -45,7 +45,7 @@ function ProfileButton() {
 
   return (
     <>
-      {user ? (<FaRegUser onClick={toggleMenu} className='user-smile' />) : <div><FaGhost className='user-smile' onClick={toggleMenu} /><h6 className='ghosty-label' onClick={toggleMenu}>Log In</h6></div>} 
+      {user ? (<FaRegUser onClick={toggleMenu} className='user-smile' />) : <div><h6 className='login-label' onClick={toggleMenu}>Log In</h6></div>} 
       {showMenu && (
         <ul className={"profile-dropdown-nav"} ref={ulRef}>
           {user ? (

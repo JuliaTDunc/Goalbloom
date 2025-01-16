@@ -5,14 +5,24 @@
     font-family: 'Poppins', sans-serif;
     background-color: #f6fafb;
 }
-.add-goal {
-    text-align: right;
+.goal-opt-page{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.goal-list-options{
+    color:rgba(121, 121, 121, 0.824);
+    font-size: 1.2rem;
+    padding:0.5rem;
+    cursor:pointer;
 }
 .goal-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     justify-content: space-evenly;
+    border:1px solid blue;
 }
 .helpful-resources{
     margin: 20px;
