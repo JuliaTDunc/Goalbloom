@@ -37,6 +37,12 @@ a {
 .info-circle{
     color: rgb(141, 141, 141);
 }
+.external-link{
+    color: rgb(141, 141, 141);
+    text-align: right;
+    padding-left: 1rem;
+    font-size:0.90rem;
+}
 .tldr p{
     opacity: 0;
     color:rgb(10, 10, 10);
