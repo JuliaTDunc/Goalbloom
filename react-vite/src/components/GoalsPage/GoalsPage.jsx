@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
-import { useEffect } from 'react';
 import {FaThLarge, FaThList} from 'react-icons/fa'
 import GoalCard from '../GoalCard';
 import { fetchGoals } from '../../redux/goals';
@@ -16,8 +15,9 @@ const GoalsPage = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const allGoals = useSelector(state => state.goals.allGoals);
-    const goalsArr = Object.values(allGoals);
+    const goalsArr = useMemo(() => Object.values(allGoals), [allGoals]);
     const [listStyle, setListStyle] = useState('grid');
+    const [currGoal,setCurrGoal] = useState(null);
     const { setModalContent } = useModal();
     let userData;
 
@@ -30,6 +30,15 @@ const GoalsPage = () => {
             dispatch(fetchGoals());
         }
     }, [dispatch, user]);
+
+    useEffect(() => {
+        if(currGoal){
+            return;
+        }else if(!currGoal && goalsArr.length){
+            console.log('yellow' ,goalsArr[goalsArr.length-1])
+            setCurrGoal(goalsArr[goalsArr.length - 1]);
+        }
+    }, [goalsArr, currGoal])
    
     const openNewGoalModal = () => {
         setModalContent(<NewGoalFormModal goal={null}/>);
@@ -65,9 +74,14 @@ const GoalsPage = () => {
                 </div>
                 <div className={listStyle === 'grid' ? 'goal-cards-grid' : 'goal-cards-list'}>
                     {goalsArr.map(goal => (
-                        <GoalCard key={goal.id} goal={goal} />
+                        <GoalCard key={goal.id} goal={goal} onClick={() => setCurrGoal(goal)}/>
                     ))}
-                </div></section>
+                    {(currGoal && listStyle === 'list') ?
+                (<div className='highlightedGoal'>
+                    <GoalCard className='highlighted-goal-card' goal={currGoal}/>
+                </div>) : <h1>still no..</h1>}
+                </div>
+            </section>
             {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>*/}
            {userData && <div className='related-articles-goals'><RelatedArticles userData={userData} /></div> }
         </div>

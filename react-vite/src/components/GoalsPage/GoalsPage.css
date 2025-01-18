@@ -24,6 +24,14 @@
     justify-content: space-evenly;
     border:1px solid blue;
 }
+.goal-cards-list{
+    box-sizing: border-box;
+    border: 1px solid green;
+    display: block;
+}
+.highlighted-goal{
+        border: 1px solid orange;
+}
 .helpful-resources{
     margin: 20px;
 }
