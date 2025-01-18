@@ -22,7 +22,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     justify-content: space-evenly;
-    border:1px solid blue;
+}
+.goal-cards-list{
+    box-sizing: border-box;
+    display: block;
 }
 .helpful-resources{
     margin: 20px;
