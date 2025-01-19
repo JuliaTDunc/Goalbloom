@@ -23,9 +23,99 @@
     gap: 20px;
     justify-content: space-evenly;
 }
-.goal-cards-list{
+/*.goal-list{
+    border: 2px solid orange;
+    align-items: right;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
     box-sizing: border-box;
-    display: block;
+}
+.goal-list-container{
+    border: 3px solid green;
+}
+.goal-list-item{
+    border:1px solid red;
+}
+.highlighted-goal{
+    border: 2px solid pink;
+    width: 45%;
+    height: auto;
+}*/
+.goal-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px solid #ccc;
+    padding: 1rem;
+    box-sizing: border-box;
+    gap: 1rem;
+}
+.goal-list-container {
+    width: 50%;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll;
+}
+.goal-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.goal-list-item:hover {
+    background-color: #e8f5e9;
+}
+
+.goal-list-item p {
+    margin: 0;
+    flex: 1;
+    text-align: center;
+
+}
+
+.goal-name {
+    text-align: left;
+    flex: 2;
+    font-size: 1.1rem;
+    color: #363636;
+}
+
+.goal-amount {
+    text-align: center;
+    flex: 2;
+    display: flex;
+    max-width: 60px;
+    font-size: 0.98rem;
+}
+.goal-date {
+    text-align: right;
+    font-size: 0.8rem;
+    color:#555555;
+    flex: 2;
+}
+.highlighted-goal {
+    width: 45%;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.highlighted-goal-card {
+    width: 100%;
+    height: auto;
+    border: none;
 }
 .helpful-resources{
     margin: 20px;
