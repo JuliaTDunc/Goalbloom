@@ -72,15 +72,36 @@ const GoalsPage = () => {
                         <button onClick={openNewGoalModal} className='feature-page-create-button'>New Goal</button>
                     </div>
                 </div>
-                <div className={listStyle === 'grid' ? 'goal-cards-grid' : 'goal-cards-list'}>
+                {(listStyle === 'grid' && 
+                <div className='goal-cards-grid'>
                     {goalsArr.map(goal => (
                         <GoalCard key={goal.id} goal={goal} onClick={() => setCurrGoal(goal)}/>
                     ))}
-                    {(currGoal && listStyle === 'list') ?
-                (<div className='highlightedGoal'>
-                    <GoalCard className='highlighted-goal-card' goal={currGoal}/>
+                </div>)}
+                {(currGoal && listStyle === 'list') ?
+                (<div className='goal-list'>
+                        <div className='goal-list-container'>
+                            {goalsArr
+                                .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
+                            .map((goal) => (
+                                <div
+                                    className='goal-list-item'
+                                    key={goal.id}
+                                    onClick={() => setCurrGoal(goal)}
+                                >
+                                    <p className='goal-name'>{goal.name}</p>
+                                    <div className='goal-amount'>
+                                        <p style={{ color: '#317b31' }}>{goal.saved_amount}</p><p>/</p><p style={{color:'#bf442e'}}>{goal.amount}</p>
+                                    </div>
+                                    <p className='goal-date'>{goal.end_date}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='highlighted-goal'>
+                            <GoalCard className='highlighted-goal-card' goal={currGoal} />
+                        </div>
                 </div>) : <h1>still no..</h1>}
-                </div>
+                
             </section>
             {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>*/}
            {userData && <div className='related-articles-goals'><RelatedArticles userData={userData} /></div> }
