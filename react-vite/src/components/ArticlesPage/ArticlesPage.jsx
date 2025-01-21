@@ -66,11 +66,14 @@ const Articles = () => {
             <div className="top-section-article-page">
                 <section className='resources-description animate__animated animate__slideInLeft'>
                     <div className='bookmarks-button-div'>
-                        <NavLink to='/bookmarks'><button className='bookmarks-button'>My Bookmarks</button></NavLink>
+                        <button className='bookmarks-button'><NavLink to='/bookmarks'>My Bookmarks</NavLink></button>
+                        <div className='bookmark-button-divider'></div>
                     </div>
-                    <h2 className='resources-page-head'>Resources</h2>
-                    <p>Welcome to your Resources Page, where you can expand your knowledge!<br />
-                        Browse through a variety of helpful tools and articles, and bookmark the articles you want to revisit later. </p>
+                    <h2 className='feature-page-head'>Resources</h2>
+                    <div className='feature-head-divider'></div>
+                    <p className='feature-page-subhead'>Welcome to your Resoures Page, where you can educate yourself on financial opportunities and advice you may be missing.</p>
+                    <p className='feature-page-subhead'>Unlike the tailored articles reccommended to you throughout this app, this section of articles are completely random allowing you to explore this hub at your own curiousity!</p>
+                    <p className='feature-page-subhead beta'>Can't read it now? No problem! Add any Article to your Bookmarks and save for later!</p>
                 </section>
             </div>
             <div className="bottom-section-article-page">

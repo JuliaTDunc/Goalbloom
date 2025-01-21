@@ -1,3 +1,12 @@
+@keyframes slideIn{
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 66.6%;
+    }
+}
 .resources-home{
     width: auto;
     margin: 0 auto;
@@ -8,24 +17,29 @@
     flex-direction: column;
     align-items: center;
 }
-.resources-description{
-    background-color: #efe7fb10;
-    border-radius: 10px;
-    padding: 10px;
-}
-.resources-page-head{
-    color:black;
-}
-.resources-description p{
-    color: black;
-    font-size: 20px;
-}
+
 .top-section-article-page{
     display: flex;
     flex-direction: row;
     width: 75%;
 }
+.bookmarks-button-div{
+    max-width: 20%;
+}
+.bookmark-button-divider{
+    width: 0%;
+    height: 2px;
+    background-color: rgba(15, 18, 211, 0.5);
+    margin-left:1rem;
+    border: none;
+   overflow:hidden;
+}
+.bookmarks-button-div:hover .bookmark-button-divider,
+.bookmarks-button-div:hover .bookmarks-button +.bookmark-button-divider {
+    animation: slideIn 0.5s forwards;
+}
 .bookmarks-button{
+    font-family: 'Poppins', sans-serif;
     transition: all 0.5s ease;
     background-color: #f8f8f800;
     color:rgb(46, 12, 216);
@@ -33,11 +47,15 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;
+    margin: 10px 10px 0 10px;
     font-size: 16px;
 }
-.bookmarks-button:hover {
-    text-decoration: underline;
+.beta {
+    opacity: 80%;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .resources-container-main-page{
     width: 600px;

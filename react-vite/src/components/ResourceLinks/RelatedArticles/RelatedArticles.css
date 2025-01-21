@@ -7,15 +7,19 @@ a {
 }
 .single-article-resource-links a{
     text-decoration: none;
+    transition: all 0.6s ease;
+}
+.single-article-resource-links a:hover, .tldr:hover {
+    font-size: 1.075em;
 }
 .single-article-resource-links{
     margin-top: 5px;
-    transition:all 0.6s ease;
     text-align: center;
     width:100%;
-}
-.single-article-resource-links:hover{
-    font-size: 1.1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 .resources-links-container{
     display: flex;
@@ -29,4 +33,21 @@ a {
     width: 90%;
     margin: 0 auto;
     text-align: center;
+}
+.info-circle{
+    color: rgb(141, 141, 141);
+}
+.external-link{
+    color: rgb(141, 141, 141);
+    text-align: right;
+    padding-left: 1rem;
+    font-size:0.90rem;
+}
+.tldr p{
+    opacity: 0;
+    color:rgb(10, 10, 10);
+}
+.tldr:hover p{
+    opacity: 1;
+    transition: all 0.6s ease;
 }

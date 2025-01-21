@@ -6,36 +6,8 @@
     font-family: 'Poppins', sans-serif;
     background-color: #f6fafb;
 }
-.budgets-page-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #323232;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.499);
-}
-.budgets-page-header h1 {
-    font-size: 30px;
-    color: black;
-}
-.budgets-page-header p {
-    font-size: 18px;
-    color: #666;
-}
 .new-budget-button {
     text-align: right;
-    margin-bottom: 20px;
-}
-.new-budget-btn {
-    background-color: #0c03c3;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.new-budget-btn:hover {
-    background-color: #372dff;
 }
 .budgets-content {
     display: flex;

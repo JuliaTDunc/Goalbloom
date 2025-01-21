@@ -46,12 +46,14 @@ const Transactions = () => {
     return user ? (
         <div className='transactions-home'>
             <section className='transactions-description animate__animated animate__slideInLeft'>
-                <h2 className='transactions-page-head'>Transactions</h2>
-                <p>Welcome to your Transactions Page, where you get to be the boss of your money!<br/>
-                    To get started, just add your first transaction and see how your financial story unfolds. </p>
+                <h2 className='feature-page-head'>Transactions</h2>
+                <div className='feature-head-divider'></div>
+                <p className='feature-page-subhead'>Welcome to your Transactions Page, where you get to be the boss of your money</p>
+                {!transactions? (<p className='feature-page-subhead'>To get started, just add your first transaction and see how your financial story unfolds. </p>) : 
+                <p className='feature-page-subhead'>Check out your transactions down below</p>}
             </section>
             <div className='new-transaction'>
-                <button className='new-trans-button' onClick={() => openNewTransactionModal()}>New Transaction</button>
+                <button className='feature-page-create-button' onClick={() => openNewTransactionModal()}>New Transaction</button>
             </div>
             <div className='transactions-container'>
                 <div className='graph-list-section'>
