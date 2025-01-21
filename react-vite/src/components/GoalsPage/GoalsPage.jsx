@@ -100,7 +100,7 @@ const GoalsPage = () => {
                         <div className='highlighted-goal'>
                             <GoalCard className='highlighted-goal-card' goal={currGoal} />
                         </div>
-                </div>) : <h1>still no..</h1>}
+                </div>) : null}
                 
             </section>
             {/*<div className='helpful-resources'><p className='box-placeholder'>Helpful Resources</p></div>*/}
