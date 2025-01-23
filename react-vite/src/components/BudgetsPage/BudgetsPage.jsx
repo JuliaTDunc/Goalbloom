@@ -1,101 +1,81 @@
-import React , {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {fetchBudget, fetchDeleteBudget, fetchBudgets} from '../../redux/budget';
-import {fetchBudgetItemsByBudget} from '../../redux/budgetItem';
+import { fetchBudgets} from '../../redux/budget';
+import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
+import { fetchTransactions } from '../../redux/transaction';
+import { fetchGoals } from '../../redux/goals';
 import { useModal } from '../../context/Modal';
 import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
 //import BudgetSummary from '../BudgetSummary';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import SavedBudgets from './SavedBudgets/SavedBudgets';
 import LoginFormModal from '../LoginFormModal';
 import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './BudgetsPage.css';
-import { useNavigate } from 'react-router-dom';
 
 
 
 const BudgetsPage = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const user = useSelector(state => state.session.user);
     const allBudgets = useSelector(state => state.budgets.allBudgets);
     const currentBudget = useSelector(state => state.budgets.currentBudget);
     const budgetItems = useSelector(state => state.budgetItems.budgetItems);
-    const [budgets, setBudgets] = useState([]);
+    const allTransactions = useSelector(state => state.transactions.allTransactions);
+    const allGoals = useSelector(state => state.goals.allGoals);
+    const [loadedSavedDetail, setLoadedSavedDetail] = useState(false);
+
+    const budgets = useMemo(() => Object.values(allBudgets), [allBudgets]);
+    const transactions = useMemo(() => Object.values(allTransactions), [allTransactions]);
+    const goals = useMemo(() => Object.values(allGoals), [allGoals]);
+
+    const memoizedBudgets = useMemo(() => budgets, [budgets]);
+    const memoizedTransactions = useMemo(() => transactions, [transactions]);
+    const memoizedGoals = useMemo(() => goals, [goals]);
+
+    const { setModalContent } = useModal();
     const [currBudget, setCurrBudget] = useState(null);
     const [currBudgetItems, setCurrBudgetItems] = useState([]);
-    const { setModalContent } = useModal();
-    const allTransactions = useSelector(state => state.transactions.allTransactions);
-    const transactions = Object.values(allTransactions);
     let userData;
     let summaryData;
 
-    const openNewBudgetModal = () => {
-        setModalContent(<BudgetForm budget={null}/>);
-    };
-    const updateChartBudget = (budget) => {
-        dispatch(fetchBudget(budget.id))
-        .then(()=>{
-            setCurrBudget(budget);
-        })
-    };
-
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        if (isNaN(date)) return 'Invalid Date';
-        return date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
     useEffect(() => {
-        if (user) {
-            dispatch(fetchBudgets());
-        }
+        const fetchData = async () => {
+            if (user) {
+                await Promise.all([
+                    dispatch(fetchBudgets()),
+                    dispatch(fetchTransactions()),
+                    dispatch(fetchGoals()),
+                ]);
+                setLoadedSavedDetail(true);
+            }
+        };
+        fetchData();
     }, [user, dispatch]);
 
     useEffect(() => {
-        if (allBudgets) {
-            const sortedBudgets = Object.values(allBudgets).sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
-            setBudgets(sortedBudgets);
+        if (currentBudget) {
+            dispatch(fetchBudgetItemsByBudget(currentBudget.id)).then(() => {
+                setCurrBudgetItems(currentBudget.id);
+            });
         }
-    }, [allBudgets]);
-    
+    }, [currentBudget, dispatch]);
+
     useEffect(() => {
-        if (allBudgets && !currentBudget) {
+        if (budgets.length > 0 && !currentBudget) {
             const today = new Date();
             const closestBudget = budgets.reduce((closest, budget) => {
-            const budgetDate = new Date(budget.start_date);
-            return Math.abs(budgetDate - today) < Math.abs(new Date(closest.start_date) - today)
-            ? budget
-            : closest;
-            },[budgets[0]])
-
-            const deconClosest = closestBudget[0]
-            setCurrBudget(deconClosest)
+                const budgetDate = new Date(budget.start_date);
+                return Math.abs(budgetDate - today) < Math.abs(new Date(closest.start_date) - today)
+                    ? budget
+                    : closest;
+            }, budgets[0]);
+            if (!currBudget || currBudget.id !== closestBudget.id) {
+                setCurrBudget(closestBudget);
+            }
         }
-    },[allBudgets, budgets, dispatch]);
+    }, [budgets, currentBudget, currBudget]);
 
-    useEffect(() => {
-        if(currentBudget){
-            dispatch(fetchBudgetItemsByBudget(currentBudget.id))
-            .then(() => {
-                setCurrBudgetItems(currentBudget.id)
-            })
-        }
-    },[currentBudget,dispatch])
-
-    const handleDelete = (budgetId) => {
-        dispatch(fetchDeleteBudget(budgetId))
-            .then(() => {
-                dispatch(fetchBudgets());
-                setCurrBudget(null);
-            })
-            .catch((error) => {
-                console.error('Failed to delete budget:', error);
-            });
-    };
     if (currentBudget && budgetItems) {
         const transactionItems = budgetItems.filter(item => item.transaction);
         const totalExpenseAmount = transactionItems
@@ -110,6 +90,10 @@ const BudgetsPage = () => {
             ...currentBudget,
             budgetItems
         }
+    };
+
+    const updateCurrentBudget = (budget) => {
+        setCurrBudget(budget);
     };
 
     return user? (
@@ -148,32 +132,19 @@ const BudgetsPage = () => {
                             </div>
                         )}
                     </div>*/}
-
-                    <div className='saved-budgets'>
-                        <h2>Saved Budgets</h2>
-                        <div className='table-div'>
-                            <table className='saved-table'>
-                                <thead className='saved-table-head'>
-                                    <tr className='saved-table-cols'>
-                                        <th>Budget Name</th>
-                                        <th>Created Date</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody className='saved-table-body'>
-                                    {budgets.map((budget) => (
-                                        <tr key={budget.id} className='saved-table-budgetIns'>
-                                            <td><button onClick={() => updateChartBudget(budget)} className='saved-budgets-colName'>{budget.name}</button></td>
-                                            <td>{formatDate(budget.start_date)}</td>
-                                            <td className='saved-table-delete-button'>
-                                                <button className='delete-btn-budget' onClick={() => handleDelete(budget.id)}><FaRegTrashAlt /></button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {/*loadedSavedDetail ? (
+                        <div className='saved-budgets'>
+                            <h2>Saved Budgets</h2>
+                            <div className='table-div'>
+                                <SavedBudgets
+                                    budgets={budgets}
+                                    transactions={transactions}
+                                    goals={goals}
+                                    updateCurrentBudget={updateCurrentBudget}
+                                />
+                            </div>
+                        </div>) : (<p>Loading...</p>)
+                    */}
                 </div>
             </div>
             <div className='bottom-budgets-page-section'>
@@ -181,7 +152,7 @@ const BudgetsPage = () => {
                 {userData && <div className='related-articles-budgets-page'><RelatedArticles userData={userData} /></div>}
             </div>
             </div>
-    ) : (navigate('/'))
+    ) : (setModalContent(<LoginFormModal/>))
 };
 
 export default BudgetsPage;
