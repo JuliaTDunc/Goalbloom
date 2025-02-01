@@ -4,7 +4,7 @@ import { fetchBudget, fetchDeleteBudget, fetchBudgets } from '../../../redux/bud
 import { fetchBudgetItemsByBudget } from '../../../redux/budgetItem';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBudget }) => {
+const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     const dispatch = useDispatch();
     const [allBudgetItems, setAllBudgetItems] = useState([]);
     const [filteredBudgetData, setFilteredBudgetData] = useState([]);
@@ -12,7 +12,7 @@ const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBu
     const [filterText, setFilterText] = useState('');
     const [loading, setLoading] = useState(true);
 
-    const updateChartBudget = (budget) => {
+   const updateChartBudget = (budget) => {
         dispatch(fetchBudget(budget.id))
         .then(()=>{
             updateCurrentBudget(budget);
@@ -28,8 +28,7 @@ const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBu
             day: 'numeric',
         });
     };
-    /*
-    useEffect(() => {
+     useEffect(() => {
         const fetchAllBudgetItems = async () => {
             setLoading(true);
             const promises = budgets.map(async (budget) => {
@@ -45,10 +44,10 @@ const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBu
         if (budgets.length > 0) {
             fetchAllBudgetItems();
         }
-    }, [budgets, dispatch]);*/
+    }, [budgets, dispatch]);
 
     /*useEffect(() => {
-        if (!loading && budgets.length > 0 && allBudgetItems.length > 0 && transactions.length > 0 && goals.length > 0) {
+        if (!loading && budgets.length > 0 && allBudgetItems.length > 0 && transactions.length > 0) {
             const mappedData = budgets.map(budget => {
                 const currentBudgetItems = allBudgetItems.filter(item => item.budget_id === budget.id);
                 
@@ -79,8 +78,8 @@ const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBu
             setFilteredBudgetData(mappedData);
         }
     }, [loading, budgets, allBudgetItems, transactions, goals]);
-*/
-    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
+
+   const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
         if (a[sortField] < b[sortField]) return -1;
         if (a[sortField] > b[sortField]) return 1;
         return 0;
@@ -149,7 +148,7 @@ const SavedBudgets = React.memo(({ budgets, transactions, goals, updateCurrentBu
                 </tbody>
             </table>
         </div>
-    );
-});
+    );*/
+};
 
 export default SavedBudgets;

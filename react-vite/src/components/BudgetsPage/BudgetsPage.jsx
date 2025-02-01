@@ -28,11 +28,8 @@ const BudgetsPage = () => {
     const budgets = useMemo(() => Object.values(allBudgets), [allBudgets]);
     const transactions = useMemo(() => Object.values(allTransactions), [allTransactions]);
     const goals = useMemo(() => Object.values(allGoals), [allGoals]);
-
-    const memoizedBudgets = useMemo(() => budgets, [budgets]);
-    const memoizedTransactions = useMemo(() => transactions, [transactions]);
-    const memoizedGoals = useMemo(() => goals, [goals]);
-
+    console.log("Top Three : ", budgets, transactions, goals)
+    
     const { setModalContent } = useModal();
     const [currBudget, setCurrBudget] = useState(null);
     const [currBudgetItems, setCurrBudgetItems] = useState([]);
@@ -76,26 +73,31 @@ const BudgetsPage = () => {
         }
     }, [budgets, currentBudget, currBudget]);
 
-    if (currentBudget && budgetItems) {
-        const transactionItems = budgetItems.filter(item => item.transaction);
-        const totalExpenseAmount = transactionItems
-            .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
-            .filter(transaction => transaction !== undefined)
-            .reduce((sum, transaction) => sum + transaction.amount, 0);
-        userData = {
-            remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
-            totalIncome: currentBudget.total_amount
-        }
-        summaryData = {
-            ...currentBudget,
-            budgetItems
-        }
-    };
+    // needs to include GOALS
+
+    useEffect(() => {
+        if (currentBudget && budgetItems) {
+            const transactionItems = budgetItems.filter(item => item.transaction);
+            const totalExpenseAmount = transactionItems
+                .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
+                .filter(transaction => transaction !== undefined)
+                .reduce((sum, transaction) => sum + transaction.amount, 0);
+            userData = {
+                remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
+                totalIncome: currentBudget.total_amount
+            }
+            summaryData = {
+                ...currentBudget,
+                budgetItems
+            }
+        };
+    },[currentBudget])
 
     const updateCurrentBudget = (budget) => {
         setCurrBudget(budget);
     };
 
+    
     return user? (
         <div className='budgets-page'>
             <div className='top-budgets-page-section'>
@@ -132,7 +134,7 @@ const BudgetsPage = () => {
                             </div>
                         )}
                     </div>*/}
-                    {/*loadedSavedDetail ? (
+                    {loadedSavedDetail ? (
                         <div className='saved-budgets'>
                             <h2>Saved Budgets</h2>
                             <div className='table-div'>
@@ -144,7 +146,7 @@ const BudgetsPage = () => {
                                 />
                             </div>
                         </div>) : (<p>Loading...</p>)
-                    */}
+                    }
                 </div>
             </div>
             <div className='bottom-budgets-page-section'>
