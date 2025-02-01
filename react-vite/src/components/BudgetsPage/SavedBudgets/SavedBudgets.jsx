@@ -28,6 +28,10 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
             day: 'numeric',
         });
     };
+    
+    //allBudgetItems has EMPTY OBJS
+
+    /*
      useEffect(() => {
         const fetchAllBudgetItems = async () => {
             setLoading(true);
@@ -78,7 +82,7 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
             });
             setFilteredBudgetData(mappedData);
         }
-    }, [loading, budgets, allBudgetItems, transactions, goals]);
+    }, [loading, budgets, allBudgetItems, transactions, goals]);*/
 
    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
         if (a[sortField] < b[sortField]) return -1;
@@ -89,16 +93,16 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     const filteredBudgets = sortedBudgets.filter((budget) =>
         budget.name.toLowerCase().includes(filterText.toLowerCase())
     );
-    //allBudgetItems has EMPTY OBJS
-    /*const handleDelete = (budgetId) => {
-            dispatch(fetchDeleteBudget(budgetId))
-                .then(() => {
-                    dispatch(fetchBudgets());
-                    updateCurrentBudget(null);
-                })
-                .catch((error) => {
-                    console.error('Failed to delete budget:', error);
-                });
+   
+     const handleDelete = (budgetId) => {
+        dispatch(fetchDeleteBudget(budgetId))
+            .then(() => {
+                dispatch(fetchBudgets());
+                updateCurrentBudget(null);
+            })
+            .catch((error) => {
+                console.error('Failed to delete budget:', error);
+            });
         };
         setLoading(false);
     if (loading) {
@@ -150,7 +154,7 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
                 </tbody>
             </table>
         </div>
-    );*/
+    );
 };
 
 export default SavedBudgets;
