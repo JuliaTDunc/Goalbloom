@@ -46,8 +46,9 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
         }
     }, [budgets, dispatch]);
 
-    /*useEffect(() => {
+    useEffect(() => {
         if (!loading && budgets.length > 0 && allBudgetItems.length > 0 && transactions.length > 0) {
+        console.log("ALL BUDGET ITEMS : ", allBudgetItems)
             const mappedData = budgets.map(budget => {
                 const currentBudgetItems = allBudgetItems.filter(item => item.budget_id === budget.id);
                 
@@ -88,7 +89,8 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     const filteredBudgets = sortedBudgets.filter((budget) =>
         budget.name.toLowerCase().includes(filterText.toLowerCase())
     );
-    const handleDelete = (budgetId) => {
+    //allBudgetItems has EMPTY OBJS
+    /*const handleDelete = (budgetId) => {
             dispatch(fetchDeleteBudget(budgetId))
                 .then(() => {
                     dispatch(fetchBudgets());
