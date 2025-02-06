@@ -28,7 +28,6 @@ const BudgetsPage = () => {
     const budgets = useMemo(() => Object.values(allBudgets), [allBudgets]);
     const transactions = useMemo(() => Object.values(allTransactions), [allTransactions]);
     const goals = useMemo(() => Object.values(allGoals), [allGoals]);
-    console.log("Top Three : ", budgets, transactions, goals)
     
     const { setModalContent } = useModal();
     const [currBudget, setCurrBudget] = useState(null);
@@ -50,6 +49,7 @@ const BudgetsPage = () => {
         fetchData();
     }, [user, dispatch]);
 
+    // set currbudget INSTEAD of set currBUDGETITEMS
     useEffect(() => {
         if (currentBudget) {
             dispatch(fetchBudgetItemsByBudget(currentBudget.id)).then(() => {
@@ -96,6 +96,9 @@ const BudgetsPage = () => {
     const updateCurrentBudget = (budget) => {
         setCurrBudget(budget);
     };
+    const openNewBudgetModal = () => {
+        setModalContent(<BudgetForm budget={null}/>)
+    }
 
     
     return user? (

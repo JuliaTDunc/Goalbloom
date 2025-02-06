@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchBudget, fetchDeleteBudget, fetchBudgets } from '../../../redux/budget';
 import { fetchBudgetItemsByBudget } from '../../../redux/budgetItem';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     const dispatch = useDispatch();
+    const budgetItemsState = useSelector(state => state.budgetItems || {});
     const [allBudgetItems, setAllBudgetItems] = useState([]);
     const [filteredBudgetData, setFilteredBudgetData] = useState([]);
     const [sortField, setSortField] = useState('name');
@@ -28,39 +29,37 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
             day: 'numeric',
         });
     };
-    
-    //allBudgetItems has EMPTY OBJS
 
-    /*
      useEffect(() => {
         const fetchAllBudgetItems = async () => {
             setLoading(true);
+            try {
             const promises = budgets.map(async (budget) => {
-                const budgetItems = await dispatch(fetchBudgetItemsByBudget(budget.id));
+                const budgetItems = dispatch(fetchBudgetItemsByBudget(budget.id));
                 return { budgetId: budget.id, items: budgetItems };
             });
             const results = await Promise.all(promises);
             const mergedBudgetItems = results.flatMap((result) => result.items);
             setAllBudgetItems(mergedBudgetItems);
-
+            } catch (error) {
+            } finally {
             setLoading(false);
+            }
         };
+    
         if (budgets.length > 0) {
-            fetchAllBudgetItems();
+        fetchAllBudgetItems();
         }
     }, [budgets, dispatch]);
 
     useEffect(() => {
-        if (!loading && budgets.length > 0 && allBudgetItems.length > 0 && transactions.length > 0) {
-        console.log("ALL BUDGET ITEMS : ", allBudgetItems)
+        if (!loading && budgets.length > 0 && transactions.length > 0) {
             const mappedData = budgets.map(budget => {
-                const currentBudgetItems = allBudgetItems.filter(item => item.budget_id === budget.id);
-                
+                const currentBudgetItems = budgetItemsState[budget.id] || [];
+
                 const totalExpenseAmount = currentBudgetItems
                     .filter(item => item.transaction)
-                    .map(item =>
-                        transactions.find(transaction => transaction.id === item.item_id && transaction.expense)
-                    )
+                    .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
                     .filter(transaction => transaction !== undefined)
                     .reduce((sum, transaction) => sum + transaction.amount, 0);
 
@@ -72,8 +71,9 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
                     })
                     .reduce((sum, savedAmount) => sum + savedAmount, 0);
 
-                const totalSpent = totalExpenseAmount + totalSavedAmount
+                const totalSpent = totalExpenseAmount + totalSavedAmount;
                 const remainingBalance = budget.total_amount - totalSpent;
+
                 return {
                     ...budget,
                     totalSpent,
@@ -82,7 +82,8 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
             });
             setFilteredBudgetData(mappedData);
         }
-    }, [loading, budgets, allBudgetItems, transactions, goals]);*/
+    }, [loading, budgets, budgetItemsState, transactions, goals]);
+    
 
    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
         if (a[sortField] < b[sortField]) return -1;
@@ -94,17 +95,19 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
         budget.name.toLowerCase().includes(filterText.toLowerCase())
     );
    
-     const handleDelete = (budgetId) => {
+    const handleDelete = (budgetId) => {
+        setLoading(true);
         dispatch(fetchDeleteBudget(budgetId))
             .then(() => {
                 dispatch(fetchBudgets());
                 updateCurrentBudget(null);
             })
             .catch((error) => {
-                console.error('Failed to delete budget:', error);
-            });
-        };
-        setLoading(false);
+                console.error("Failed to delete budget:", error);
+            })
+            .finally(() => setLoading(false));
+    };
+        
     if (loading) {
         return <div>Loading budgets...</div>;
     }
