@@ -53,37 +53,63 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     }, [budgets, dispatch]);
 
     useEffect(() => {
-        if (!loading && budgets.length > 0 && transactions.length > 0) {
-            const mappedData = budgets.map(budget => {
-                const currentBudgetItems = budgetItemsState[budget.id] || [];
+        const fetchAndMapBudgets = async () => {
+            if (loading || budgets.length === 0 || transactions.length === 0) return;
 
-                const totalExpenseAmount = currentBudgetItems
-                    .filter(item => item.transaction)
-                    .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
-                    .filter(transaction => transaction !== undefined)
-                    .reduce((sum, transaction) => sum + transaction.amount, 0);
+            try {
+                const mappedData = await Promise.all(
+                    budgets.map(async (budget) => {
+                        // Extract budget items from the dispatch response
+                        const response = await dispatch(fetchBudgetItemsByBudget(budget.id));
+                        const budgetItems = response.payload; // Use payload instead of raw action
 
-                const totalSavedAmount = currentBudgetItems
-                    .filter(item => !item.transaction)
-                    .map(item => {
-                        const matchingGoal = goals.find(goal => goal.id === item.item_id);
-                        return matchingGoal ? matchingGoal.saved_amount : 0;
+                        if (!budgetItems || budgetItems.length === 0) {
+                            console.warn(`No budget items found for budget ${budget.id}`);
+                            return {
+                                ...budget,
+                                totalSpent: 0,
+                                remainingBalance: budget.total_amount,
+                            };
+                        }
+
+                        const totalExpenseAmount = budgetItems
+                            .filter(item => item.transaction)
+                            .map(item => {
+                                const matchingTransaction = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
+                                return matchingTransaction ? matchingTransaction.amount : 0;
+                            })
+                            .reduce((sum, amount) => sum + amount, 0) || 0;
+
+                        const totalSavedAmount = budgetItems
+                            .filter(item => !item.transaction)
+                            .map(item => {
+                                const matchingGoal = goals.find(goal => goal.id === item.item_id);
+                                return matchingGoal ? matchingGoal.saved_amount : 0;
+                            })
+                            .reduce((sum, savedAmount) => sum + savedAmount, 0) || 0;
+
+                        const totalSpent = totalExpenseAmount + totalSavedAmount;
+                        const remainingBalance = budget.total_amount - totalSpent;
+
+                        console.log('Budget:', budget, 'Total Spent:', totalSpent, 'Remaining Balance:', remainingBalance);
+
+                        return {
+                            ...budget,
+                            totalSpent,
+                            remainingBalance,
+                        };
                     })
-                    .reduce((sum, savedAmount) => sum + savedAmount, 0);
+                );
 
-                const totalSpent = totalExpenseAmount + totalSavedAmount;
-                const remainingBalance = budget.total_amount - totalSpent;
+                setFilteredBudgetData(mappedData);
+            } catch (error) {
+                console.error("Error fetching budget data:", error);
+            }
+        };
 
-                return {
-                    ...budget,
-                    totalSpent,
-                    remainingBalance,
-                };
-            });
-            setFilteredBudgetData(mappedData);
-        }
-    }, [loading, budgets, budgetItemsState, transactions, goals]);
-    
+        fetchAndMapBudgets();
+    }, [loading, budgets, transactions, goals, dispatch]);
+
 
    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
         if (a[sortField] < b[sortField]) return -1;
@@ -111,7 +137,7 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     if (loading) {
         return <div>Loading budgets...</div>;
     }
-    return (
+    return filteredBudgets && (
         <div>
             <div className="controls">
                 <input
