@@ -59,56 +59,47 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
             try {
                 const mappedData = await Promise.all(
                     budgets.map(async (budget) => {
-                        // Extract budget items from the dispatch response
-                        const response = await dispatch(fetchBudgetItemsByBudget(budget.id));
-                        const budgetItems = response.payload; // Use payload instead of raw action
+                        try {
+                            const res = await csrfFetch(`/api/budgets/${budget.id}/items`);
+                            if (!res.ok) {
+                                throw new Error(`Failed to fetch budget items for budget ${budget.id}`);
+                            }
+                            const data = await res.json();
+                            const budgetItems = data.budgetItems || [];
 
-                        if (!budgetItems || budgetItems.length === 0) {
-                            console.warn(`No budget items found for budget ${budget.id}`);
+                            console.log(`Budget ${budget.id} items:`, budgetItems);
+
+                            const transactionItems = budgetItems.filter(item => item.transaction);
+                            const totalExpenseAmount = transactions
+                                .filter(transaction =>
+                                    transactionItems.some(item => item.transaction.item_id === transaction.id && transaction.expense)
+                                )
+                                .reduce((acc, transaction) => acc + (transaction.amount || 0), 0);
+
+                            return {
+                                ...budget,
+                                totalSpent: totalExpenseAmount,
+                                remainingBalance: budget.total_amount - totalExpenseAmount,
+                            };
+                        } catch (error) {
+                            console.error(`Error fetching budget items for budget ${budget.id}:`, error);
                             return {
                                 ...budget,
                                 totalSpent: 0,
                                 remainingBalance: budget.total_amount,
                             };
                         }
-
-                        const totalExpenseAmount = budgetItems
-                            .filter(item => item.transaction)
-                            .map(item => {
-                                const matchingTransaction = transactions.find(transaction => transaction.id === item.item_id && transaction.expense);
-                                return matchingTransaction ? matchingTransaction.amount : 0;
-                            })
-                            .reduce((sum, amount) => sum + amount, 0) || 0;
-
-                        const totalSavedAmount = budgetItems
-                            .filter(item => !item.transaction)
-                            .map(item => {
-                                const matchingGoal = goals.find(goal => goal.id === item.item_id);
-                                return matchingGoal ? matchingGoal.saved_amount : 0;
-                            })
-                            .reduce((sum, savedAmount) => sum + savedAmount, 0) || 0;
-
-                        const totalSpent = totalExpenseAmount + totalSavedAmount;
-                        const remainingBalance = budget.total_amount - totalSpent;
-
-                        console.log('Budget:', budget, 'Total Spent:', totalSpent, 'Remaining Balance:', remainingBalance);
-
-                        return {
-                            ...budget,
-                            totalSpent,
-                            remainingBalance,
-                        };
                     })
                 );
 
                 setFilteredBudgetData(mappedData);
             } catch (error) {
-                console.error("Error fetching budget data:", error);
+                console.error("Error fetching and mapping budgets:", error);
             }
         };
 
         fetchAndMapBudgets();
-    }, [loading, budgets, transactions, goals, dispatch]);
+    }, [loading, budgets, transactions, goals]);
 
 
    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
