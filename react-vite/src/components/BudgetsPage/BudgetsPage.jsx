@@ -77,19 +77,25 @@ const BudgetsPage = () => {
 
     useEffect(() => {
         if (currentBudget && budgetItems) {
-            const transactionItems = budgetItems.filter(item => item.transaction);
+            const filteredItems = budgetItems.filter(item => item.budget_id === currentBudget.id);
+            const transactionItems = filteredItems.filter(item => item.transaction);
+
             const totalExpenseAmount = transactionItems
                 .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
                 .filter(transaction => transaction !== undefined)
                 .reduce((sum, transaction) => sum + transaction.amount, 0);
+
             userData = {
                 remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
                 totalIncome: currentBudget.total_amount
-            }
+            };
+
+            console.log('User data: ', userData);
+
             summaryData = {
                 ...currentBudget,
-                budgetItems
-            }
+                budgetItems: filteredItems
+            };
         };
     },[currentBudget])
 
