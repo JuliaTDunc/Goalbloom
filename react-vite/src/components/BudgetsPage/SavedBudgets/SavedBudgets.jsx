@@ -6,7 +6,6 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 
 const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
     const dispatch = useDispatch();
-    const budgetItemsState = useSelector(state => state.budgetItems || {});
     const [allBudgetItems, setAllBudgetItems] = useState([]);
     const [filteredBudgetData, setFilteredBudgetData] = useState([]);
     const [sortField, setSortField] = useState('name');
@@ -72,7 +71,7 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
                             const transactionItems = budgetItems.filter(item => item.transaction);
                             const totalExpenseAmount = transactions
                                 .filter(transaction =>
-                                    transactionItems.some(item => item.transaction.item_id === transaction.id && transaction.expense)
+                                    transactionItems.some(item => item.item_id === transaction.id && transaction.expense)
                                 )
                                 .reduce((acc, transaction) => acc + (transaction.amount || 0), 0);
 
@@ -99,7 +98,7 @@ const SavedBudgets =({ budgets, transactions, goals, updateCurrentBudget }) => {
         };
 
         fetchAndMapBudgets();
-    }, [loading, budgets, transactions, goals]);
+    }, [loading, budgets, transactions]);
 
 
    const sortedBudgets = [...filteredBudgetData].sort((a, b) => {
