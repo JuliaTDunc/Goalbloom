@@ -32,7 +32,7 @@ const BudgetsPage = () => {
     const { setModalContent } = useModal();
     const [currBudget, setCurrBudget] = useState(null);
     const [currBudgetItems, setCurrBudgetItems] = useState([]);
-    let userData;
+    let userData = {};
     let summaryData;
 
     useEffect(() => {
@@ -84,11 +84,11 @@ const BudgetsPage = () => {
                 .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
                 .filter(transaction => transaction !== undefined)
                 .reduce((sum, transaction) => sum + transaction.amount, 0);
-
-            userData = {
-                remainingBalance: (currentBudget.total_amount - totalExpenseAmount),
-                totalIncome: currentBudget.total_amount
-            };
+          
+                if (currentBudget){
+                userData.remainingBalance = (currentBudget.total_amount - totalExpenseAmount),
+                userData.totalIncome = currentBudget.total_amount
+                };
 
             console.log('User data: ', userData);
 
