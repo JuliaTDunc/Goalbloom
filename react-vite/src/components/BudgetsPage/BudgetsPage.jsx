@@ -84,7 +84,7 @@ const BudgetsPage = () => {
                 .map(item => transactions.find(transaction => transaction.id === item.item_id && transaction.expense))
                 .filter(transaction => transaction !== undefined)
                 .reduce((sum, transaction) => sum + transaction.amount, 0);
-
+          
                 if (currentBudget){
                 userData.remainingBalance = (currentBudget.total_amount - totalExpenseAmount),
                 userData.totalIncome = currentBudget.total_amount
