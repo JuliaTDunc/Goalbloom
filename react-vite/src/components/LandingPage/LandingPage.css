@@ -189,7 +189,7 @@ a {
     align-items: center;
     background-color: #f6fafb;
     min-height: 100vh;
-    gap: 2rem;
+    gap: 1rem;
     position: relative;
 }
 .top-section-logged-out {
@@ -198,6 +198,7 @@ a {
     width: 100%;
     position: relative;
 }
+
 .welcome-image-section-logged-out{
     flex:1;
     position: relative;
@@ -205,7 +206,7 @@ a {
 }
 .top-image {
     width: 100%;
-    height: auto;
+    max-height: 444px;
     position: relative;
     z-index: 1;
 }
@@ -231,7 +232,7 @@ a {
 .welcome-text {
     font-size: 1.1em;
     color: #333;
-    max-width: 300px;
+    max-width: 600px;
     margin-top: 1rem;
 }
 .sign-up-button-landing-page {
@@ -276,7 +277,7 @@ a {
     margin-top: 60px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap:2rem;
 }
 .feature-image {
     max-width: 200px;
@@ -286,17 +287,19 @@ a {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .feature-image:hover {
-    transform: scale(1.05);
+    transform: scale(1.5);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 .bottom-section-logged-out {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #ffffff00;
     border-radius: 15px;
     padding: 2rem;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    height: 100px;
+    width:100%;
 }
 
 

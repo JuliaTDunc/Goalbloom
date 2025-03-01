@@ -7,6 +7,8 @@ import RelatedArticles from '../ResourceLinks/RelatedArticles';
 import './TransactionsPage.css'
 import LoginFormModal from '../LoginFormModal';
 import { fetchTransactions } from '../../redux/transaction';
+import Calculator from '../Calculator/Calculator';
+import { FaCalculator } from 'react-icons/fa';
 
 const Transactions = () => {
     const user = useSelector(state => state.session.user);
@@ -53,6 +55,7 @@ const Transactions = () => {
                 <p className='feature-page-subhead'>Check out your transactions down below</p>}
             </section>
             <div className='new-transaction'>
+                <FaCalculator onClick={() => { setModalContent(<Calculator />) }} />
                 <button className='feature-page-create-button' onClick={() => openNewTransactionModal()}>New Transaction</button>
             </div>
             <div className='transactions-container'>
