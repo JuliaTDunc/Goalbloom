@@ -158,11 +158,11 @@ function LandingPage() {
                         <img src={featureImg4} alt="Feature 4" className="feature-image" />
                     </div>
                 </div>
-                    {/* <div className='bottom-section-logged-out'>
+                    { <div className='bottom-section-logged-out'>
                     <footer>
-                        <h2>Connect</h2>
+                        {/*<h2>Connect</h2>*/}
                     </footer>
-                    </div>*/}
+                    </div>}
         </div>
         </>
     )
