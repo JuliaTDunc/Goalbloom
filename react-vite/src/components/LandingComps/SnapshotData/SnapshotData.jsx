@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions} from '../../../redux/transaction';
 import { fetchGoals } from '../../../redux/goals';
 import './SnapshotData.css'
+import { color } from 'highcharts';
 
 const SnapshotData = () => {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const SnapshotData = () => {
     //const difference;
     const [spent, setSpent] = useState(0);
     const [spendDifference,setSpendDifference] = useState(0);
+    const [more,less] = useState('less');
     const [error, setError] = useState(null);
     const [hasInitialized, setHasInitialized] = useState(false);
 
@@ -62,19 +64,22 @@ const SnapshotData = () => {
             //find goals created or updated between lastDayPrevMonth and today
         }
     }, [goals, hasInitialized]);*/
-
     return hasInitialized && 
     <>
     <div className='snap-shot-data'>
         <div className='transactions-snapshot'>
-            {(transactionsLoaded && spent) &&
+            {(transactionsLoaded) &&
                 <div className='current-spending'>
-                    <p className='snapshot-text'>You've spent </p> <p className='snapshot-dollar'>${spent}</p> <p className='snapshot-text'>this month.</p>
+                        <p className='snapshot-text'>You've spent </p> <p className='snapshot-dollar'>${spent}</p> <p className='snapshot-text'>this month.</p>
                 </div>
             }
             {(spendDifference > 0) &&
                 <div className='spending-difference'>
-                    <p className='snapshot-text'>That's</p> <p className='snapshot-dollar'>${spendDifference}</p> <p className='snapshot-text'> less than last month!</p>
+                        <p className='snapshot-text'> That's </p><p className='snapshot-dollar'>${spendDifference}</p> <p className='snapshot-text'> less than last month!</p>
+                </div>}
+            {(spendDifference < 0) && 
+                    <div className='spending-difference'>
+                        <p className='snapshot-text'> That's </p><p className='snapshot-dollar-red' >${Math.abs(spendDifference)}</p> <p className='snapshot-text'> more than last month</p>
                 </div>}
         </div>
         {/*(goalsLoaded && difference > 0) && 

@@ -21,9 +21,18 @@
     font-weight: bold;
     transition: all 1.5s ease;
 }
+.snapshot-dollar-red {
+    color: rgb(136, 19, 19);
+    font-weight: bold;
+    transition: all 1.5s ease;
+}
 .snapshot-dollar:hover {
     animation: glow 1s infinite alternate;
     transform: scale(1.05);
+}
+.snapshot-dollar-red:hover{
+    animation: red-glow 1s infinite alternate;
+        transform: scale(1.05);
 }
 @keyframes glow {
     0% {
@@ -33,4 +42,16 @@
     100% {
         text-shadow: 0 0 20px #bcebd4, 0 0 30px #5a7684, 0 0 40px #5a7684, 0 0 50px #5a7684;
     }
+} 
+@keyframes red-glow{
+    0% {
+            text-shadow: 0 0 10px #ebbcc6, 0 0 20px #ebbcc5, 0 0 30px #ebbcc6, 0 0 40px #845a60;
+        }
+    
+        100% {
+            text-shadow: 0 0 20px#ebbcc6,
+                0 0 20px #ebbcc5,
+                0 0 30px #ebbcc6,
+                0 0 40px #845a60;
+        }
 }
