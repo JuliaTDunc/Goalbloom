@@ -1,12 +1,14 @@
 import { csrfFetch } from "../../redux/csrf";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
+import cardPlaceholder from '../../images/card-placeholder-img.png';
 import './ArticlesPage.css'
 import LoginFormModal from '../LoginFormModal';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../redux/bookmark';
 import { FaBookmark, FaRegBookmark} from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Articles = () => {
     const user = useSelector(state => state.session.user);
@@ -15,6 +17,17 @@ const Articles = () => {
     const [localBookmarks, setLocalBookmarks] = useState([]);
     const { setModalContent } = useModal();
     const dispatch = useDispatch();
+    const scrollRef = useRef(null);
+
+    const scroll = (direction) => {
+        if (scrollRef.current) {
+            const scrollAmount = 400;
+            scrollRef.current.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
+            });
+        }
+    }
     
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -77,11 +90,11 @@ const Articles = () => {
             <div className="credit-card-recommendations">
                 <h3>Recommended Credit Cards</h3>
                 <p>Looking for the best credit card for budgeting? Here are some great options!</p>
-                <ul>
-                    <li><a href="CREDIT_CARD_LINK" target="_blank">Best Cashback Card</a></li>
-                    <li><a href="CREDIT_CARD_LINK" target="_blank">Low-Interest Rate Card</a></li>
-                    <li><a href="CREDIT_CARD_LINK" target="_blank">Best Travel Rewards Card</a></li>
-                </ul>
+                    <div className="cards-div">
+                    <div className="credit-card-div Best-Cashback-Card"><a href="CREDIT_CARD_LINK" target="_blank"><img src={cardPlaceholder}/></a></div>
+                    <div className="credit-card-div Low-Interest-Rate-Card"><a href="CREDIT_CARD_LINK" target="_blank"><img src={cardPlaceholder} /></a></div>
+                    <div className="credit-card-div Best-Travel-Rewards-Card"><a href="CREDIT_CARD_LINK" target="_blank"><img src={cardPlaceholder} /></a></div>
+                    </div>
             </div>
 
             <div className="bottom-section-article-page">
@@ -102,14 +115,52 @@ const Articles = () => {
                         ))}
                     </div>
 
-                    <div className='extra-resources'>
+                    <div className="extra-resources">
                         <h3>Financial Videos & Podcasts</h3>
                         <p>Explore budgeting videos and financial podcasts to enhance your knowledge.</p>
-                        <ul>
-                            <li><a href="YOUTUBE_LINK" target="_blank">Best Budgeting Hacks</a></li>
-                            <li><a href="YOUTUBE_LINK" target="_blank">How to Save More Money</a></li>
-                            <li><a href="PODCAST_LINK" target="_blank">Top Financial Podcasts</a></li>
-                        </ul>
+
+                        <div className="carousel-container">
+                            {/* Left Arrow */}
+                            <button className="scroll-btn left" onClick={() => scroll("left")}>
+                                <FaChevronLeft size={25} />
+                            </button>
+
+                            <div className="video-scroll-container" ref={scrollRef}>
+                                <div className="video-wrapper">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/VIDEO_ID_1"
+                                        title="Best Budgeting Hacks"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/VIDEO_ID_2"
+                                        title="How to Save More Money"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/VIDEO_ID_3"
+                                        title="Top Financial Podcasts"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/VIDEO_ID_4"
+                                        title="Investing for Beginners"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                            </div>
+
+                            {/* Right Arrow */}
+                            <button className="scroll-btn right" onClick={() => scroll("right")}>
+                                <FaChevronRight size={25} />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
