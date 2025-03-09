@@ -128,28 +128,28 @@ const Articles = () => {
                             <div className="video-scroll-container" ref={scrollRef}>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_1"
+                                        src="https://www.youtube.com/embed/JP__utZQLb8?si=cjDBia0QztPtlqTy"
                                         title="Best Budgeting Hacks"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_2"
+                                        src="https://www.youtube.com/embed/37inkhgXnDg?si=Els8UkmO5x0tr5P2"
                                         title="How to Save More Money"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_3"
+                                        src="https://www.youtube.com/embed/IRi5Z7pp1K4?si=x-O5RFS33VXAnkaz"
                                         title="Top Financial Podcasts"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_4"
+                                        src="https://www.youtube.com/embed/TPS22HRRY1k?si=SqQJssJrnbzMD4MO"
                                         title="Investing for Beginners"
                                         allowFullScreen>
                                     </iframe>
