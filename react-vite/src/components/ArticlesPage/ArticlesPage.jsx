@@ -128,14 +128,14 @@ const Articles = () => {
                             <div className="video-scroll-container" ref={scrollRef}>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_1"
+                                        src="https://youtu.be/JP__utZQLb8?si=92eNgzgIup1u4X_N"
                                         title="Best Budgeting Hacks"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_2"
+                                        src="https://youtu.be/37inkhgXnDg?si=_hA4DI6E_k8ode9M"
                                         title="How to Save More Money"
                                         allowFullScreen>
                                     </iframe>
@@ -149,7 +149,7 @@ const Articles = () => {
                                 </div>
                                 <div className="video-wrapper">
                                     <iframe
-                                        src="https://www.youtube.com/embed/VIDEO_ID_4"
+                                        src="https://youtu.be/IRi5Z7pp1K4?si=wD-a0r51Q3Pa25Tn"
                                         title="Investing for Beginners"
                                         allowFullScreen>
                                     </iframe>
