@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import 'animate.css';
 import HomeLinkLogo from '../../images/HomeLinkLogo.png';
@@ -27,6 +28,7 @@ function LandingPage() {
     const allTransactions = useSelector(state => state.transactions.allTransactions);
     const transactions = Object.values(allTransactions);
     const [isLoaded, setIsLoaded] = useState(false);
+    const nav = useNavigate();
 
     useEffect(() => {
         dispatch(fetchBudgets());
@@ -89,7 +91,7 @@ function LandingPage() {
                         </div>
                     </div>
                     {closestBudget && (
-                        <div className="budget-chart-section">
+                        <div className="budget-chart-section" onClick={() => {nav('/budgets')}}>
                             <BudgetGraph budget={closestBudget} />
                         </div>
                     )}
