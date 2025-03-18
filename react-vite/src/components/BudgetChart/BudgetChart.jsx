@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { useLocation } from 'react-router-dom';
 import Highcharts from 'highcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import HighchartsReact from 'highcharts-react-official';

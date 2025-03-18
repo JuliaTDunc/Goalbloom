@@ -103,7 +103,8 @@ flex: 0.8;
 .extra-resources {
     flex: 1.2;
     max-width: 65%;
-    background-color: rgba(7, 0, 34, 0.948);
+    background-color: rgba(128, 133, 226, 0.948);
+    color:rgba(255, 255, 255, 0.847);
     padding: 20px;
     border-radius: 20px;
 }
@@ -134,13 +135,12 @@ flex: 0.8;
     gap: 15px;
 }
 .credit-card-div {
-    width: 30%;
     border-radius: 20px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     background-color: #f8f9fa;
-    height: 10rem;
-    width: 12rem;
+    width: 150px;
+    height: 100px;
 }
 .credit-card-div a {
     text-decoration: none;
@@ -152,8 +152,9 @@ flex: 0.8;
     text-decoration: underline;
 }
 .credit-card-div img{
-    height: 8rem;
-    width: 10rem;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
 .carousel-container {
     position: relative;
