@@ -1,7 +1,6 @@
 import { csrfFetch } from "../../../redux/csrf";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { fetchBookmarks} from '../../../redux/bookmark';
 import { FaExternalLinkAlt} from "react-icons/fa";
 import './RelatedArticles.css';
 import { NavLink } from 'react-router-dom';
@@ -9,8 +8,6 @@ import { NavLink } from 'react-router-dom';
 const RelatedArticles = ({userData}) => {
     const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
-    //const allBookmarks = useSelector(state => state.bookmarks.bookmarks);
-    //const bookmarks = Object.values(allBookmarks);
     const [articles, setArticles] = useState([]);
     const [recArticles, setRecArticles] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
