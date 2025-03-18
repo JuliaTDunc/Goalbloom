@@ -26,7 +26,6 @@ const BudgetForm = ({ budget }) => {
         return `${year}-${month}-${day}`;
     };
 
-    const user = useSelector(state => state.session.user);
     const budgetItems = useSelector(state => state.budgetItems.budgetItems);
     const allTransactions = useSelector(state => state.transactions.allTransactions);
     const allGoals = useSelector(state => state.goals.allGoals);
@@ -42,7 +41,6 @@ const BudgetForm = ({ budget }) => {
     const [expenseOptions, setExpenseOptions] = useState([]);
     const [goalOptions, setGoalOptions] = useState([]);
     const [remainingBalance, setRemainingBalance] = useState(0);
-    let [errors, setErrors] = useState({});
     let [isLoaded, setIsLoaded] = useState(false);
     const [isFetched, setIsFetched] = useState(false);
     const [incomeItems, setIncomeItems] = useState([]);

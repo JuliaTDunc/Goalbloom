@@ -103,7 +103,8 @@ flex: 0.8;
 .extra-resources {
     flex: 1.2;
     max-width: 65%;
-    background-color: rgba(7, 0, 34, 0.948);
+    background-color: rgba(128, 133, 226, 0.948);
+    color:rgba(255, 255, 255, 0.847);
     padding: 20px;
     border-radius: 20px;
 }

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import cardPlaceholder from '../../images/card-placeholder-img.png';
 import CapOneCard from '../../images/CapOneCard.png';
 import ChimeCard from '../../images/ChimeCard.png';
 import ChaseFreedomCard from '../../images/ChaseFreedomCard.png';
@@ -119,7 +118,7 @@ const Articles = () => {
                     </div>
 
                     <div className="extra-resources">
-                        <h3>Financial Videos & Podcasts</h3>
+                        <h3>Learn something new</h3>
                         <p>Explore budgeting videos and financial podcasts to enhance your knowledge.</p>
 
                         <div className="carousel-container">
