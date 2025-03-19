@@ -129,37 +129,58 @@ const Articles = () => {
 
                             <div className="video-scroll-container" ref={scrollRef}>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">How to save $10k Effortlessly</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/JP__utZQLb8?si=cjDBia0QztPtlqTy"
-                                        title="Best Budgeting Hacks"
+                                        title="How to save $10k Effortlessly"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">6 Ways Insecurity is Wasting Your Money</p>
                                     <iframe
                                         src="https://youtube.com/embed/wsgAI9i3oow?si=Qdld1ImadhzPltKk"
-                                        title="Investing for Beginners"
+                                        title="6 Ways Insecurity is Wasting Your Money"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">Do This Every Time You Get a Paycheck</p>
+                                    <iframe
+                                        src="https://www.youtube.com/embed/IIKr2915l2g?si=k387VqGkhBrRRsk9"
+                                        title="Do This Every Time You Get a Paycheck"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <p className="video-titles">How to Write a Resume with No Experience</p>
+                                    <iframe
+                                        src="https://youtube.com/embed/1HvgDkD5RlM?si=Bdp7waGr2jlWODYt"
+                                        title="How to Write a Resume with No Experience"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <p className="video-titles">My Credit Cards are Maxxed Out!</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/37inkhgXnDg?si=Els8UkmO5x0tr5P2"
-                                        title="How to Save More Money"
+                                        title="My Credit Cards are Maxxed Out!"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">How to Get Cheaper Car Insurance</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/IRi5Z7pp1K4?si=x-O5RFS33VXAnkaz"
-                                        title="Top Financial Podcasts"
+                                        title="How to Get Cheaper Car Insurance"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">What is a Mutual FUND?</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/TPS22HRRY1k?si=SqQJssJrnbzMD4MO"
-                                        title="Investing for Beginners"
+                                        title="What is a Mutual Fund?"
                                         allowFullScreen>
                                     </iframe>
                                 </div>

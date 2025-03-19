@@ -103,8 +103,8 @@ flex: 0.8;
 .extra-resources {
     flex: 1.2;
     max-width: 65%;
-    background-color: rgba(128, 133, 226, 0.948);
-    color:rgba(255, 255, 255, 0.847);
+    background-color: #E5E7EB;
+    color: rgb(9, 19, 129);
     padding: 20px;
     border-radius: 20px;
 }
@@ -156,6 +156,9 @@ flex: 0.8;
     height: 90%;
     width: 90%;
     object-fit: contain;
+}
+.video-titles{
+    color:#010303;
 }
 .carousel-container {
     position: relative;
