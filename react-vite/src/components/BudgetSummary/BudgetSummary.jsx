@@ -7,7 +7,7 @@ import './BudgetSummary.css';
 const BudgetSummary = (budgetDetails) => {
     const [summary, setSummary] = useState("");
     const dispatch = useDispatch();
-    const [error, setError] = useState(null);
+    const error = useState(null);
     const currBudget = budgetDetails;
 
     useEffect(() => {

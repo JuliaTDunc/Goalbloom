@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions} from '../../../redux/transaction';
 import { fetchGoals } from '../../../redux/goals';
 import './SnapshotData.css'
-import { color } from 'highcharts';
 
 const SnapshotData = () => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => Object.values(state.transactions.allTransactions));
-    const goals = useSelector(state => Object.values(state.goals.allGoals));
+    //const goals = useSelector(state => Object.values(state.goals.allGoals));
     const [transactionsLoaded, setTransactionsLoaded] = useState(false);
     //const [goalsLoaded, setGoalsLoaded] = useState(false);
     //const difference;
     const [spent, setSpent] = useState(0);
     const [spendDifference,setSpendDifference] = useState(0);
-    const [more,less] = useState('less');
+    //const [more,less] = useState('less');
     const [error, setError] = useState(null);
     const [hasInitialized, setHasInitialized] = useState(false);
 
@@ -23,7 +22,7 @@ const SnapshotData = () => {
                 try {
                     await dispatch(fetchTransactions());
                         dispatch(fetchGoals());
-                        setGoalsLoaded(true)
+                        //setGoalsLoaded(true)
                 } catch (err) {
                     setError('An error occurred while fetching transactions.');
                 }

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import CapOneCard from '../../images/CapOneCard.png';
-import ChimeCard from '../../images/ChimeCard.png';
+import ChimeCard from '../../images/ChimeCardNew.png';
 import ChaseFreedomCard from '../../images/ChaseFreedomCard.png';
 import './ArticlesPage.css'
 import LoginFormModal from '../LoginFormModal';
@@ -93,9 +93,9 @@ const Articles = () => {
                 <h3>Recommended Credit Cards</h3>
                 <p>Looking for the best credit card for budgeting? Here are some great options!</p>
                     <div className="cards-div">
-                    <div className="credit-card-div Best-Cashback-Card"><a href="https://www.capitalone.com/credit-cards/preapprove/lp/sem/build/build-2/?external_id=WWW_LPT136B_ZZZ_ONL-SE_ZZZZZ_T_SEM2_ZZZZ_c_Zg__kenshoo_clickid__686601427835_771344&target_id=kwd-133024381&oC=CO5w44SUmn&gad_source=1&gclid=Cj0KCQjw7dm-BhCoARIsALFk4v9cUUjHUgodDcjeKApKqMJmlAAflSC5VxrzYjlhST1v280mLb1KWWoaAtGdEALw_wcB" target="_blank" rel="noreferrer"><img src={CapOneCard} /></a></div>
-                    <div className="credit-card-div Low-Interest-Rate-Card"><a href="https://www.chime.com/apply-credit-g/?cadid=12651590587_118936675414_613408119345&gad_source=1&gclid=Cj0KCQjw7dm-BhCoARIsALFk4v-P8xwj8SQKjtBknawkiHoSS1Ly6zlBxMB79cIfNMJmD7_KdasPmSoaAphhEALw_wcB&keyword=chime%20credit%20card&utm_source=google_ads" target="_blank" rel="noreferrer"><img src={ChimeCard} /></a></div>
-                    <div className="credit-card-div Best-Travel-Rewards-Card"><a href="https://creditcards.chase.com/a1/freedom-unlimited/affiliates2023?CELL=6H8X&AFFID=SWlnSnn6x54-eiNUZko4iYWiiwAXqtwYxw&pvid=f0fd786cead54d0fa30db87745671983&jp_cmp=cc/1732009/aff/15-31763/na" target="_blank" rel="noreferrer"><img src={ChaseFreedomCard} /></a></div>
+                    <div className="credit-card-div"><a href="https://www.capitalone.com/credit-cards/preapprove/lp/sem/build/build-2/?external_id=WWW_LPT136B_ZZZ_ONL-SE_ZZZZZ_T_SEM2_ZZZZ_c_Zg__kenshoo_clickid__686601427835_771344&target_id=kwd-133024381&oC=CO5w44SUmn&gad_source=1&gclid=Cj0KCQjw7dm-BhCoARIsALFk4v9cUUjHUgodDcjeKApKqMJmlAAflSC5VxrzYjlhST1v280mLb1KWWoaAtGdEALw_wcB" target="_blank" rel="noreferrer"><img src={CapOneCard} /></a></div>
+                    <div className="credit-card-div"><a href="https://www.chime.com/apply-credit-g/?cadid=12651590587_118936675414_613408119345&gad_source=1&gclid=Cj0KCQjw7dm-BhCoARIsALFk4v-P8xwj8SQKjtBknawkiHoSS1Ly6zlBxMB79cIfNMJmD7_KdasPmSoaAphhEALw_wcB&keyword=chime%20credit%20card&utm_source=google_ads" target="_blank" rel="noreferrer"><img src={ChimeCard} /></a></div>
+                    <div className="credit-card-div"><a href="https://creditcards.chase.com/a1/freedom-unlimited/affiliates2023?CELL=6H8X&AFFID=SWlnSnn6x54-eiNUZko4iYWiiwAXqtwYxw&pvid=f0fd786cead54d0fa30db87745671983&jp_cmp=cc/1732009/aff/15-31763/na" target="_blank" rel="noreferrer"><img src={ChaseFreedomCard} /></a></div>
                     </div>
             </div>
 
@@ -129,30 +129,58 @@ const Articles = () => {
 
                             <div className="video-scroll-container" ref={scrollRef}>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">How to save $10k Effortlessly</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/JP__utZQLb8?si=cjDBia0QztPtlqTy"
-                                        title="Best Budgeting Hacks"
+                                        title="How to save $10k Effortlessly"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">6 Ways Insecurity is Wasting Your Money</p>
+                                    <iframe
+                                        src="https://youtube.com/embed/wsgAI9i3oow?si=Qdld1ImadhzPltKk"
+                                        title="6 Ways Insecurity is Wasting Your Money"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <p className="video-titles">Do This Every Time You Get a Paycheck</p>
+                                    <iframe
+                                        src="https://www.youtube.com/embed/IIKr2915l2g?si=k387VqGkhBrRRsk9"
+                                        title="Do This Every Time You Get a Paycheck"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <p className="video-titles">How to Write a Resume with No Experience</p>
+                                    <iframe
+                                        src="https://youtube.com/embed/1HvgDkD5RlM?si=Bdp7waGr2jlWODYt"
+                                        title="How to Write a Resume with No Experience"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                                <div className="video-wrapper">
+                                    <p className="video-titles">My Credit Cards are Maxxed Out!</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/37inkhgXnDg?si=Els8UkmO5x0tr5P2"
-                                        title="How to Save More Money"
+                                        title="My Credit Cards are Maxxed Out!"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">How to Get Cheaper Car Insurance</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/IRi5Z7pp1K4?si=x-O5RFS33VXAnkaz"
-                                        title="Top Financial Podcasts"
+                                        title="How to Get Cheaper Car Insurance"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
                                 <div className="video-wrapper">
+                                    <p className="video-titles">What is a Mutual FUND?</p>
                                     <iframe
                                         src="https://www.youtube.com/embed/TPS22HRRY1k?si=SqQJssJrnbzMD4MO"
-                                        title="Investing for Beginners"
+                                        title="What is a Mutual Fund?"
                                         allowFullScreen>
                                     </iframe>
                                 </div>
