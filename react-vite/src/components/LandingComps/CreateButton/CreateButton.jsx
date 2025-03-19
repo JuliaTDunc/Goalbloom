@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 import { FaChevronDown } from 'react-icons/fa';
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import NewTransactionFormModal from "../../NewTransFormModal";
@@ -8,7 +7,6 @@ import './CreateButton.css';
 
 function CreateButton() {
     const [showMenu, setShowMenu] = useState(false);
-    const user = useSelector((store) => store.session.user);
     const ulRef = useRef();
 
     const toggleMenu = (e) => {
