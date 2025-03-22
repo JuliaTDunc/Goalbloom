@@ -12,10 +12,10 @@ import featureImg3 from '../../../images/featureImg3.png';
 import featureImg4 from '../../../images/featureImg4.png';
 import { fetchBudgets } from '../../../redux/budget';
 import BudgetGraph from '../../Budgets/BudgetChart';
-import { LandingPageTransactionsGraph} from '../../TransactionsModal';
-import SnapshotData from '/src/components/LandingComps/SnapshotData';
-import CreateButton from '/src/components/LandingComps/CreateButton'
-import RelatedArticles from '../../ResourceLinks/RelatedArticles';
+import { LandingPageTransactionsGraph} from '../../Transactions/TransactionsModal';
+import SnapshotData from '/src/components/Landing/LandingComps/SnapshotData';
+import CreateButton from '/src/components/Landing/LandingComps/CreateButton'
+import RelatedArticles from '../../Education/ResourceLinks/RelatedArticles';
 import './LandingPage.css'
 
 function LandingPage() {

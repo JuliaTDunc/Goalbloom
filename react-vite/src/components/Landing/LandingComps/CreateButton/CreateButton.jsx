@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { FaChevronDown } from 'react-icons/fa';
-import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import NewTransactionFormModal from "../../NewTransFormModal";
-import NewGoalFormModal from "../../GoalFormModal/GoalFormModal";
+import OpenModalMenuItem from "../../../Navigation/OpenModalMenuItem";
+import NewTransactionFormModal from "../../../Transactions/NewTransFormModal";
+import NewGoalFormModal from "../../../Goals/GoalForm";
 import './CreateButton.css';
 
 function CreateButton() {

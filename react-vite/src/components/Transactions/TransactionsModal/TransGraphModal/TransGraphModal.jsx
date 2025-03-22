@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import {FaToggleOn, FaToggleOff} from 'react-icons/fa'
-import { fetchTransactions} from '../../../redux/transaction';
+import { fetchTransactions} from '../../../../redux/transaction';
 import './TransGraphModal.css';
 
 const TransGraphModal = ({activeTab}) => {

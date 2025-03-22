@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import NewTransactionFormModal from '../NewTransFormModal';
 import RelatedArticles from '../../Education/ResourceLinks/RelatedArticles';
 import './TransactionsPage.css'
-import LoginFormModal from '../LoginFormModal';
+import LoginFormModal from '../../Auth/LoginFormModal';
 import { fetchTransactions } from '../../../redux/transaction';
 import Calculator from '../Calculator/Calculator';
 import { FaCalculator } from 'react-icons/fa';

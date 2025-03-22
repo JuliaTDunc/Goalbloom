@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction, fetchTransaction } from '../../../redux/transaction';
+import { fetchTransactions, fetchExpenseTypes, fetchDeleteTransaction, fetchTransaction } from '../../../../redux/transaction';
 import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa'
 import NewTransactionFormModal from '../../NewTransFormModal';
-import { useModal } from '../../../context/Modal';
+import { useModal } from '../../../../context/Modal';
 import './TransListModal.css'
 
 const TransListModal = ({activeTab}) => {

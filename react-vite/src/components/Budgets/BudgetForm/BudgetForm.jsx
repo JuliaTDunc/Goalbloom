@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from "../../context/Modal";
-import { fetchCreateBudget, fetchEditBudget, fetchBudgets} from '../../redux/budget';
-import { fetchTransactions } from '../../redux/transaction';
-import { fetchGoals } from '../../redux/goals';
+import { useModal } from "../../../context/Modal";
+import { fetchCreateBudget, fetchEditBudget, fetchBudgets} from '../../../redux/budget';
+import { fetchTransactions } from '../../../redux/transaction';
+import { fetchGoals } from '../../../redux/goals';
 import './BudgetForm.css';
-import { fetchBudgetItemsByBudget } from '../../redux/budgetItem';
+import { fetchBudgetItemsByBudget } from '../../../redux/budgetItem';
 
 const BudgetForm = ({ budget }) => {
     const inputRefs = useRef({

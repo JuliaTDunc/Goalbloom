@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useModal } from '../../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import CapOneCard from '../../images/CapOneCard.png';
-import ChimeCard from '../../images/ChimeCardNew.png';
-import ChaseFreedomCard from '../../images/ChaseFreedomCard.png';
+import CapOneCard from '../../../images/CapOneCard.png';
+import ChimeCard from '../../../images/ChimeCardNew.png';
+import ChaseFreedomCard from '../../../images/ChaseFreedomCard.png';
 import './ArticlesPage.css'
-import LoginFormModal from '../LoginFormModal';
+import LoginFormModal from '../../Auth/LoginFormModal';
 import { fetchBookmarks, createBookmark, removeBookmark } from '../../../redux/bookmark';
 import { FaBookmark, FaRegBookmark} from 'react-icons/fa';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";

@@ -8,7 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { useModal } from '../../../context/Modal';
 import './GoalCard.css';
 import Goldblum from '../../../images/Goldblum3.png';
-import GoalForm from '../GoalForml/GoalForm';
+import GoalForm from '../GoalForm';
 
 
 const GoalCard = ({ goal }) => {

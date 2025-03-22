@@ -1,4 +1,4 @@
-import { csrfFetch } from "../../../redux/csrf";
+import { csrfFetch } from "../../../../redux/csrf";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaExternalLinkAlt} from "react-icons/fa";
