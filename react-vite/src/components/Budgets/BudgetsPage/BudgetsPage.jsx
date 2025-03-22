@@ -9,8 +9,8 @@ import BudgetGraph from '../BudgetChart/BudgetChart';
 import BudgetForm from '../BudgetForm';
 //import BudgetSummary from '../BudgetSummary';
 import SavedBudgets from './SavedBudgets/SavedBudgets';
-import LoginFormModal from '../../LoginFormModal';
-import RelatedArticles from '../../ResourceLinks/RelatedArticles';
+import LoginFormModal from '../../Auth/LoginFormModal';
+import RelatedArticles from '../../Education/ResourceLinks/RelatedArticles';
 import './BudgetsPage.css';
 
 

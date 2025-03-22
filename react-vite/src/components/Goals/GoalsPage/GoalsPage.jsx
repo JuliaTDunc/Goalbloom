@@ -6,7 +6,7 @@ import { fetchGoals } from '../../../redux/goals';
 import { useModal } from '../../../context/Modal';
 import GoalForm from '../GoalForm/GoalForm';
 import LoginFormModal from '../../Auth/LoginFormModal';
-import RelatedArticles from '../../ResourceLinks/RelatedArticles';
+import RelatedArticles from '../../Education/ResourceLinks/RelatedArticles';
 import './GoalsPage.css'
 
 

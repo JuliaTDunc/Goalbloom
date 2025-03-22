@@ -3,7 +3,7 @@ import { TransGraphModal, TransListModal } from '../TransactionsModal';
 import { useModal } from '../../../context/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import NewTransactionFormModal from '../NewTransFormModal';
-import RelatedArticles from '../../ResourceLinks/RelatedArticles';
+import RelatedArticles from '../../Education/ResourceLinks/RelatedArticles';
 import './TransactionsPage.css'
 import LoginFormModal from '../LoginFormModal';
 import { fetchTransactions } from '../../../redux/transaction';

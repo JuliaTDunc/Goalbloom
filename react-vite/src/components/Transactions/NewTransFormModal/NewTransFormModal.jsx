@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes, fetchTransactions} from '../../redux/transaction';
-import { useModal } from "../../context/Modal";
+import {fetchTransaction, fetchCreateTransaction, fetchEditTransaction, fetchExpenseTypes, fetchTransactions} from '../../../redux/transaction';
+import { useModal } from "../../../context/Modal";
 import { useNavigate } from 'react-router-dom';
 import './NewTransFormModal.css';
 import { useDispatch, useSelector} from 'react-redux';

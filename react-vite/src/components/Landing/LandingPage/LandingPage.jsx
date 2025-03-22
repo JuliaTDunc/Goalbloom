@@ -6,12 +6,12 @@ import 'animate.css';
 import HomeLinkLogo from '../../../images/HomeLinkLogo.png';
 import PhoneVideo from '../../../images/PhoneVideo.mp4';
 import waveLanding from '../../../images/waveLanding.png';
-import featureImg1 from '../../images/featureImg1.png';
+import featureImg1 from '../../../images/featureImg1.png';
 import featureImg2 from '../../../images/featureImg2.png';
-import featureImg3 from '../../images/featureImg3.png';
+import featureImg3 from '../../../images/featureImg3.png';
 import featureImg4 from '../../../images/featureImg4.png';
 import { fetchBudgets } from '../../../redux/budget';
-import BudgetGraph from '../BudgetChart/BudgetChart';
+import BudgetGraph from '../../Budgets/BudgetChart';
 import { LandingPageTransactionsGraph} from '../../TransactionsModal';
 import SnapshotData from '/src/components/LandingComps/SnapshotData';
 import CreateButton from '/src/components/LandingComps/CreateButton'

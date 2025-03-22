@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { fetchTransactions } from '../../../redux/transaction';
 import { fetchGoals } from '../../../redux/goals';
 import { fetchBudget } from '../../../redux/budget';
-import BudgetForm from '../../BudgetForm';
+import BudgetForm from '../../Budgets/BudgetForm';
 import { FaPencilAlt } from 'react-icons/fa'
 import { useModal } from '../../../context/Modal';
 import { fetchBudgetItemsByBudget } from '../../../redux/budgetItem';
