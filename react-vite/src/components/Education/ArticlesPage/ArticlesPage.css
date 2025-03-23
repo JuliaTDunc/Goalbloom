@@ -166,7 +166,7 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    flex: 1.5;
+    flex: 1;
     width:100%;
 }
 .video-titles{
