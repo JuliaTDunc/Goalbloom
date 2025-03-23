@@ -59,13 +59,15 @@
     align-items: center;
 }
 .resources-container-main-page{
-flex: 0.8;
+    flex: 0.8;
     max-width: 35%;
     background-color: rgba(255, 255, 255, 0.85);
     padding: 15px 30px;
     border-radius: 20px;
     max-height: 500px;
     overflow-y: auto;
+    position: relative;
+    z-index: 2;
 }
 .article-card-main-page{
     display: flex;
@@ -99,9 +101,12 @@ flex: 0.8;
     display: flex;
     width: 100%;
     gap: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 1200px;
 }
 .extra-resources {
-    flex: 1.2;
     max-width: 65%;
     background-color: #E5E7EB;
     color: rgb(9, 19, 129);
@@ -157,13 +162,23 @@ flex: 0.8;
     width: 90%;
     object-fit: contain;
 }
+.video-carousel-container{
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    flex: 1.5;
+    width:100%;
+}
 .video-titles{
     color:#010303;
 }
 .carousel-container {
-    position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
 }
 .video-scroll-container {
     display: flex;
@@ -191,6 +206,8 @@ flex: 0.8;
 }
 .video-scroll-container {
     scrollbar-width: none;
+    max-width: 100%;
+        overflow-x: auto;
 }
 .scroll-btn {
     position: absolute;
