@@ -115,46 +115,6 @@
     border-radius: 15px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
-
-.credit-card-recommendations h3 {
-    color: #1a237e;
-    font-size: 1.5rem;
-    text-align: center;
-}
-.credit-card-recommendations p{
-    text-align: center;
-}
-.cards-div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-.credit-card-div {
-    border-radius: 10px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    background-color: #f8f9fa;
-    width: 150px;
-    height: 100px;
-}
-.credit-card-div a {
-    text-decoration: none;
-    color: #0077b6;
-    font-weight: bold;
-}
-
-.credit-card-div a:hover {
-    text-decoration: underline;
-}
-.credit-card-div img{
-    padding: 5px;
-    height: 90%;
-    width: 90%;
-    object-fit: contain;
-}
 .video-carousel-container{
     position: relative;
     z-index: 1;
