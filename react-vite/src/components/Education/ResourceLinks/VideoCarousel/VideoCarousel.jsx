@@ -1,5 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
+import './VideoCarousel.css'
 
 
 const VideoCarousel = () => {
@@ -16,7 +17,7 @@ const VideoCarousel = () => {
     }
 
     return(
-        <div className="extra-resources">
+        <div className="media-resources">
             <h3>Learn something new</h3>
             <p>Explore budgeting videos and financial podcasts to enhance your knowledge.</p>
 
