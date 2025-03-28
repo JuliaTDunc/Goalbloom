@@ -106,9 +106,8 @@ const Articles = () => {
                         ))}
                     </div>
                     <div className="video-carousel-container">
-                        <VideoCarousel/>
+                        <VideoCarousel />
                     </div>
-                    
                 </div>
             </div>
         </div>
