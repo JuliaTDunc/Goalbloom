@@ -150,14 +150,14 @@ function LandingPage() {
                 </div>
             </div>
             <div className="features-section">
-                    <div>
+                    <div className='feature-text-div'>
                             <h2 className="feature-text">Welcome to smarter spending. Start your budget journey today.</h2>
                     </div>
                     <div className="feature-grid">
-                        <img src={featureImg1} alt="Feature 1" className="feature-image" />
-                        <img src={featureImg2} alt="Feature 2" className="feature-image" />
-                        <img src={featureImg3} alt="Feature 3" className="feature-image" />
-                        <img src={featureImg4} alt="Feature 4" className="feature-image" />
+                            <div className="feature-boxes"><p className='feature-image-spotlight'>Track and compare your Finances</p><img src={featureImg1} alt="Feature 1" className="feature-image" /></div>
+                            <div className="feature-boxes"><p className='feature-image-spotlight'>Visualize your Budgets with ease</p><img src={featureImg2} alt="Feature 2" className="feature-image" /></div>
+                            <div className="feature-boxes"><p className='feature-image-spotlight'>Keep up with your Savings progress until you reach your goals</p><img src={featureImg4} alt="Feature 4" className="feature-image" /></div>
+                            <div className="feature-boxes"><p className='feature-image-spotlight'>Select from multiple viewing options</p><img src={featureImg3} alt="Feature 3" className="feature-image" /></div>
                     </div>
                 </div>
                     { <div className='bottom-section-logged-out'>
