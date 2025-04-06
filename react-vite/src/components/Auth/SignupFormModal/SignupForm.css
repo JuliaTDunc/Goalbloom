@@ -14,7 +14,6 @@
     background-color: white;
     border-radius: 10px;
     max-width: 400px;
-
 }
 
 .signup-form-label {
@@ -27,7 +26,7 @@
 .signup-form-input {
     width: 80%;
     padding: 10px;
-    border: 2px solid rgb(244, 198, 16);
+    border: 2px solid rgb(128, 191, 240);
     border-radius: 5px;
     margin-bottom: 10px;
     font-size: 1rem;
@@ -37,8 +36,8 @@
 
 .signup-form-input:focus {
     outline: none;
-    border-color: rgb(244, 198, 16);
-    background-color: #fff3cc;
+    border-color: #6bbef164;
+        background-color: #ade1f617;
 }
 
 errors {
@@ -67,7 +66,7 @@ errors {
     font-size: 1rem;
     border-radius: 25px;
     border: none;
-    background-color: rgba(248, 206, 41, 0.845);
+    background-color: rgba(123, 188, 221, 0.845);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;

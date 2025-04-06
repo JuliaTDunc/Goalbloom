@@ -41,7 +41,7 @@
 
 .signup-page-form-label {
     font-size: 1.1rem;
-    color: #211aa2;
+    color: #ffffff;
     font-weight: bold;
     width: 100%;
     margin-bottom: 5px;
@@ -51,7 +51,7 @@
 .signup-page-form-input {
     width: 100%;
     padding: 10px;
-    border: 2px solid rgb(244, 198, 16);
+    border: 2px solid rgb(16, 160, 244);
     border-radius: 8px;
     margin-bottom: 15px;
     font-size: 1rem;
@@ -62,8 +62,8 @@
 
 .signup-page-form-input:focus {
     outline: none;
-    border-color: #f6c818;
-    background-color: #fff3cc;
+    border-color: #187cf6;
+    background-color: #ccf1ff;
     transform: scale(1.02);
 }
 
@@ -74,7 +74,7 @@
     font-size: 1rem;
     border-radius: 25px;
     border: none;
-    background-color: rgb(253, 221, 93);
+    background-color: rgba(60, 146, 238, 0.766);
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;

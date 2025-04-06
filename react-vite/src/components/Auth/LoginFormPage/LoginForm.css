@@ -44,7 +44,7 @@
 
 .login-page-form-label {
     font-size: 1.1rem;
-    color: #0c03c3;
+    color: #f7f7fa;
     font-weight: bold;
     width: 100%;
     margin-bottom: 5px;
@@ -54,7 +54,7 @@
 .login-page-form-input {
     width: 100%;
     padding: 12px;
-    border: 2px solid rgb(244, 198, 16);
+    border: 2px solid rgb(16, 160, 244);
     border-radius: 8px;
     margin-bottom: 15px;
     font-size: 1rem;
@@ -65,8 +65,8 @@
 
 .login-page-form-input:focus {
     outline: none;
-    border-color: #f6c818;
-    background-color: #fff3cc;
+    border-color: #187cf6;
+    background-color: #ccf1ff;
     transform: scale(1.02);
 }
 
@@ -77,15 +77,15 @@
     font-size: 1rem;
     border-radius: 25px;
     border: none;
-    background-color: rgb(253, 221, 93);
+    background-color: rgba(60, 146, 238, 0.766);
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .submit-button-login-page:hover {
-    background-color: rgb(244, 198, 16);
-    color: #372dff;
+    background-color: rgb(200, 110, 249);
+    color: #fefefe;
     font-weight: bolder;
     transform: scale(1.05);
 }
