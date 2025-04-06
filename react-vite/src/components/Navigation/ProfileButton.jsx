@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { FaRegUser} from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import LoginFormModal from "../Auth/LoginFormModal";
+import SignupFormModal from "../Auth/SignupFormModal";
 import './Navigation.css'
 
 function ProfileButton() {

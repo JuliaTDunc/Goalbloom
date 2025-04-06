@@ -1,14 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/LoginFormPage';
-import SignupFormPage from '../components/SignupFormPage';
-import Transactions from '../components/TransactionsPage';
-import NewTransactionFormModal from '../components/NewTransFormModal';
-import ArticlesPage from '../components/ArticlesPage';
-import BookmarksPage from '../components/BookmarksPage';
+import LoginFormPage from '../components/Auth/LoginFormPage';
+import SignupFormPage from '../components/Auth/SignupFormPage';
+import Transactions from '../components/Transactions/TransactionsPage';
+import NewTransactionFormModal from '../components/Transactions/NewTransFormModal';
+import ArticlesPage from '../components/Education/ArticlesPage';
+import BookmarksPage from '../components/Education/BookmarksPage';
 import Layout from './Layout';
-import GoalsPage from '../components/GoalsPage';
-import BudgetsPage from '../components/BudgetsPage';
-import LandingPage from '../components/LandingPage'
+import GoalsPage from '../components/Goals/GoalsPage';
+import BudgetsPage from '../components/Budgets/BudgetsPage';
+import LandingPage from '../components/Landing/LandingPage'
 
 export const router = createBrowserRouter([
   {
