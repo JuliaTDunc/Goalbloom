@@ -58,6 +58,27 @@ export const thunkSignup = (user) => async (dispatch) => {
   }
 };
 
+export const loginWithGoogle = (googleToken) => async (dispatch) => {
+  try {
+    const res = await fetch('/api/oauth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: googleToken }),
+    });
+
+    if (res.ok) {
+      const user = await res.json();
+      dispatch(setUser(user));
+      return user;
+    } else {
+      const errorData = await res.json();
+      return { errors: errorData.errors };
+    }
+  } catch (err) {
+    return { errors: { message: 'Something went wrong during Google login.' } };
+  }
+};
+
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
   dispatch(removeUser());

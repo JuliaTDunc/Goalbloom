@@ -12,7 +12,9 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    hashed_password = db.Column(db.String(255), nullable=False)
+    hashed_password = db.Column(db.String(255), nullable=True)
+    auth_provider = db.Column(db.String(50), nullable=True)
+    auth_provider_id = db.Column(db.String(255), unique=True, nullable=True)
 
     transactions = db.relationship('Transaction', back_populates='user', cascade='all, delete-orphan')
     goals = db.relationship('Goal', back_populates='user', cascade='all, delete-orphan')
@@ -30,11 +32,14 @@ class User(db.Model, UserMixin):
         self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        if not self.hashed_password:
+            return False
+        return check_password_hash(self.hashed_password, password)
 
     def to_dict(self):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'auth_provider': self.auth_provider
         }
