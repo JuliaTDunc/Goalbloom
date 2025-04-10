@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.auth_oauth_routes import auth_oauth_routes
 from .api.transactions import transaction_routes
 from .api.goals import goal_routes
 from .api.budgets import budget_routes
@@ -16,6 +17,7 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+csrf = CSRFProtect(app)
 
 # Setup login manager
 login = LoginManager(app)
@@ -33,6 +35,7 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(auth_oauth_routes, url_prefix='/api/oauth')
 app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 app.register_blueprint(goal_routes, url_prefix='/api/goals')
 app.register_blueprint(budget_routes, url_prefix='/api/budgets')
@@ -61,6 +64,9 @@ def https_redirect():
 
 @app.after_request
 def inject_csrf_token(response):
+    if csrf._disable_on_request:
+        return response
+        
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
