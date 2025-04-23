@@ -23,6 +23,7 @@ While the app is most useful for those new to budgeting, its features and resour
    * Uses JSON web tokens for API
 ### Languages
    * Python
+
 # Transactions Demo
    ![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewTransactions.gif)
    ![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/TransactionCreate.gif)
