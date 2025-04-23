@@ -23,8 +23,21 @@ While the app is most useful for those new to budgeting, its features and resour
    * Uses JSON web tokens for API
 ### Languages
    * Python
-![](https://github.com/Your_Repository_Name/Your_GIF_Name.gif)
 
+# Transactions Demo
+   ![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewTransactions.gif)
+   ![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/TransactionCreate.gif)
+
+# Goals Demo
+![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewGoals.gif)
+![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/GoalCreate.gif)
+
+# Budgets Demo
+![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewBudgets.gif)
+![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/BudgetCreate.gif)
+
+# Resources Demo
+![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewResources.gif)
 ## Getting started
 
 1. Clone this repository (only this branch).
