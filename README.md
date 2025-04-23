@@ -24,7 +24,7 @@ While the app is most useful for those new to budgeting, its features and resour
 ### Languages
    * Python
 
-   ![](https://github.com/JuliaTDunc/Goalbloom/ReadMeGifs/ViewTransactions.gif)
+   ![](https://github.com/JuliaTDunc/Goalbloom/blob/ReadMe/ReadMeGifs/ViewTransactions.gif)
 
 ## Getting started
 
