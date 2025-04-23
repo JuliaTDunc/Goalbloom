@@ -23,7 +23,7 @@ While the app is most useful for those new to budgeting, its features and resour
    * Uses JSON web tokens for API
 ### Languages
    * Python
-
+![](https://github.com/Your_Repository_Name/Your_GIF_Name.gif)
 
 ## Getting started
 
